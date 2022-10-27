@@ -33,14 +33,17 @@ const HomeScreen = () => {
     }, [currentDate])
 
     return <DefaultLayout>
-        <View className={"items-center mt-10"}>
-            <Dashboard date={currentDate}/>
-        </View>
-
         <View onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-            <View className={"flex-row items-center justify-center my-5"}>
+
+            <View className={"flex-row items-center justify-center mt-10"}>
                 <FinanceerText> {format(currentDate, 'MMMM')} | {currentDate.getFullYear()}</FinanceerText>
             </View>
+
+            <View className={"items-center my-10"}>
+                <Dashboard expenses={expenses}/>
+            </View>
+
+
             <CategoryExpenseList expenses={expenses} categories={categories}/>
         </View>
     </DefaultLayout>

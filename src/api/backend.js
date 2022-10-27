@@ -21,13 +21,13 @@ export const fetchExpenses = async (date) => {
         .eq('type', 'EXPENSE')
         .gte('datetime', `${monthYear}-${startOfMonth(date).getDate()}`)
         .lte('datetime', `${monthYear}-${lastDayOfMonth(date).getDate()}`)
+        .order('amount')
 
     if (error) {
         console.log(error)
         return
     }
 
-    console.log(data)
     return data
 };
 

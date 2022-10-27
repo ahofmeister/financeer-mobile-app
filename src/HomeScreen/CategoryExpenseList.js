@@ -3,7 +3,6 @@ import {FlatList, View} from "react-native";
 import FinanceerText from "components/FinanceerText";
 
 const CategoryExpenseList = ({expenses, categories}) => {
-
     if (!expenses) {
         return
     }
@@ -25,12 +24,14 @@ const CategoryExpenseList = ({expenses, categories}) => {
 
     return expensesByCategory ? (<View className={""}>
         <FlatList
-            data={categories}
+            data={expensesByCategory}
             renderItem={({item}) =>
                 <View className={"flex-row h-10"}>
-                    <FinanceerText className={"w-5"}>{expensesByCategory[item.name] ? expensesByCategory[item.name].length : 0}</FinanceerText>
-                    <FinanceerText className={"flex-1 text-left ml-5"}>{item.name}</FinanceerText>
-                    <FinanceerText className={"w-20 text-right"}>{formatAmount(calculateTotalPrice(expensesByCategory, [item.name]))}</FinanceerText>
+                    <FinanceerText
+                        className={"w-5"}>{item.expenses.length}</FinanceerText>
+                    <FinanceerText className={"flex-1 text-left ml-5"}>{item.category}</FinanceerText>
+                    <FinanceerText
+                        className={"w-20 text-right"}>{formatAmount(item.amount)}</FinanceerText>
                 </View>
             }
         />
@@ -39,18 +40,29 @@ const CategoryExpenseList = ({expenses, categories}) => {
 }
 
 
-const groupBy = (expenses, categories) => {
+const groupBy = (allExpenses, categories) => {
 
-    if (categories && expenses) {
+
+    if (categories && allExpenses) {
         const obj = categories.reduce((o, key) => Object.assign(o, {[key.name]: []}), {});
 
-        if (expenses === 0) {
+        if (allExpenses === 0) {
             return obj
         }
 
-        return expenses.reduce((acc, cur) => {
-            return {...acc, [cur.category.name]: [...acc[cur.category.name], cur]}
-        }, obj)
+        let expensesByCategory = []
+        for (const item of categories) {
+            let expenses = allExpenses.filter(x => x.category.name === item.name);
+            expensesByCategory.push({
+                expenses: expenses,
+                category: item.name,
+                amount: sumExpenses(expenses)
+            })
+
+        }
+        sortByAmount(expensesByCategory);
+
+        return expensesByCategory;
     }
 
     return {}
@@ -58,8 +70,8 @@ const groupBy = (expenses, categories) => {
 
 }
 
-const calculateTotalPrice = (expenses, category) => {
-    return expenses[category].reduce((partialSum, expense) => partialSum + expense.amount, 0);
-};
+const sumExpenses = (expenses) => expenses.reduce((partialSum, expense) => partialSum + expense.amount, 0)
+
+const sortByAmount = expensesByCategory => expensesByCategory.sort((a, b) => a.amount < b.amount)
 
 export default CategoryExpenseList

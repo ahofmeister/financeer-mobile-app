@@ -11,6 +11,14 @@ const supabase = createClient(supabaseUrl, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 
 
 export const fetchExpenses = async (date) => {
+    return fetchTransactions(date, 'EXPENSE')
+};
+
+export const fetchIncomes = async (date) => {
+    return fetchTransactions(date, 'INCOME')
+};
+
+export const fetchTransactions = async (date, type) => {
     let monthYear = `${date.getFullYear()}-${date.getMonth() + 1}`;
     const {
         data,
@@ -18,7 +26,7 @@ export const fetchExpenses = async (date) => {
     } = await supabase
         .from('transactions')
         .select('*,  category(name)')
-        .eq('type', 'EXPENSE')
+        .eq('type', type)
         .gte('datetime', `${monthYear}-${startOfMonth(date).getDate()}`)
         .lte('datetime', `${monthYear}-${lastDayOfMonth(date).getDate()}`)
         .order('amount')

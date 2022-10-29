@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {View} from "react-native";
 import CategoryExpenseList from "HomeScreen/CategoryExpenseList";
 import Dashboard from "HomeScreen/Dashboard";
-import {fetchCategories, fetchExpenses} from "api/backend";
+import {fetchCategories, fetchExpenses, fetchIncomes} from "api/backend";
 import {addMonths, format, startOfMonth, subMonths} from "date-fns";
 import DefaultLayout from "Layout/DefaultLayout";
 import FinanceerText from "components/FinanceerText";
@@ -12,8 +12,9 @@ import {useSwipe} from "components/useSwipe";
 
 const HomeScreen = () => {
     const [currentDate, setCurrentDate] = useState(startOfMonth(new Date()));
-    const [categories, setCategories] = useState()
-    const [expenses, setExpenses] = useState()
+    const [categories, setCategories] = useState([])
+    const [expenses, setExpenses] = useState([])
+    const [incomes, setIncomes] = useState([])
 
     const handleNextMonth = () => {
         setCurrentDate(addMonths(currentDate, 1))
@@ -28,6 +29,7 @@ const HomeScreen = () => {
 
     useEffect(() => {
         fetchExpenses(currentDate).then(response => setExpenses(response))
+        fetchIncomes(currentDate).then(response => setIncomes(response))
         fetchCategories().then(response => setCategories(response))
 
     }, [currentDate])
@@ -40,7 +42,7 @@ const HomeScreen = () => {
             </View>
 
             <View className={"items-center my-10"}>
-                <Dashboard expenses={expenses}/>
+                <Dashboard expenses={expenses} incomes={incomes}/>
             </View>
 
 

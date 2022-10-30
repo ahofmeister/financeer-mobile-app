@@ -16,19 +16,21 @@ const HomeScreen = () => {
     const [categories, setCategories] = useState([])
     const [expenses, setExpenses] = useState([])
     const [incomes, setIncomes] = useState([])
-    const FirstRoute = () => (
+    const ExpensesRoute = () => (
         <View className={"mt-3"}>
             <CategoryTransactionList transactions={expenses} categories={categories}/>
         </View>
     );
 
-    const SecondRoute = () => (
-        <CategoryTransactionList transactions={incomes} categories={categories}/>
+    const IncomesRoute = () => (
+        <View className={"mt-3"}>
+            <CategoryTransactionList transactions={incomes} categories={categories}/>
+        </View>
     );
 
     const renderScene = SceneMap({
-        expenses: FirstRoute,
-        incomes: SecondRoute,
+        expenses: ExpensesRoute,
+        incomes: IncomesRoute,
     });
 
     const handleNextMonth = () => {

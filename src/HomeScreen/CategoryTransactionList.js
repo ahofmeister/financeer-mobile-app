@@ -1,26 +1,13 @@
 import 'react-native-url-polyfill/auto'
 import {FlatList, View} from "react-native";
 import FinanceerText from "components/FinanceerText";
+import {formatAmount} from "transactions/AmountUtil";
 
 const CategoryTransactionList = ({transactions, categories}) => {
     if (!transactions) {
         return
     }
     const transactionsByCategory = groupBy(transactions, categories)
-
-
-    function formatAmount(amount) {
-        return round(amount / 100, 2)
-    }
-
-    const round = (value, fractionDigits = 1) => {
-        if (fractionDigits < 0) throw new Error(`negative fraction: ${fractionDigits}`)
-
-        const factor = Math.pow(10, fractionDigits)
-
-        return value ? Math.round((value + Number.EPSILON) * factor) / factor : 0
-    }
-
 
     return transactionsByCategory ? (<View className={""}>
         <FlatList

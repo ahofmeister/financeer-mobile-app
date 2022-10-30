@@ -1,6 +1,7 @@
 import {View} from "react-native";
 import FinanceerText from "components/FinanceerText";
 import {useEffect, useState} from "react";
+import {formatAmount} from "transactions/AmountUtil";
 
 const Dashboard = ({expenses, incomes}) => {
 
@@ -16,20 +17,20 @@ const Dashboard = ({expenses, incomes}) => {
 
     return <View>
         <FinanceerText className={(total < 0 ? 'text-expense' : 'text-income') + " text-3xl font-bold text-center mb-5"}>
-            {total}
+            {formatAmount(total)}
         </FinanceerText>
         <View className={"flex-row justify-evenly w-11/12"}>
             <View className={"mt-"}>
                 <FinanceerText>Expenses</FinanceerText>
                 <FinanceerText className={"text-expense text-2xl font-bold "}>
-                    -{expensesSum}
+                    -{formatAmount(expensesSum)}
                 </FinanceerText>
             </View>
 
             <View className={"mt-"}>
                 <FinanceerText>Incomes</FinanceerText>
                 <FinanceerText className={"text-income text-2xl font-bold"}>
-                    +{incomesSum}
+                    +{formatAmount(incomesSum)}
                 </FinanceerText>
             </View>
 

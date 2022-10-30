@@ -1,13 +1,14 @@
 import 'react-native-url-polyfill/auto'
 import {useEffect, useState} from "react";
-import {View} from "react-native";
-import CategoryExpenseList from "HomeScreen/CategoryExpenseList";
+import {useWindowDimensions, View} from "react-native";
+import CategoryTransactionList from "HomeScreen/CategoryTransactionList";
 import Dashboard from "HomeScreen/Dashboard";
 import {fetchCategories, fetchExpenses, fetchIncomes} from "api/backend";
 import {addMonths, format, startOfMonth, subMonths} from "date-fns";
 import DefaultLayout from "Layout/DefaultLayout";
 import FinanceerText from "components/FinanceerText";
 import {useSwipe} from "components/useSwipe";
+import {SceneMap, TabBar, TabView} from "react-native-tab-view";
 
 
 const HomeScreen = () => {
@@ -15,6 +16,20 @@ const HomeScreen = () => {
     const [categories, setCategories] = useState([])
     const [expenses, setExpenses] = useState([])
     const [incomes, setIncomes] = useState([])
+    const FirstRoute = () => (
+        <View className={"mt-3"}>
+            <CategoryTransactionList transactions={expenses} categories={categories}/>
+        </View>
+    );
+
+    const SecondRoute = () => (
+        <CategoryTransactionList transactions={incomes} categories={categories}/>
+    );
+
+    const renderScene = SceneMap({
+        expenses: FirstRoute,
+        incomes: SecondRoute,
+    });
 
     const handleNextMonth = () => {
         setCurrentDate(addMonths(currentDate, 1))
@@ -24,7 +39,7 @@ const HomeScreen = () => {
         setCurrentDate(subMonths(currentDate, 1))
     };
 
-    const {onTouchStart, onTouchEnd} = useSwipe(handlePreviousMonth, handleNextMonth, 4)
+    const {onTouchStart, onTouchEnd} = useSwipe(handleNextMonth, handlePreviousMonth, 4)
 
 
     useEffect(() => {
@@ -34,6 +49,23 @@ const HomeScreen = () => {
 
     }, [currentDate])
 
+    const layout = useWindowDimensions();
+
+    const [index, setIndex] = useState(0);
+    const [routes] = useState([
+        {key: 'expenses', title: 'Expenses', color: 'red'},
+        {key: 'incomes', title: 'Incomes', color: 'green'},
+    ]);
+    const renderTabBar = function (props) {
+        return <TabBar
+            {...props}
+            indicatorStyle={{
+                backgroundColor: props.navigationState.routes[props.navigationState.index].color
+            }}
+            style={{backgroundColor: 'transparent'}}
+        />;
+    };
+
     return <DefaultLayout>
         <View onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
 
@@ -41,13 +73,17 @@ const HomeScreen = () => {
                 <FinanceerText> {format(currentDate, 'MMMM')} | {currentDate.getFullYear()}</FinanceerText>
             </View>
 
-            <View className={"items-center my-10"}>
+            <View className={"items-center my-5"}>
                 <Dashboard expenses={expenses} incomes={incomes}/>
             </View>
-
-
-            <CategoryExpenseList expenses={expenses} categories={categories}/>
         </View>
+        <TabView
+            navigationState={{index, routes}}
+            renderTabBar={renderTabBar}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={{width: layout.width}}
+        />
     </DefaultLayout>
 }
 

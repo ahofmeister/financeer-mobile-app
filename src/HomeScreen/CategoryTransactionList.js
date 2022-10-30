@@ -2,11 +2,11 @@ import 'react-native-url-polyfill/auto'
 import {FlatList, View} from "react-native";
 import FinanceerText from "components/FinanceerText";
 
-const CategoryExpenseList = ({expenses, categories}) => {
-    if (!expenses) {
+const CategoryTransactionList = ({transactions, categories}) => {
+    if (!transactions) {
         return
     }
-    const expensesByCategory = groupBy(expenses, categories)
+    const transactionsByCategory = groupBy(transactions, categories)
 
 
     function formatAmount(amount) {
@@ -22,13 +22,13 @@ const CategoryExpenseList = ({expenses, categories}) => {
     }
 
 
-    return expensesByCategory ? (<View className={""}>
+    return transactionsByCategory ? (<View className={""}>
         <FlatList
-            data={expensesByCategory}
+            data={transactionsByCategory}
             renderItem={({item}) =>
                 <View className={"flex-row h-10"}>
                     <FinanceerText
-                        className={"w-5"}>{item.expenses.length}</FinanceerText>
+                        className={"w-5"}>{item.transactions.length}</FinanceerText>
                     <FinanceerText className={"flex-1 text-left ml-5"}>{item.category}</FinanceerText>
                     <FinanceerText
                         className={"w-20 text-right"}>{formatAmount(item.amount)}</FinanceerText>
@@ -50,19 +50,19 @@ const groupBy = (allExpenses, categories) => {
             return obj
         }
 
-        let expensesByCategory = []
+        let transactionsByCategory = []
         for (const item of categories) {
-            let expenses = allExpenses.filter(x => x.category.name === item.name);
-            expensesByCategory.push({
-                expenses: expenses,
+            let transactions = allExpenses.filter(x => x.category.name === item.name);
+            transactionsByCategory.push({
+                transactions: transactions,
                 category: item.name,
-                amount: sumExpenses(expenses)
+                amount: sumExpenses(transactions)
             })
 
         }
-        sortByAmount(expensesByCategory);
+        sortByAmount(transactionsByCategory);
 
-        return expensesByCategory;
+        return transactionsByCategory;
     }
 
     return {}
@@ -70,8 +70,8 @@ const groupBy = (allExpenses, categories) => {
 
 }
 
-const sumExpenses = (expenses) => expenses.reduce((partialSum, expense) => partialSum + expense.amount, 0)
+const sumExpenses = (transactions) => transactions.reduce((partialSum, transaction) => partialSum + transaction.amount, 0)
 
-const sortByAmount = expensesByCategory => expensesByCategory.sort((a, b) => a.amount < b.amount)
+const sortByAmount = transactionsByCategory => transactionsByCategory.sort((a, b) => a.amount < b.amount)
 
-export default CategoryExpenseList
+export default CategoryTransactionList

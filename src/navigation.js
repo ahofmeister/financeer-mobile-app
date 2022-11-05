@@ -1,13 +1,14 @@
 import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
 import {routes} from "routes";
 import {createStackNavigator} from "@react-navigation/stack";
-import AddTransactionScreen from "transactions/AddTransactionScreen";
-import HomeScreen from "HomeScreen/HomeScreen";
 import {theme} from "../tailwind.config";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import TransactionsScreen from "transactions/TransactionsScreen";
+import HomeScreen from "HomeScreen/HomeScreen";
+import AddTransactionScreen from "transactions/AddTransactionScreen";
 import CalendarScreen from "transactions/CalendarScreen";
 import CategoryScreen from "transactions/CategoryScreen";
 
-const {Navigator, Screen} = createStackNavigator()
 
 const FinanceerTheme = {
     ...DefaultTheme,
@@ -23,38 +24,64 @@ const FinanceerTheme = {
 
 
 const Navigation = ({initialRoute = routes.home}) => {
+
+    const Tab = createBottomTabNavigator();
+
+
     return (
         <NavigationContainer theme={FinanceerTheme}>
-            <Navigator initialRouteName={initialRoute}>
-
-                <Screen
-                    name={routes.home}
-                    component={HomeScreen}
-                    options={{
-                        headerShown: false
-                    }}
-                />
-                <Screen
-                    options={{title: 'Add Transaction'}}
-                    name={routes.addTransaction}
-                    component={AddTransactionScreen}
-                />
-
-                <Screen
-                    name={routes.calendar}
-                    options={{title: ''}}
-                    component={CalendarScreen}
-                />
-
-                <Screen
-                    name={routes.categories}
-                    options={{title: ''}}
-                    component={CategoryScreen}
-                />
-
-            </Navigator>
+            <Tab.Navigator>
+                <Tab.Screen name="Home" component={HomeStackScreen} options={{headerShown: false}}/>
+                <Tab.Screen name="Transaction" component={TransactionsStackScreen} options={{headerShown: false}}/>
+            </Tab.Navigator>
         </NavigationContainer>
     )
+}
+
+const HomeStackScreen = () => {
+
+    const HomeStack = createStackNavigator();
+
+    return <HomeStack.Navigator>
+
+        <HomeStack.Screen
+            name={routes.home}
+            component={HomeScreen}
+
+        />
+        <HomeStack.Screen
+            options={{title: 'Add Transaction'}}
+            name={routes.addTransaction}
+            component={AddTransactionScreen}
+        />
+
+        <HomeStack.Screen
+            name={routes.calendar}
+            options={{title: ''}}
+            component={CalendarScreen}
+        />
+
+        <HomeStack.Screen
+            name={routes.categories}
+            options={{title: ''}}
+            component={CategoryScreen}
+        />
+
+    </HomeStack.Navigator>;
+
+};
+
+const TransactionsStackScreen = () => {
+    const TransactionsStack = createStackNavigator();
+
+    return <TransactionsStack.Navigator>
+
+        <TransactionsStack.Screen
+            name={routes.transactions}
+            component={TransactionsScreen}
+        />
+
+    </TransactionsStack.Navigator>
 }
 
 export default Navigation

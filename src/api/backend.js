@@ -1,5 +1,6 @@
 import {createClient} from "@supabase/supabase-js";
 import {AsyncStorage} from "react-native";
+import 'react-native-url-polyfill/auto'
 import {lastDayOfMonth, startOfMonth} from "date-fns";
 
 const supabaseUrl = 'https://pmjdlbjdhorclvnptaod.supabase.co'
@@ -49,3 +50,9 @@ export const fetchCategories = async () => {
 
     return data
 };
+
+export const createTransaction = async (amount, type, datetime, description, category) => {
+    const {error} = await supabase
+        .from('transactions')
+        .insert({amount, type, datetime, description, category})
+}

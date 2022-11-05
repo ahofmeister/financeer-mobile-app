@@ -16,20 +16,20 @@ const Dashboard = ({expenses, incomes}) => {
     })
 
     return <View>
-        <FinanceerText className={(total < 0 ? 'text-expense' : 'text-income') + " text-3xl font-bold text-center mb-5"}>
+        <FinanceerText className={(total < 0 ? 'text-primary' : 'text-accent') + " text-3xl font-bold text-center mb-5"}>
             {formatAmount(total)}
         </FinanceerText>
         <View className={"flex-row justify-evenly w-11/12"}>
             <View className={"mt-"}>
-                <FinanceerText>Expenses</FinanceerText>
-                <FinanceerText className={"text-expense text-2xl font-bold "}>
+                <FinanceerText className={"text-accent"}>Expenses</FinanceerText>
+                <FinanceerText className={"text-accent text-2xl font-bold "}>
                     -{formatAmount(expensesSum)}
                 </FinanceerText>
             </View>
 
             <View className={"mt-"}>
-                <FinanceerText>Incomes</FinanceerText>
-                <FinanceerText className={"text-income text-2xl font-bold"}>
+                <FinanceerText className={"text-primary"}>Incomes</FinanceerText>
+                <FinanceerText className={"text-primary text-2xl font-bold"}>
                     +{formatAmount(incomesSum)}
                 </FinanceerText>
             </View>

@@ -3,11 +3,18 @@
 module.exports = {
     content: ['./App.{js,jsx,ts,tsx}', './src/**/*.{js,jsx,ts,tsx}'],
     theme: {
+        colors: {
+            primary: '#00C9C9',
+            secondary: '#191A1C',
+            accent: '#F06071',
+            neutral: '#101112',
+            white: '#FFFFFF'
+        },
         extend: {
-            colors: {
-                expense: '#EF4444',
-                income: '#84CC16',
-            },
+            gradientColorStops: theme => ({
+                primary: '#00C9C9',
+                accent: '#F06071',
+            }),
         }
     },
     plugins: []

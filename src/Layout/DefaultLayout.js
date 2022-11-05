@@ -1,10 +1,10 @@
 import {View} from "react-native";
 
-export const DefaultScreen = ({children}) => {
+export const DefaultLayout = ({children}) => {
     return <View className={"m-5 h-full"}>
         {children}
     </View>
 
 }
 
-export default DefaultScreen
+export default DefaultLayout

@@ -1,10 +1,10 @@
 import DefaultLayout from "Layout/DefaultLayout";
-import FinanceerText from "components/FinanceerText";
-import {FlatList, View} from "react-native";
+import {SectionList, View} from "react-native";
 import {fetchTransactions} from "api/backend";
 import {useEffect, useState} from "react";
-import TransactionAmount from "transactions/TransactionAmount";
 import MonthPicker from "transactions/MonthPicker";
+import FinanceerText from "components/FinanceerText";
+import TransactionAmount from "transactions/TransactionAmount";
 
 const TransactionsScreen = () => {
 
@@ -13,23 +13,39 @@ const TransactionsScreen = () => {
     const [transactions, setTransactions] = useState([]);
 
     useEffect(() => {
-        fetchTransactions(currentDate).then((response) => setTransactions(response))
+        fetchTransactions(currentDate).then((response) =>
+            setTransactions(groupTransactionsByDate(response)))
+        console.log(transactions)
     }, [currentDate])
 
+
+    let renderSectionHeader = ({section: {datetime}}) => {
+        return <FinanceerText className={"text-primary"}>{datetime}</FinanceerText>;
+    }
 
     return <DefaultLayout>
         <MonthPicker callBack={setCurrentDate} currentDate={currentDate}/>
 
-        <FlatList className={"mt-5"} data={transactions} renderItem={({item}) => {
+        <SectionList
+            keyExtractor={(item, index) => item + index}
+            renderSectionHeader={renderSectionHeader}
+            className={"mt-5"} sections={transactions} renderItem={({item}) => {
             return <View className={"flex-row h-10 w-full justify-between"}>
-                <FinanceerText className={"w-1/5"}>{item.description}</FinanceerText>
-                <FinanceerText className={"w-2/5"}>{item.category.name}</FinanceerText>
+                <FinanceerText className={"w-20"}>{item.description}</FinanceerText>
+                <FinanceerText className={"w-30"}>{item.category.name}</FinanceerText>
                 <TransactionAmount type={item.type} amount={item.amount}/>
             </View>
         }
         }/>
 
     </DefaultLayout>
+}
+
+const groupTransactionsByDate = (transactions = []) => {
+    return Object.values(transactions.reduce((result, transaction) => {
+        (result[transaction.datetime] ??= {datetime: transaction.datetime, data: []}).data.push(transaction);
+        return result;
+    }, {}));
 }
 
 export default TransactionsScreen

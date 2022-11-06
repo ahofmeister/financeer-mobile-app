@@ -16,7 +16,7 @@ const Dashboard = ({expenses, incomes}) => {
     })
 
     return <View>
-        <FinanceerText className={(total < 0 ? 'text-primary' : 'text-accent') + " text-3xl font-bold text-center mb-5"}>
+        <FinanceerText className={(total < 0 ? 'text-accent' : 'text-primary') + " text-3xl font-bold text-center mb-5"}>
             {formatAmount(total)}
         </FinanceerText>
         <View className={"flex-row justify-evenly w-11/12"}>

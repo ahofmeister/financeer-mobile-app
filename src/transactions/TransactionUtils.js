@@ -1,5 +1,3 @@
-import FinanceerText from "components/FinanceerText";
-
 export const formatAmount = amount => round(amount / 100, 2);
 
 const round = (value, fractionDigits = 1) => {

@@ -28,12 +28,10 @@ const CategoryTransactionList = ({type, transactions = [], categories}) => {
 
 const groupBy = (allExpenses, categories) => {
 
-
     if (categories && allExpenses) {
-        const obj = categories.reduce((o, key) => Object.assign(o, {[key.name]: []}), {});
 
         if (allExpenses === 0) {
-            return obj
+            return categories.reduce((o, key) => Object.assign(o, {[key.name]: []}), {});
         }
 
         let transactionsByCategory = []
@@ -52,7 +50,6 @@ const groupBy = (allExpenses, categories) => {
     }
 
     return {}
-
 
 }
 

@@ -23,16 +23,15 @@ const FinanceerTheme = {
 };
 
 
-const Navigation = ({initialRoute = routes.home}) => {
+const Navigation = ({}) => {
 
     const Tab = createBottomTabNavigator();
-
 
     return (
         <NavigationContainer theme={FinanceerTheme}>
             <Tab.Navigator>
-                <Tab.Screen name="Home" component={HomeStackScreen} options={{headerShown: false}}/>
-                <Tab.Screen name="Transaction" component={TransactionsStackScreen} options={{headerShown: false}}/>
+                <Tab.Screen name="HomeStack" component={HomeStackScreen} options={{headerShown: false}}/>
+                <Tab.Screen name="TransactionStack" component={TransactionsStackScreen} options={{headerShown: false}}/>
             </Tab.Navigator>
         </NavigationContainer>
     )

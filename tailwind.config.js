@@ -8,7 +8,8 @@ module.exports = {
             secondary: '#191A1C',
             accent: '#F06071',
             neutral: '#101112',
-            white: '#FFFFFF'
+            white: '#FFFFFF',
+            gray: '#A4A4A5'
         },
         extend: {
             gradientColorStops: theme => ({

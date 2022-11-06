@@ -7,11 +7,11 @@ import {fetchCategories, fetchExpenses, fetchIncomes} from "api/backend";
 import {addMonths, format, startOfMonth, subMonths} from "date-fns";
 import DefaultLayout from "Layout/DefaultLayout";
 import FinanceerText from "components/FinanceerText";
-import {useSwipe} from "components/useSwipe";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
 import {useNavigation} from "@react-navigation/native";
 import {routes} from "routes";
 import {theme} from "../../tailwind.config";
+import MonthPicker from "transactions/MonthPicker";
 
 
 const HomeScreen = () => {
@@ -24,13 +24,13 @@ const HomeScreen = () => {
 
     const ExpensesRoute = () => (
         <View className={"mt-3"}>
-            <CategoryTransactionList transactions={expenses} categories={categories}/>
+            <CategoryTransactionList type={'EXPENSE'} transactions={expenses} categories={categories}/>
         </View>
     );
 
     const IncomesRoute = () => (
         <View className={"mt-3"}>
-            <CategoryTransactionList transactions={incomes} categories={categories}/>
+            <CategoryTransactionList type={'INCOME'} transactions={incomes} categories={categories}/>
         </View>
     );
 
@@ -38,17 +38,6 @@ const HomeScreen = () => {
         expenses: ExpensesRoute,
         incomes: IncomesRoute,
     });
-
-    const handleNextMonth = () => {
-        setCurrentDate(addMonths(currentDate, 1))
-    };
-
-    const handlePreviousMonth = () => {
-        setCurrentDate(subMonths(currentDate, 1))
-    };
-
-    const {onTouchStart, onTouchEnd} = useSwipe(handleNextMonth, handlePreviousMonth, 4)
-
 
     useEffect(() => {
         fetchExpenses(currentDate).then(response => setExpenses(response))
@@ -75,21 +64,17 @@ const HomeScreen = () => {
     };
 
     return <DefaultLayout>
-        <View onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+        <MonthPicker callBack={setCurrentDate} currentDate={currentDate}/>
 
-            <View className={"flex-row items-center justify-center mt-5"}>
-                <FinanceerText> {format(currentDate, 'MMMM')} | {currentDate.getFullYear()}</FinanceerText>
-            </View>
-
-            <View className={"items-center my-5"}>
-                <Dashboard expenses={expenses} incomes={incomes}/>
-            </View>
-            <Pressable
-                className={"rounded text-center"}
-                onPress={() => navigation.navigate(routes.addTransaction)}>
-                <FinanceerText className={"text-center"}>Add Transaction</FinanceerText>
-            </Pressable>
+        <View className={"items-center my-5"}>
+            <Dashboard expenses={expenses} incomes={incomes}/>
         </View>
+        <Pressable
+            className={"rounded text-center"}
+            onPress={() => navigation.navigate(routes.addTransaction)}>
+            <FinanceerText className={"text-center"}>Add Transaction</FinanceerText>
+        </Pressable>
+
         <TabView
             navigationState={{index, routes: inRoutes}}
             renderTabBar={renderTabBar}

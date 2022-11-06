@@ -1,7 +1,7 @@
 import {View} from "react-native";
 import FinanceerText from "components/FinanceerText";
 import {useEffect, useState} from "react";
-import {formatAmount} from "transactions/AmountUtil";
+import {formatAmount} from "transactions/TransactionUtils";
 
 const Dashboard = ({expenses, incomes}) => {
 

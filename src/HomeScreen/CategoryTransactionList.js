@@ -1,24 +1,23 @@
 import 'react-native-url-polyfill/auto'
 import {FlatList, View} from "react-native";
 import FinanceerText from "components/FinanceerText";
-import {formatAmount} from "transactions/AmountUtil";
+import TransactionAmount from "transactions/TransactionAmount";
 
-const CategoryTransactionList = ({transactions, categories}) => {
-    if (!transactions) {
-        return
-    }
+const CategoryTransactionList = ({type, transactions = [], categories}) => {
     const transactionsByCategory = groupBy(transactions, categories)
 
     return transactionsByCategory ? (<View className={""}>
         <FlatList
             data={transactionsByCategory}
             renderItem={({item}) =>
-                <View className={"flex-row h-10"}>
+                <View className={"flex-row mx-1 h-10 justify-between"}>
                     <FinanceerText
                         className={"w-5"}>{item.transactions.length}</FinanceerText>
                     <FinanceerText className={"flex-1 text-left ml-5"}>{item.category}</FinanceerText>
                     <FinanceerText
-                        className={"w-20 text-right"}>{formatAmount(item.amount)}</FinanceerText>
+                        className={"w-20 text-right"}>
+                        <TransactionAmount type={type} amount={item.amount}/>
+                    </FinanceerText>
                 </View>
             }
         />

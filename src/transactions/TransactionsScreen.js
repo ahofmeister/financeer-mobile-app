@@ -42,10 +42,14 @@ const TransactionsScreen = () => {
 }
 
 const groupTransactionsByDate = (transactions = []) => {
+    transactions = sortByDatetime(transactions)
     return Object.values(transactions.reduce((result, transaction) => {
         (result[transaction.datetime] ??= {datetime: transaction.datetime, data: []}).data.push(transaction);
         return result;
     }, {}));
 }
+
+const sortByDatetime = transactions => transactions.sort((a, b) => a.datetime > b.datetime)
+
 
 export default TransactionsScreen

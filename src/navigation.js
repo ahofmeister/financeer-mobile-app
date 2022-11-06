@@ -30,8 +30,8 @@ const Navigation = ({}) => {
     return (
         <NavigationContainer theme={FinanceerTheme}>
             <Tab.Navigator>
-                <Tab.Screen name="HomeStack" component={HomeStackScreen} options={{headerShown: false}}/>
-                <Tab.Screen name="TransactionStack" component={TransactionsStackScreen} options={{headerShown: false}}/>
+                <Tab.Screen name="Home" component={HomeStackScreen} options={{headerShown: false}}/>
+                <Tab.Screen name="Transactions" component={TransactionsStackScreen} options={{headerShown: false}}/>
             </Tab.Navigator>
         </NavigationContainer>
     )

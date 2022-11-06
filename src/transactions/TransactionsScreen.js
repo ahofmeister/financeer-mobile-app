@@ -15,12 +15,11 @@ const TransactionsScreen = () => {
     useEffect(() => {
         fetchTransactions(currentDate).then((response) =>
             setTransactions(groupTransactionsByDate(response)))
-        console.log(transactions)
     }, [currentDate])
 
 
     let renderSectionHeader = ({section: {datetime}}) => {
-        return <FinanceerText className={"text-primary"}>{datetime}</FinanceerText>;
+        return <FinanceerText className={"text-primary font-bold"}>{datetime}</FinanceerText>;
     }
 
     return <DefaultLayout>

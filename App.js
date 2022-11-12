@@ -2,6 +2,7 @@ import React from 'react';
 import {Platform, SafeAreaView, StatusBar, StyleSheet, View} from "react-native";
 import Navigation from "navigation";
 import {theme} from "./tailwind.config";
+import FlashMessage from "react-native-flash-message";
 
 export default () => (
     <>
@@ -12,11 +13,13 @@ export default () => (
 
 
 const MyStatusBar = ({backgroundColor, ...props}) => (
-    <View style={[styles.statusBar, {backgroundColor}]}>
-        <SafeAreaView>
-            <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-        </SafeAreaView>
-    </View>
+    <>
+        <View style={[styles.statusBar, {backgroundColor}]}>
+            <SafeAreaView>
+                <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+            </SafeAreaView>
+        </View>
+    </>
 );
 
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;

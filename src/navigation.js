@@ -8,6 +8,9 @@ import HomeScreen from "HomeScreen/HomeScreen";
 import AddTransactionScreen from "transactions/AddTransactionScreen";
 import CalendarScreen from "transactions/CalendarScreen";
 import CategoryScreen from "transactions/CategoryScreen";
+import CategoriesScreen from "categories/CategoriesScreen";
+import FlashMessage from "react-native-flash-message";
+import React from "react";
 
 
 const FinanceerTheme = {
@@ -29,9 +32,11 @@ const Navigation = ({}) => {
 
     return (
         <NavigationContainer theme={FinanceerTheme}>
+            <FlashMessage position="top"/>
             <Tab.Navigator>
-                <Tab.Screen name="Home" component={HomeStackScreen} options={{headerShown: false}}/>
-                <Tab.Screen name="Transactions" component={TransactionsStackScreen} options={{headerShown: false}}/>
+                {/*<Tab.Screen name="Home" component={HomeStackScreen} options={{headerShown: false}}/>*/}
+                {/*<Tab.Screen name="Transactions" component={TransactionsStackScreen} options={{headerShown: false}}/>*/}
+                <Tab.Screen name="Categories" component={CategoriesStackScreen} options={{headerShown: false}}/>
             </Tab.Navigator>
         </NavigationContainer>
     )
@@ -45,11 +50,12 @@ const HomeStackScreen = () => {
 
         <HomeStack.Screen
             name={routes.home}
+            options={{title: 'Dashboard'}}
             component={HomeScreen}
 
         />
         <HomeStack.Screen
-            options={{title: 'Add Transaction'}}
+            options={{title: 'New Transaction'}}
             name={routes.addTransaction}
             component={AddTransactionScreen}
         />
@@ -81,6 +87,19 @@ const TransactionsStackScreen = () => {
         />
 
     </TransactionsStack.Navigator>
+}
+
+const CategoriesStackScreen = () => {
+    const CategoriesStack = createStackNavigator();
+
+    return <CategoriesStack.Navigator>
+
+        <CategoriesStack.Screen
+            name={routes.manageCategories}
+            component={CategoriesScreen}
+        />
+
+    </CategoriesStack.Navigator>
 }
 
 export default Navigation

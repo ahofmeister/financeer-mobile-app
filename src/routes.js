@@ -3,5 +3,6 @@ export const routes = {
     addTransaction: 'AddTransaction',
     calendar: 'Calendar',
     categories: 'Categories',
-    transactions: 'TransactionsScreen'
+    transactions: 'TransactionsScreen',
+    manageCategories: 'ManageCategories',
 }

@@ -10,7 +10,6 @@ const supabase = createClient(supabaseUrl, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
     },
 })
 
-
 export const fetchExpenses = async (date) => {
     return fetchTransactionsByType(date, 'EXPENSE')
 };
@@ -70,6 +69,14 @@ export const fetchCategories = async () => {
 
     return data
 };
+
+export const deleteCategory = async (id) => {
+    const {error} = await supabase.from('categories').delete(id).eq('id', id)
+
+    if (error) {
+        return error
+    }
+}
 
 export const createTransaction = async (amount, type, datetime, description, category) => {
     const {error} = await supabase

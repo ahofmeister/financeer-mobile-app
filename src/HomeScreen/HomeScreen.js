@@ -4,7 +4,7 @@ import {Pressable, useWindowDimensions, View} from "react-native";
 import CategoryTransactionList from "HomeScreen/CategoryTransactionList";
 import Dashboard from "HomeScreen/Dashboard";
 import {fetchCategories, fetchExpenses, fetchIncomes} from "api/backend";
-import {addMonths, format, startOfMonth, subMonths} from "date-fns";
+import {startOfMonth} from "date-fns";
 import DefaultLayout from "Layout/DefaultLayout";
 import FinanceerText from "components/FinanceerText";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
@@ -12,6 +12,7 @@ import {useNavigation} from "@react-navigation/native";
 import {routes} from "routes";
 import {theme} from "../../tailwind.config";
 import MonthPicker from "transactions/MonthPicker";
+import supabase from "supabase";
 
 
 const HomeScreen = () => {
@@ -53,15 +54,13 @@ const HomeScreen = () => {
         {key: 'expenses', title: 'Expenses', color: theme.colors.accent},
         {key: 'incomes', title: 'Incomes', color: theme.colors.primary},
     ]);
-    const renderTabBar = function (props) {
-        return <TabBar
-            {...props}
-            indicatorStyle={{
-                backgroundColor: props.navigationState.routes[props.navigationState.index].color
-            }}
-            style={{backgroundColor: 'transparent'}}
-        />;
-    };
+    const renderTabBar = props => <TabBar
+        {...props}
+        indicatorStyle={{
+            backgroundColor: props.navigationState.routes[props.navigationState.index].color
+        }}
+        style={{backgroundColor: 'transparent'}}
+    />;
 
     return <DefaultLayout>
         <MonthPicker callBack={setCurrentDate} currentDate={currentDate}/>
@@ -74,6 +73,9 @@ const HomeScreen = () => {
             onPress={() => navigation.navigate(routes.addTransaction)}>
             <FinanceerText className={"text-center"}>Add Transaction</FinanceerText>
         </Pressable>
+
+        <Pressable onPress={() => supabase.auth.signOut()}><FinanceerText
+            className={"text-primary"}>Logout (testing)</FinanceerText></Pressable>
 
         <TabView
             navigationState={{index, routes: inRoutes}}

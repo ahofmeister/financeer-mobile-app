@@ -1,14 +1,8 @@
-import {createClient} from "@supabase/supabase-js";
 import 'react-native-url-polyfill/auto'
 import {lastDayOfMonth, startOfMonth} from "date-fns";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import supabase from "supabase";
+import {showMessage} from "react-native-flash-message";
 
-const supabaseUrl = 'https://pmjdlbjdhorclvnptaod.supabase.co'
-const supabase = createClient(supabaseUrl, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtamRsYmpkaG9yY2x2bnB0YW9kIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjY1MzczMTksImV4cCI6MTk4MjExMzMxOX0.wU9mqQwRzIucXj94ZZDjz3MPRaC4bBGaB7k91Sq7w64', {
-    auth: {
-        storage: AsyncStorage,
-    },
-})
 
 export const fetchExpenses = async (date) => {
     return fetchTransactionsByType(date, 'EXPENSE')
@@ -32,7 +26,6 @@ export const fetchTransactionsByType = async (date, type) => {
         .order('amount')
 
     if (error) {
-        console.log(error)
         return
     }
 
@@ -52,7 +45,6 @@ export const fetchTransactions = async (date) => {
         .order('amount')
 
     if (error) {
-        console.log(error)
         return
     }
 
@@ -63,7 +55,6 @@ export const fetchCategories = async () => {
     const {data, error} = await supabase.from('categories').select('*')
 
     if (error) {
-        console.log(error)
         return
     }
 
@@ -79,7 +70,18 @@ export const deleteCategory = async (id) => {
 }
 
 export const createTransaction = async (amount, type, datetime, description, category) => {
+    const {data} = await supabase.auth.getUser()
     const {error} = await supabase
         .from('transactions')
-        .insert({amount, type, datetime, description, category})
+        .insert({amount, type, datetime, description, category, user_id: data.user.id})
+
+
+    if (!error) {
+        showMessage({
+                message: "Success",
+                type: 'success',
+                position: "center"
+            }
+        );
+    }
 }

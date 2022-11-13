@@ -1,4 +1,4 @@
-import {Pressable, TextInput, View} from "react-native";
+import {Pressable, View} from "react-native";
 import {useState} from "react";
 import {createTransaction} from "api/backend";
 import {useNavigation} from "@react-navigation/native";
@@ -7,6 +7,7 @@ import {format} from "date-fns";
 import FinanceerText from "components/FinanceerText";
 import {routes} from "routes";
 import DefaultLayout from "Layout/DefaultLayout";
+import FinanceerInput from "components/FinanceerInput";
 
 const AddTransactionScreen = () => {
     const navigation = useNavigation()
@@ -34,21 +35,20 @@ const AddTransactionScreen = () => {
             </View>
 
             <View className={"mt-5"}>
-                <FinanceerText>Amount</FinanceerText>
-                <TextInput
-                    className={"mt-1 bg-secondary red border-secondary text-white h-10 border-2 rounded focus:border-primary"}
+                <FinanceerInput
+                    label={"Amount"}
+                    className={"mt-1 bg-secondary border-secondary text-white h-10 border-2 rounded focus:border-primary"}
                     keyboardType={'phone-pad'}
                     placeholderTextColor="white"
                     value={amount}
                     onChangeText={setAmount}
                 />
                 <View className={"mt-5"}>
-                    <FinanceerText>Description</FinanceerText>
-                    <TextInput
-                        className={"mt-1 bg-secondary border-secondary text-white h-10 border-2 rounded focus:border-primary"}
-                        placeholderTextColor="white"
-                        value={description}
-                        onChangeText={setDescription}
+                    <FinanceerInput label={"Description"}
+                                    className={"mt-1 bg-secondary border-secondary text-white h-10 border-2 rounded focus:border-primary"}
+                                    placeholderTextColor="white"
+                                    value={description}
+                                    onChangeText={setDescription}
                     />
                 </View>
             </View>
@@ -56,7 +56,7 @@ const AddTransactionScreen = () => {
                 <FinanceerText>Date</FinanceerText>
                 <Pressable onPress={() => navigation.navigate(routes.calendar, {
                     callback: setDate,
-                    date: date
+                    date
                 })}>
                     <View
                         className={"mt-1 bg-secondary border-secondary text-white h-10 border-2 rounded focus:border-primary"}>
@@ -82,7 +82,7 @@ const AddTransactionScreen = () => {
                 className={"bg-secondary rounded text-center mt-10"}
                 onPress={async () => {
                     await createTransaction(amount, type, date.toISOString(), description, category.id)
-                    navigation.navigate(routes.home)
+                    // navigation.navigate(routes.home)
                 }}>
                 <FinanceerText className={"text-center bg-accent font-bold"}>Add</FinanceerText>
             </Pressable>

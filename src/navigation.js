@@ -10,7 +10,10 @@ import CalendarScreen from "transactions/CalendarScreen";
 import CategoryScreen from "transactions/CategoryScreen";
 import CategoriesScreen from "categories/CategoriesScreen";
 import FlashMessage from "react-native-flash-message";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import supabase from "supabase";
+import LoginScreen from "auth/LoginScreen";
+import RegisterScreen from "auth/RegisterScreen";
 
 
 const FinanceerTheme = {
@@ -30,14 +33,34 @@ const Navigation = ({}) => {
 
     const Tab = createBottomTabNavigator();
 
+    const Stack = createStackNavigator();
+
+    const [session, setSession] = useState({})
+
+    useEffect(() => {
+        supabase.auth.onAuthStateChange((event, session) => {
+            setSession(session)
+        })
+    }, [session]);
+
     return (
         <NavigationContainer theme={FinanceerTheme}>
             <FlashMessage position="top"/>
-            <Tab.Navigator>
-                {/*<Tab.Screen name="Home" component={HomeStackScreen} options={{headerShown: false}}/>*/}
-                {/*<Tab.Screen name="Transactions" component={TransactionsStackScreen} options={{headerShown: false}}/>*/}
-                <Tab.Screen name="Categories" component={CategoriesStackScreen} options={{headerShown: false}}/>
-            </Tab.Navigator>
+            <Tab.Screen name={"as"} component={LoginScreen}/>
+
+            {session?.user ?
+                <Tab.Navigator>
+                    <Tab.Screen name="Home" component={HomeStackScreen} options={{headerShown: false}}/>
+                    <Tab.Screen name="Transactions" component={TransactionsStackScreen} options={{headerShown: false}}/>
+                    <Tab.Screen name="Categories" component={CategoriesStackScreen} options={{headerShown: false}}/>
+                </Tab.Navigator>
+
+                :
+                <Stack.Navigator>
+                    <Stack.Screen name="Login" component={LoginScreen}/>
+                    <Stack.Screen name={routes.register} component={RegisterScreen}/>
+                </Stack.Navigator>
+            }
         </NavigationContainer>
     )
 }

@@ -7,4 +7,5 @@ export const routes = {
     categories: 'Categories',
     transactions: 'TransactionsScreen',
     manageCategories: 'ManageCategories',
+    editCategory: 'EditCategory',
 }

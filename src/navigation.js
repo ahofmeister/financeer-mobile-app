@@ -14,6 +14,7 @@ import React, {useEffect, useState} from "react";
 import supabase from "supabase";
 import LoginScreen from "auth/LoginScreen";
 import RegisterScreen from "auth/RegisterScreen";
+import EditCategoryScreen from "categories/EditCategoryScreen";
 
 
 const FinanceerTheme = {
@@ -120,6 +121,11 @@ const CategoriesStackScreen = () => {
         <CategoriesStack.Screen
             name={routes.manageCategories}
             component={CategoriesScreen}
+        />
+
+        <CategoriesStack.Screen
+            name={routes.editCategory}
+            component={EditCategoryScreen}
         />
 
     </CategoriesStack.Navigator>

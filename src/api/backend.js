@@ -69,6 +69,17 @@ export const deleteCategory = async (id) => {
     }
 }
 
+export const upsertCategory = async (id, name) => {
+    const userId = (await supabase.auth.getUser()).data.user.id
+
+    return supabase
+        .from('categories')
+        .upsert({id, name, user_id: userId})
+        .select();
+
+}
+
+
 export const createTransaction = async (amount, type, datetime, description, category) => {
     const {data} = await supabase.auth.getUser()
     const {error} = await supabase

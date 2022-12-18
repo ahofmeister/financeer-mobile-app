@@ -15,6 +15,7 @@ import supabase from "supabase";
 import LoginScreen from "auth/LoginScreen";
 import RegisterScreen from "auth/RegisterScreen";
 import EditCategoryScreen from "categories/EditCategoryScreen";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 
 const FinanceerTheme = {
@@ -51,9 +52,27 @@ const Navigation = ({}) => {
 
             {session?.user ?
                 <Tab.Navigator>
-                    <Tab.Screen name="Home" component={HomeStackScreen} options={{headerShown: false}}/>
-                    <Tab.Screen name="Transactions" component={TransactionsStackScreen} options={{headerShown: false}}/>
-                    <Tab.Screen name="Categories" component={CategoriesStackScreen} options={{headerShown: false}}/>
+                    <Tab.Screen
+
+                        name="Home" component={HomeStackScreen} options={{
+                        headerShown: false,
+                        tabBarIcon: ({color, size}) => (
+                            <Ionicons name="home" color={color} size={size}/>
+                        ),
+                    }}/>
+                    <Tab.Screen name="Transactions" component={TransactionsStackScreen} options={{
+                        headerShown: false,
+                        tabBarIcon: ({color, size}) => (
+                            <Ionicons name="stats-chart" color={color} size={size}/>
+                        ),
+
+                    }}/>
+                    <Tab.Screen name="Categories" component={CategoriesStackScreen} options={{
+                        headerShown: false,
+                        tabBarIcon: ({color, size}) => (
+                            <Ionicons name="ellipsis-horizontal" color={color} size={size}/>
+                        ),
+                    }}/>
                 </Tab.Navigator>
 
                 :

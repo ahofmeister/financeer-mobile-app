@@ -16,6 +16,7 @@ import LoginScreen from "auth/LoginScreen";
 import RegisterScreen from "auth/RegisterScreen";
 import EditCategoryScreen from "categories/EditCategoryScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import ProfileScreen from "profile/ProfileScreen";
 
 
 const FinanceerTheme = {
@@ -53,22 +54,24 @@ const Navigation = ({}) => {
             {session?.user ?
                 <Tab.Navigator>
                     <Tab.Screen
-
-                        name="Home" component={HomeStackScreen} options={{
+                        name="HomeScreen" component={HomeStackScreen} options={{
                         headerShown: false,
+                        title: 'Home',
                         tabBarIcon: ({color, size}) => (
                             <Ionicons name="home" color={color} size={size}/>
                         ),
                     }}/>
-                    <Tab.Screen name="Transactions" component={TransactionsStackScreen} options={{
+                    <Tab.Screen name="TransactionsStack" component={TransactionsStackScreen} options={{
                         headerShown: false,
+                        title: 'Transactions',
                         tabBarIcon: ({color, size}) => (
                             <Ionicons name="stats-chart" color={color} size={size}/>
                         ),
 
                     }}/>
-                    <Tab.Screen name="Categories" component={CategoriesStackScreen} options={{
+                    <Tab.Screen name="CategoriesStack" component={CategoriesStackScreen} options={{
                         headerShown: false,
+                        title: 'Categories',
                         tabBarIcon: ({color, size}) => (
                             <Ionicons name="ellipsis-horizontal" color={color} size={size}/>
                         ),
@@ -93,7 +96,7 @@ const HomeStackScreen = () => {
 
         <HomeStack.Screen
             name={routes.home}
-            options={{title: 'Dashboard'}}
+            options={{headerShown: false}}
             component={HomeScreen}
 
         />
@@ -107,6 +110,16 @@ const HomeStackScreen = () => {
             name={routes.calendar}
             options={{title: ''}}
             component={CalendarScreen}
+        />
+
+        <HomeStack.Screen
+            name={routes.profile}
+            options={{
+                headerShown: false,
+                presentation: 'modal',
+                animationTypeForReplace: 'push'
+            }}
+            component={ProfileScreen}
         />
 
         <HomeStack.Screen

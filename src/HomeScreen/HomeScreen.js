@@ -12,8 +12,7 @@ import {useNavigation} from "@react-navigation/native";
 import {routes} from "routes";
 import {theme} from "../../tailwind.config";
 import MonthPicker from "transactions/MonthPicker";
-import supabase from "supabase";
-
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const HomeScreen = () => {
     const [currentDate, setCurrentDate] = useState(startOfMonth(new Date()));
@@ -63,6 +62,11 @@ const HomeScreen = () => {
     />;
 
     return <DefaultLayout>
+
+
+        <Pressable className={"self-end"} onPress={() => navigation.navigate(routes.profile)}>
+            <Ionicons color={'white'} size={35} name={'person-circle'}/>
+        </Pressable>
         <MonthPicker callBack={setCurrentDate} currentDate={currentDate}/>
 
         <View className={"items-center my-5"}>
@@ -73,9 +77,6 @@ const HomeScreen = () => {
             onPress={() => navigation.navigate(routes.addTransaction)}>
             <FinanceerText className={"text-center"}>Add Transaction</FinanceerText>
         </Pressable>
-
-        <Pressable onPress={() => supabase.auth.signOut()}><FinanceerText
-            className={"text-primary"}>Logout (testing)</FinanceerText></Pressable>
 
         <TabView
             navigationState={{index, routes: inRoutes}}

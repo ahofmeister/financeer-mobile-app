@@ -1,5 +1,5 @@
 export const routes = {
-    home: 'HomeRoute',
+    home: 'Home',
     register: 'Joining Financeer',
     login: 'Login',
     addTransaction: 'Add Transaction',
@@ -8,4 +8,5 @@ export const routes = {
     transactions: 'Transactions',
     manageCategories: 'Categories',
     editCategory: 'Edit Category',
+    profile: 'Profile'
 }

@@ -1,7 +1,7 @@
 import DefaultLayout from "Layout/DefaultLayout";
 import {Button} from "react-native";
 import supabase from "supabase";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import FinanceerInput from "components/FinanceerInput";
 import {showMessage} from "react-native-flash-message";
 import {useNavigation} from "@react-navigation/native";
@@ -12,14 +12,6 @@ const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigation = useNavigation();
-
-    const fetchAuth = async () => {
-        return await supabase.auth.getUser();
-    };
-
-    useEffect(() => {
-        fetchAuth().then(x => setPassword(x.data.user))
-    }, [])
 
     const handleLogin = async () => {
 
@@ -41,11 +33,13 @@ const LoginScreen = () => {
         <FinanceerInput label="Email"
                         onChangeText={setEmail}
                         value={email}
+                        onSubmitEditing={handleLogin}
         />
 
         <FinanceerInput label="Password" secureTextEntry={true}
                         onChangeText={setPassword}
                         value={password}
+                        onSubmitEditing={handleLogin}
         />
 
 

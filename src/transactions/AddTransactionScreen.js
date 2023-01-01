@@ -1,4 +1,4 @@
-import {Pressable, View} from "react-native";
+import {Pressable, ScrollView, View} from "react-native";
 import {useState} from "react";
 import {createTransaction} from "api/backend";
 import {useNavigation} from "@react-navigation/native";
@@ -19,16 +19,16 @@ const AddTransactionScreen = () => {
     const [category, setCategory] = useState()
 
     return <DefaultLayout>
-        <View className={"mt-5"}>
+        <ScrollView className={"mt-0    "}>
             <View className={"flex-row justify-center justify-around"}>
                 <Pressable onPress={() => setType('EXPENSE')}
-                           style={{backgroundColor: theme.colors.accent}}
+                           style={{backgroundColor: theme.extend.colors.accent}}
                            className={(type === 'EXPENSE' ? '' : 'opacity-40') + " w-40 rounded"}>
                     <FinanceerText className={"uppercase font-bold text-center"}>expense</FinanceerText>
                 </Pressable>
 
                 <Pressable onPress={() => setType('INCOME')}
-                           style={{backgroundColor: theme.colors.primary}}
+                           style={{backgroundColor: theme.extend.colors.primary}}
                            className={(type === 'INCOME' ? '' : 'opacity-40') + " w-40 rounded"}>
                     <FinanceerText className={"uppercase font-bold text-center"}>income</FinanceerText>
                 </Pressable>
@@ -82,11 +82,11 @@ const AddTransactionScreen = () => {
                 className={"bg-secondary rounded text-center mt-10"}
                 onPress={async () => {
                     await createTransaction(amount, type, date.toISOString(), description, category.id)
-                    // navigation.navigate(routes.home)
+                    navigation.navigate(routes.home )
                 }}>
                 <FinanceerText className={"text-center bg-accent font-bold"}>Add</FinanceerText>
             </Pressable>
-        </View>
+        </ScrollView>
     </DefaultLayout>
 
 };

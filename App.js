@@ -2,12 +2,14 @@ import React from 'react';
 import {Platform, SafeAreaView, StatusBar, StyleSheet, View} from "react-native";
 import Navigation from "navigation";
 import {theme} from "./tailwind.config";
-import FlashMessage from "react-native-flash-message";
+import {AuthContextProvider} from "auth/AuthContext";
 
 export default () => (
     <>
-        <MyStatusBar backgroundColor={theme.colors.neutral} barStyle="light-content"/>
-        <Navigation/>
+        <AuthContextProvider>
+            <MyStatusBar backgroundColor={theme.extend.colors.neutral} barStyle="light-content"/>
+            <Navigation/>
+        </AuthContextProvider>
     </>
 )
 

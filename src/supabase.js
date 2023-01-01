@@ -6,7 +6,7 @@ const supabase = createClient(supabaseUrl, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
     auth: {
         storage: AsyncStorage,
         persistSession: true,
-        detectSessionInUrl: true,
+        detectSessionInUrl: false,
         autoRefreshToken: true,
     },
 })

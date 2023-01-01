@@ -8,7 +8,7 @@ import {startOfMonth} from "date-fns";
 import DefaultLayout from "Layout/DefaultLayout";
 import FinanceerText from "components/FinanceerText";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
-import {useNavigation} from "@react-navigation/native";
+import {useIsFocused, useNavigation} from "@react-navigation/native";
 import {routes} from "routes";
 import {theme} from "../../tailwind.config";
 import MonthPicker from "transactions/MonthPicker";
@@ -21,6 +21,7 @@ const HomeScreen = () => {
     const [incomes, setIncomes] = useState([])
 
     let navigation = useNavigation();
+    const isFocused = useIsFocused();
 
     const ExpensesRoute = () => (
         <View className={"mt-3"}>
@@ -44,14 +45,14 @@ const HomeScreen = () => {
         fetchIncomes(currentDate).then(response => setIncomes(response))
         fetchCategories().then(response => setCategories(response))
 
-    }, [currentDate])
+    }, [currentDate, isFocused])
 
     const layout = useWindowDimensions();
 
     const [index, setIndex] = useState(0);
     const [inRoutes] = useState([
-        {key: 'expenses', title: 'Expenses', color: theme.colors.accent},
-        {key: 'incomes', title: 'Incomes', color: theme.colors.primary},
+        {key: 'expenses', title: 'Expenses', color: theme.extend.colors.accent},
+        {key: 'incomes', title: 'Incomes', color: theme.extend.colors.primary},
     ]);
     const renderTabBar = props => <TabBar
         {...props}
@@ -62,6 +63,7 @@ const HomeScreen = () => {
     />;
 
     return <DefaultLayout>
+
 
 
         <Pressable className={"self-end"} onPress={() => navigation.navigate(routes.profile)}>

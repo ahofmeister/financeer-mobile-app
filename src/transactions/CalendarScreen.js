@@ -47,16 +47,16 @@ const CalendarScreen = ({route}) => {
 
         <Calendar
             theme={{
-                calendarBackground: theme.colors.neutral,
-                selectedDayBackgroundColor: theme.colors.primary,
-                todayTextColor: theme.colors.primary,
+                calendarBackground: theme.extend.colors.neutral,
+                selectedDayBackgroundColor: theme.extend.colors.primary,
+                todayTextColor: theme.extend.colors.primary,
                 dayTextColor: '#2d4150',
                 textDisabledColor: '#d9e1e8',
-                selectedDotColor: theme.colors.neutral,
-                arrowColor: theme.colors.white,
+                selectedDotColor: theme.extend.colors.neutral,
+                arrowColor: theme.extend.colors.white,
                 disabledArrowColor: '#d9e1e8',
-                monthTextColor: theme.colors.white,
-                indicatorColor: theme.colors.neutral,
+                monthTextColor: theme.extend.colors.white,
+                indicatorColor: theme.extend.colors.neutral,
                 textDayFontFamily: 'sans',
                 textMonthFontFamily: 'sans',
                 textDayHeaderFontFamily: 'sans',

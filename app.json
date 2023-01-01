@@ -2,6 +2,7 @@
   "expo": {
     "name": "financeer",
     "slug": "financeer",
+    "scheme": "financeer",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,16 +20,19 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "fianceer.app"
+      "bundleIdentifier": "financeer.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "financeer.app"
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
+    "extra": {
+      "eas": {
+        "projectId": "e8fe3a03-1e88-4c6b-8b3c-725dd07d7d57"
+      }
     }
   }
 }

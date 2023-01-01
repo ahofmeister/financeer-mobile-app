@@ -43,7 +43,10 @@ const TransactionsScreen = () => {
 const groupTransactionsByDate = (transactions = []) => {
     transactions = sortByDatetime(transactions)
     return Object.values(transactions.reduce((result, transaction) => {
-        (result[transaction.datetime] ??= {datetime: transaction.datetime, data: []}).data.push(transaction);
+        if (result[transaction.datetime] === undefined) {
+            result[transaction.datetime] = {datetime: transaction.datetime, data: []}
+        }
+        result[transaction.datetime].data.push(transaction);
         return result;
     }, {}));
 }

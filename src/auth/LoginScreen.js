@@ -11,37 +11,35 @@ const LoginScreen = () => {
 
     const [email, setEmail] = useState()
     const [isSending, setSending] = useState(false);
-
-
-    function prefill() {
-        let r = (Math.random() + 1).toString(36).substring(7);
-
-        setEmail(`HofmeisterAlexander+${r}@googlemail.com`)
-    }
-
+    const [sentEmail, setSentEmail] = useState('')
 
     async function sendMagicLink(email) {
         let redirectURL = Linking.createURL("/SignIn");
-        if (email) {
-            setSending(true);
-            let result = await supabase.auth.signInWithOtp(
-                {
-                    email, options: {
-                        emailRedirectTo: redirectURL,
-                    }
-                },
-            );
 
-            setSending(false);
-
-            if (result.error) {
-                console.log(result.error)
-            }
-        } else {
+        if (!email) {
             showMessage({
                 message: "Email is required",
                 type: "danger"
             })
+            return
+        }
+
+        setSending(true);
+        let result = await supabase.auth.signInWithOtp(
+            {
+                email, options: {
+                    emailRedirectTo: redirectURL,
+                }
+            },
+        );
+
+        setSending(false);
+
+        if (result.error) {
+            showMessage({description: result.error.message, message: "Could not sent email", type: "danger"})
+            console.log(JSON.stringify(result))
+        } else {
+            setSentEmail(email)
         }
     }
 
@@ -70,6 +68,10 @@ const LoginScreen = () => {
                     </FinanceerText>
                 </Pressable>
 
+                {sentEmail &&
+                    <FinanceerText className={"mt-3"}>
+                        We have sent an email with the Magic Link to {sentEmail}.
+                    </FinanceerText>}
 
             </View>
         </>

@@ -1,6 +1,6 @@
 import {FlatList, Pressable, View} from "react-native";
 import {useEffect, useState} from "react";
-import {useNavigation} from "@react-navigation/native";
+import {useIsFocused, useNavigation} from "@react-navigation/native";
 import FinanceerText from "components/FinanceerText";
 import {routes} from "routes";
 import {fetchCategories} from "api/backend";
@@ -37,9 +37,9 @@ const CategoryScreen = ({route}) => {
                           return <Pressable key={item.id} className={"h-14"} onPress={() => setSelectedCategory(item)}>
                               <View className={"flex-row w-full justify-between"}>
                                   <FinanceerText
-                                      className={"underline decoration-accent"}>{item.name}</FinanceerText>
+                                      className={"underline decoration-primary"}>{item.name}</FinanceerText>
                                   {item.name === selectedCategory?.name ? (<FinanceerText
-                                      className="text-accent">✓</FinanceerText>) : <></>}
+                                      className="text-primary">✓</FinanceerText>) : <></>}
                               </View>
                           </Pressable>
                       }
@@ -52,7 +52,7 @@ const CategoryScreen = ({route}) => {
             return navigation.navigate(routes.addTransaction);
         }}>
             <FinanceerText
-                className={"w-20 mx-auto rounded-3xl text-center font-bold text-accent bg-secondary"}>Done</FinanceerText>
+                className={"w-20 mx-auto rounded-3xl text-center font-bold text-primary"}>Done</FinanceerText>
         </Pressable>
     </>
 

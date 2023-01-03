@@ -50,7 +50,7 @@ const LoginScreen = () => {
                 <FinanceerText className={"font-bold"}>Heya!</FinanceerText>
                 <FinanceerText>Welcome to Financeer</FinanceerText>
 
-                <FinanceerText className={"text-sm"}>We are using magic links in order to sign you up and
+                <FinanceerText className={"text-sm"}>We are using Magic Links in order to sign you up and
                     in.</FinanceerText>
                 <FinanceerInput className={"w-3/4 mx-auto"}
                                 value={email}
@@ -61,7 +61,7 @@ const LoginScreen = () => {
                 />
 
 
-                <Pressable className={"btn btn-primary mx-auto"} disabled={isSending}
+                <Pressable className={"mx-auto"} disabled={isSending}
                            onPress={() => sendMagicLink(email)}>
                     <FinanceerText className={"text-primary mt-5"}>
                         Send me a Magic Link!

@@ -5,17 +5,13 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                primary: '#00C9C9',
-                secondary: '#191A1C',
-                accent: '#F06071',
+                income: '#00C9C9',
+                expense: '#C7003F',
+                primary: '#C74200',
                 neutral: '#101112',
                 white: '#FFFFFF',
-                gray: '#A4A4A5'
-            },
-            gradientColorStops: theme => ({
-                primary: '#00C9C9',
-                accent: '#F06071',
-            }),
+                gray: '#343333',
+            }
         }
     },
     plugins: []

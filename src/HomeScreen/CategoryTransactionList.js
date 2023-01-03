@@ -3,31 +3,33 @@ import {FlatList, View} from "react-native";
 import FinanceerText from "components/FinanceerText";
 import TransactionAmount from "transactions/TransactionAmount";
 
-const CategoryTransactionList = ({type, transactions = [], categories}) => {
+const CategoryTransactionList = ({transactions = [], categories, sum = 0, type}) => {
     const transactionsByCategory = groupBy(transactions, categories)
 
-    return transactionsByCategory ? (<View className={""}>
-        <FlatList
-            data={transactionsByCategory}
-            renderItem={({item}) =>
-                <View className={"flex-row mx-1 h-10 justify-between"}>
-                    <FinanceerText
-                        className={"w-5"}>{item.transactions.length}</FinanceerText>
-                    <FinanceerText className={"flex-1 text-left ml-5"}>{item.category}</FinanceerText>
-                    <FinanceerText
-                        className={"w-20 text-right"}>
-                        <TransactionAmount type={type} amount={item.amount}/>
-                    </FinanceerText>
-                </View>
-            }
-        />
-    </View>) : <View><FinanceerText>Loading</FinanceerText></View>
+    return transactionsByCategory ? (
+        <View className={""}>
+            <View className={"flex-row justify-center"}>
+                <TransactionAmount type={type} amount={sum}/>
+            </View>
+            <FlatList
+                data={transactionsByCategory}
+                renderItem={function ({item}) {
+                    return <View className={"flex-row mx-1 h-10 justify-between"}>
+                        <FinanceerText className={"flex-1 text-left ml-5"}>{item.category}</FinanceerText>
+                        <FinanceerText
+                            className={"w-20 text-right"}>
+                            <TransactionAmount type={type} amount={item.amount}/>
+                        </FinanceerText>
+                    </View>;
+                }
+                }
+            />
+        </View>) : <View><FinanceerText>Loading</FinanceerText></View>
 
 }
 
 
 const groupBy = (allExpenses, categories) => {
-
     if (categories && allExpenses) {
 
         if (allExpenses === 0) {
@@ -36,11 +38,11 @@ const groupBy = (allExpenses, categories) => {
 
         let transactionsByCategory = []
         for (const item of categories) {
-            let transactions = allExpenses.filter(x => x.category.name === item.name);
+            let expenses = allExpenses.filter(expense => expense.category.name === item.name);
             transactionsByCategory.push({
-                transactions: transactions,
+                transactions: expenses,
                 category: item.name,
-                amount: sumExpenses(transactions)
+                amount: sumExpenses(expenses)
             })
 
         }

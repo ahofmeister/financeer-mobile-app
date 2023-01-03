@@ -1,8 +1,7 @@
 import 'react-native-url-polyfill/auto'
 import {useEffect, useState} from "react";
-import {Pressable, useWindowDimensions, View} from "react-native";
+import {Pressable, Text, useWindowDimensions, View} from "react-native";
 import CategoryTransactionList from "HomeScreen/CategoryTransactionList";
-import Dashboard from "HomeScreen/Dashboard";
 import {fetchCategories, fetchExpenses, fetchIncomes} from "api/backend";
 import {startOfMonth} from "date-fns";
 import DefaultLayout from "Layout/DefaultLayout";
@@ -11,8 +10,9 @@ import {SceneMap, TabBar, TabView} from "react-native-tab-view";
 import {useIsFocused, useNavigation} from "@react-navigation/native";
 import {routes} from "routes";
 import {theme} from "../../tailwind.config";
-import MonthPicker from "transactions/MonthPicker";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import {formatAmount} from "transactions/TransactionUtils";
+import MonthPicker from "transactions/MonthPicker";
 
 const HomeScreen = () => {
     const [currentDate, setCurrentDate] = useState(startOfMonth(new Date()));
@@ -20,18 +20,24 @@ const HomeScreen = () => {
     const [expenses, setExpenses] = useState([])
     const [incomes, setIncomes] = useState([])
 
+    const [expensesSum, setExpensesSum] = useState(0)
+    const [incomesSum, setIncomesSum] = useState(0)
+    const [total, setTotal] = useState(0)
+
     let navigation = useNavigation();
     const isFocused = useIsFocused();
 
     const ExpensesRoute = () => (
         <View className={"mt-3"}>
-            <CategoryTransactionList type={'EXPENSE'} transactions={expenses} categories={categories}/>
+            <CategoryTransactionList transactions={expenses} categories={categories} type={"EXPENSE"}
+                                     sum={expensesSum}/>
         </View>
     );
 
     const IncomesRoute = () => (
         <View className={"mt-3"}>
-            <CategoryTransactionList type={'INCOME'} transactions={incomes} categories={categories}/>
+            <CategoryTransactionList transactions={incomes} categories={categories} type={"INCOME"}
+                                     sum={incomesSum}/>
         </View>
     );
 
@@ -44,41 +50,77 @@ const HomeScreen = () => {
         fetchExpenses(currentDate).then(response => setExpenses(response))
         fetchIncomes(currentDate).then(response => setIncomes(response))
         fetchCategories().then(response => setCategories(response))
-
     }, [currentDate, isFocused])
+
+    useEffect(() => {
+        setExpensesSum(sum(expenses))
+    }, [expenses])
+
+    useEffect(() => {
+        setIncomesSum(sum(incomes))
+    }, [incomes])
+
+    useEffect(() => {
+        setTotal(incomesSum + -expensesSum)
+    }, [expensesSum, incomesSum])
 
     const layout = useWindowDimensions();
 
     const [index, setIndex] = useState(0);
     const [inRoutes] = useState([
-        {key: 'expenses', title: 'Expenses', color: theme.extend.colors.accent},
-        {key: 'incomes', title: 'Incomes', color: theme.extend.colors.primary},
+        {key: 'expenses', title: 'Expenses', color: theme.extend.colors.expense},
+        {key: 'incomes', title: 'Incomes', color: theme.extend.colors.income},
     ]);
-    const renderTabBar = props => <TabBar
-        {...props}
-        indicatorStyle={{
-            backgroundColor: props.navigationState.routes[props.navigationState.index].color
-        }}
-        style={{backgroundColor: 'transparent'}}
-    />;
+    const renderTabBar = function (props) {
 
+        let state = props.navigationState;
+        return <TabBar
+            {...props}
+            labelStyle={{
+                color: theme.extend.colors.primary
+            }}
+            renderLabel={({route, focused, color}) =>
+                <Text className={`font-bold ${route.key === 'expenses' ? 'text-expense' : 'text-income'}`}>
+                    {route.title}
+                </Text>}
+            indicatorStyle={
+                {
+                    backgroundColor: state.routes[props.navigationState.index].color
+                }
+            }
+            style={
+                {
+                    backgroundColor: 'transparent'
+                }
+            }
+        />
+    }
     return <DefaultLayout>
-
-
-
         <Pressable className={"self-end"} onPress={() => navigation.navigate(routes.profile)}>
             <Ionicons color={'white'} size={35} name={'person-circle'}/>
         </Pressable>
         <MonthPicker callBack={setCurrentDate} currentDate={currentDate}/>
 
         <View className={"items-center my-5"}>
-            <Dashboard expenses={expenses} incomes={incomes}/>
+            <FinanceerText
+                className={(total < 0 ? 'text-expense' : 'text-income') + " text-3xl font-bold text-center mb-5"}>
+                {formatAmount(total)}
+            </FinanceerText>
         </View>
-        <Pressable
-            className={"rounded text-center"}
-            onPress={() => navigation.navigate(routes.addTransaction)}>
-            <FinanceerText className={"text-center"}>Add Transaction</FinanceerText>
-        </Pressable>
+
+        <View className={"flex-row justify-around"}>
+            <Pressable
+                // TODO add type here and remove it from next screen
+                className={"rounded text-center"}
+                onPress={() => navigation.navigate(routes.addTransaction)}>
+                <FinanceerText className={"bg-expense text-center text-black rounded w-24"}>-</FinanceerText>
+            </Pressable>
+            <Pressable
+                className={"rounded text-center"}
+                onPress={() => navigation.navigate(routes.addTransaction)}>
+                <FinanceerText className={"bg-income text-center text-black rounded w-24"}>+</FinanceerText>
+            </Pressable>
+        </View>
 
         <TabView
             navigationState={{index, routes: inRoutes}}
@@ -91,5 +133,7 @@ const HomeScreen = () => {
     </DefaultLayout>
 }
 
+const sum = (transactions) => transactions.reduce((partialSum, transaction) => partialSum +
+    transaction.amount, 0)
 
 export default HomeScreen

@@ -1,12 +1,13 @@
 import {TextInput} from "react-native";
 import FinanceerText from "components/FinanceerText";
+import {theme} from "../../tailwind.config";
 
 const FinanceerInput = (props) => {
     return <>
         <FinanceerText>{props.label}</FinanceerText>
-        <TextInput placeholderTextColor={"#FFF"}
+        <TextInput placeholderTextColor={"#FFF"} selectionColor={theme.extend.colors.primary}
                    {...props}
-                   className={'pl-2 bg-secondary border-secondary text-white h-10 border-2 rounded focus:border-primary' + (props.className || '')}>
+                   className={'pl-2 bg-gray text-white h-10 border-2 rounded focus:border-primary' + (props.className || '')}>
         </TextInput>
     </>
 }

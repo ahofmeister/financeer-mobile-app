@@ -23,8 +23,8 @@ const MonthPicker = function ({callBack, currentDate}) {
             <FinanceerText className={"text-gray text-center"}> {currentDate.getFullYear()}</FinanceerText>
         </Pressable>
         <View>
-            <FinanceerText className={"font-bold"}>{format(currentDate, 'MMMM')}</FinanceerText>
-            <FinanceerText className={"font-bold text-center"}> {currentDate.getFullYear()}</FinanceerText>
+            <FinanceerText className={"font-bold text-primary "}>{format(currentDate, 'MMMM')}</FinanceerText>
+            <FinanceerText className={"font-bold text-primary text-center"}> {currentDate.getFullYear()}</FinanceerText>
         </View>
         <Pressable onPress={() => callBack(nextDate)}>
             <FinanceerText className={"text-gray"}>{format(nextDate, 'MMMM')}</FinanceerText>

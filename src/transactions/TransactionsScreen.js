@@ -19,7 +19,7 @@ const TransactionsScreen = () => {
 
 
     let renderSectionHeader = ({section: {datetime}}) => {
-        return <FinanceerText className={"text-primary font-bold"}>{datetime}</FinanceerText>;
+        return <FinanceerText className={"text-sm text-primary text-center mb-3"}>{datetime}</FinanceerText>;
     }
 
     return <DefaultLayout>
@@ -30,9 +30,9 @@ const TransactionsScreen = () => {
             renderSectionHeader={renderSectionHeader}
             className={"mt-5"} sections={transactions} renderItem={({item}) => {
             return <View className={"flex-row h-10 w-full justify-between"}>
-                <FinanceerText className={"w-20"}>{item.description}</FinanceerText>
-                <FinanceerText className={"w-30"}>{item.category.name}</FinanceerText>
-                <TransactionAmount type={item.type} amount={item.amount}/>
+                <FinanceerText className={"text-sm w-30"}>{item.category.name}</FinanceerText>
+                <FinanceerText className={"text-sm w-20"}>{item.description}</FinanceerText>
+                <TransactionAmount className={"text-sm"} type={item.type} amount={item.amount}/>
             </View>
         }
         }/>

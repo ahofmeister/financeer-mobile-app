@@ -22,13 +22,13 @@ const AddTransactionScreen = () => {
         <ScrollView className={"mt-0    "}>
             <View className={"flex-row justify-center justify-around"}>
                 <Pressable onPress={() => setType('EXPENSE')}
-                           style={{backgroundColor: theme.extend.colors.accent}}
+                           style={{backgroundColor: theme.extend.colors.expense}}
                            className={(type === 'EXPENSE' ? '' : 'opacity-40') + " w-40 rounded"}>
                     <FinanceerText className={"uppercase font-bold text-center"}>expense</FinanceerText>
                 </Pressable>
 
                 <Pressable onPress={() => setType('INCOME')}
-                           style={{backgroundColor: theme.extend.colors.primary}}
+                           style={{backgroundColor: theme.extend.colors.income}}
                            className={(type === 'INCOME' ? '' : 'opacity-40') + " w-40 rounded"}>
                     <FinanceerText className={"uppercase font-bold text-center"}>income</FinanceerText>
                 </Pressable>
@@ -37,7 +37,7 @@ const AddTransactionScreen = () => {
             <View className={"mt-5"}>
                 <FinanceerInput
                     label={"Amount"}
-                    className={"mt-1 bg-secondary border-secondary text-white h-10 border-2 rounded focus:border-primary"}
+                    className={"mt-1 text-white h-10 border-2 rounded focus:border-primary"}
                     keyboardType={'phone-pad'}
                     placeholderTextColor="white"
                     value={amount}
@@ -45,7 +45,7 @@ const AddTransactionScreen = () => {
                 />
                 <View className={"mt-5"}>
                     <FinanceerInput label={"Description"}
-                                    className={"mt-1 bg-secondary border-secondary text-white h-10 border-2 rounded focus:border-primary"}
+                                    className={"mt-1 text-white h-10 border-2 rounded focus:border-primary"}
                                     placeholderTextColor="white"
                                     value={description}
                                     onChangeText={setDescription}
@@ -59,7 +59,7 @@ const AddTransactionScreen = () => {
                     date
                 })}>
                     <View
-                        className={"mt-1 bg-secondary border-secondary text-white h-10 border-2 rounded focus:border-primary"}>
+                        className={"mt-1 text-white h-10 border-2 rounded focus:border-primary"}>
                         <FinanceerText>{format(date, 'dd.MM.yyyy')}</FinanceerText>
                     </View>
                 </Pressable>
@@ -72,7 +72,7 @@ const AddTransactionScreen = () => {
                     initialCategory: category
                 })}>
                     <View
-                        className={"mt-1 bg-secondary border-secondary text-white h-10 border-2 rounded focus:border-primary"}>
+                        className={"mt-1 h-10"}>
                         <FinanceerText>{category?.name}</FinanceerText>
                     </View>
                 </Pressable>
@@ -82,9 +82,9 @@ const AddTransactionScreen = () => {
                 className={"bg-secondary rounded text-center mt-10"}
                 onPress={async () => {
                     await createTransaction(amount, type, date.toISOString(), description, category.id)
-                    navigation.navigate(routes.home )
+                    navigation.navigate(routes.home)
                 }}>
-                <FinanceerText className={"text-center bg-accent font-bold"}>Add</FinanceerText>
+                <FinanceerText className={"text-center bg-primary font-bold"}>Add</FinanceerText>
             </Pressable>
         </ScrollView>
     </DefaultLayout>

@@ -85,7 +85,7 @@ const CalendarScreen = ({route}) => {
             callback(selectedDate)
             return navigation.navigate(routes.addTransaction);
         }}>
-            <FinanceerText className={"w-20 mx-auto rounded-3xl top-36 text-center font-bold text-accent bg-secondary"}>Done</FinanceerText>
+            <FinanceerText className={"w-20 mx-auto rounded-3xl top-36 text-center font-bold text-primary"}>Done</FinanceerText>
         </Pressable>
     </View>
 

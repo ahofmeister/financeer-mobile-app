@@ -16,6 +16,7 @@ import EditCategoryScreen from "categories/EditCategoryScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import ProfileScreen from "profile/ProfileScreen";
 import {useUser} from "auth/AuthContext";
+import {capitalize} from "StringUtils";
 
 
 const FinanceerTheme = {
@@ -92,7 +93,7 @@ const HomeStackScreen = () => {
 
         />
         <HomeStack.Screen
-            options={{title: 'New Transaction'}}
+            options={({ route }) => ({ title: `Add ${capitalize(route.params.transactionType)}` })}
             name={routes.addTransaction}
             component={AddTransactionScreen}
         />

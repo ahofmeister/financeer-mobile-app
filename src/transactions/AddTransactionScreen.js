@@ -2,39 +2,25 @@ import {Pressable, ScrollView, View} from "react-native";
 import {useState} from "react";
 import {createTransaction} from "api/backend";
 import {useNavigation} from "@react-navigation/native";
-import {theme} from "../../tailwind.config";
 import {format} from "date-fns";
 import FinanceerText from "components/FinanceerText";
 import {routes} from "routes";
 import DefaultLayout from "Layout/DefaultLayout";
 import FinanceerInput from "components/FinanceerInput";
 
-const AddTransactionScreen = () => {
+const AddTransactionScreen = ({route}) => {
     const navigation = useNavigation()
 
     const [amount, setAmount] = useState()
     const [description, setDescription] = useState('')
-    const [type, setType] = useState('EXPENSE')
     const [date, setDate] = useState(new Date())
     const [category, setCategory] = useState()
 
+    const transactionType = route.params.transactionType
+
     return <DefaultLayout>
-        <ScrollView className={"mt-0    "}>
-            <View className={"flex-row justify-center justify-around"}>
-                <Pressable onPress={() => setType('EXPENSE')}
-                           style={{backgroundColor: theme.extend.colors.expense}}
-                           className={(type === 'EXPENSE' ? '' : 'opacity-40') + " w-40 rounded"}>
-                    <FinanceerText className={"uppercase font-bold text-center"}>expense</FinanceerText>
-                </Pressable>
-
-                <Pressable onPress={() => setType('INCOME')}
-                           style={{backgroundColor: theme.extend.colors.income}}
-                           className={(type === 'INCOME' ? '' : 'opacity-40') + " w-40 rounded"}>
-                    <FinanceerText className={"uppercase font-bold text-center"}>income</FinanceerText>
-                </Pressable>
-            </View>
-
-            <View className={"mt-5"}>
+        <ScrollView>
+            <View>
                 <FinanceerInput
                     label={"Amount"}
                     className={"mt-1 text-white h-10 border-2 rounded focus:border-primary"}
@@ -56,7 +42,8 @@ const AddTransactionScreen = () => {
                 <FinanceerText>Date</FinanceerText>
                 <Pressable onPress={() => navigation.navigate(routes.calendar, {
                     callback: setDate,
-                    date
+                    date,
+                    transactionType
                 })}>
                     <View
                         className={"mt-1 text-white h-10 border-2 rounded focus:border-primary"}>
@@ -69,7 +56,8 @@ const AddTransactionScreen = () => {
                 <FinanceerText>Category</FinanceerText>
                 <Pressable onPress={() => navigation.navigate(routes.categories, {
                     callback: setCategory,
-                    initialCategory: category
+                    initialCategory: category,
+                    transactionType
                 })}>
                     <View
                         className={"mt-1 h-10"}>
@@ -79,9 +67,9 @@ const AddTransactionScreen = () => {
             </View>
 
             <Pressable
-                className={"bg-secondary rounded text-center mt-10"}
+                className={"bg-secondary rounded text-center mt-0"}
                 onPress={async () => {
-                    await createTransaction(amount, type, date.toISOString(), description, category.id)
+                    await createTransaction(amount, transactionType, date.toISOString(), description, category.id)
                     navigation.navigate(routes.home)
                 }}>
                 <FinanceerText className={"text-center bg-primary font-bold"}>Add</FinanceerText>

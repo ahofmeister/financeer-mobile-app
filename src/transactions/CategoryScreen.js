@@ -1,6 +1,6 @@
 import {FlatList, Pressable, View} from "react-native";
 import {useEffect, useState} from "react";
-import {useIsFocused, useNavigation} from "@react-navigation/native";
+import {useNavigation} from "@react-navigation/native";
 import FinanceerText from "components/FinanceerText";
 import {routes} from "routes";
 import {fetchCategories} from "api/backend";
@@ -9,6 +9,8 @@ import {fetchCategories} from "api/backend";
 const CategoryScreen = ({route}) => {
     const callback = route.params.callback
     const initialCategory = route.params.initialCategory
+    const transactionType = route.params.transactionType
+    console.log(transactionType)
 
     const navigation = useNavigation()
     const [categories, setCategories] = useState([]);
@@ -25,7 +27,9 @@ const CategoryScreen = ({route}) => {
     return <>
 
         <View className={"flex h-10 w-5 m-5 ml-auto"}>
-            <Pressable onPress={() => navigation.navigate(routes.addTransaction)}>
+            <Pressable onPress={() => navigation.navigate(routes.addTransaction, {
+                transactionType
+            })}>
                 <FinanceerText className={"text-right"}>X</FinanceerText>
             </Pressable>
         </View>
@@ -49,7 +53,9 @@ const CategoryScreen = ({route}) => {
         </View>
         <Pressable onPress={() => {
             callback(selectedCategory)
-            return navigation.navigate(routes.addTransaction);
+            return navigation.navigate(routes.addTransaction, {
+                transactionType
+            });
         }}>
             <FinanceerText
                 className={"w-20 mx-auto rounded-3xl text-center font-bold text-primary"}>Done</FinanceerText>

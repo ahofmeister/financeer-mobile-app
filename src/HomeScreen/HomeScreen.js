@@ -112,12 +112,12 @@ const HomeScreen = () => {
             <Pressable
                 // TODO add type here and remove it from next screen
                 className={"rounded text-center"}
-                onPress={() => navigation.navigate(routes.addTransaction)}>
+                onPress={() => navigation.navigate(routes.addTransaction, {transactionType: 'EXPENSE'})}>
                 <FinanceerText className={"bg-expense text-center text-black rounded w-24"}>-</FinanceerText>
             </Pressable>
             <Pressable
                 className={"rounded text-center"}
-                onPress={() => navigation.navigate(routes.addTransaction)}>
+                onPress={() => navigation.navigate(routes.addTransaction, {transactionType: 'INCOME'})}>
                 <FinanceerText className={"bg-income text-center text-black rounded w-24"}>+</FinanceerText>
             </Pressable>
         </View>

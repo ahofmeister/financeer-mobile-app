@@ -32,62 +32,68 @@ const CalendarScreen = ({route}) => {
 
     const callback = route.params.callback;
     const initialDate = route.params.date;
+    const transactionType = route.params.transactionType
 
     const navigation = useNavigation();
 
     const [selectedDate, setSelectedDate] = useState(initialDate)
 
-    return <View className={"w-full bg-neutral"}>
-
-        <View className={"h-20"}>
-            <Pressable onPress={() => navigation.navigate(routes.addTransaction)}>
-                <FinanceerText className={"m-5 text-right"}>X</FinanceerText>
-            </Pressable>
-        </View>
-
-        <Calendar
-            theme={{
-                calendarBackground: theme.extend.colors.neutral,
-                selectedDayBackgroundColor: theme.extend.colors.primary,
-                todayTextColor: theme.extend.colors.primary,
-                dayTextColor: '#2d4150',
-                textDisabledColor: '#d9e1e8',
-                selectedDotColor: theme.extend.colors.neutral,
-                arrowColor: theme.extend.colors.white,
-                disabledArrowColor: '#d9e1e8',
-                monthTextColor: theme.extend.colors.white,
-                indicatorColor: theme.extend.colors.neutral,
-                textDayFontFamily: 'sans',
-                textMonthFontFamily: 'sans',
-                textDayHeaderFontFamily: 'sans',
-                textDayFontWeight: '300',
-                textMonthFontWeight: 'bold',
-                textDayHeaderFontWeight: '300',
-                textDayFontSize: 16,
-                textMonthFontSize: 16,
-                textDayHeaderFontSize: 16
-            }}
-            initialDate={format(selectedDate, 'yyyy-MM-dd')}
-            onDayPress={day => {
-                setSelectedDate(new Date(day.dateString))
-
-            }}
-            monthFormat={'MMMM yyyy'}
-            hideExtraDays={true}
-            disableMonthChange={true}
-            firstDay={1}
-            onPressArrowLeft={subtractMonth => subtractMonth()}
-            onPressArrowRight={addMonth => addMonth()}
-            enableSwipeMonths={true}
-        />
-
+    return <>
         <Pressable onPress={() => {
             callback(selectedDate)
-            return navigation.navigate(routes.addTransaction);
+            return navigation.navigate(routes.addTransaction, {transactionType});
         }}>
-            <FinanceerText className={"w-20 mx-auto rounded-3xl top-36 text-center font-bold text-primary"}>Done</FinanceerText>
+            <FinanceerText
+                className={"w-20 mx-auto font-bold text-primary"}>Done</FinanceerText>
         </Pressable>
-    </View>
+
+
+        <View className={"w-full"}>
+            <View className={"h-20"}>
+                <Pressable onPress={() => navigation.navigate(routes.addTransaction, {transactionType})}>
+                    <FinanceerText className={"m-5 text-right"}>X</FinanceerText>
+                </Pressable>
+            </View>
+
+
+            <Calendar
+                theme={{
+                    calendarBackground: theme.extend.colors.neutral,
+                    selectedDayBackgroundColor: theme.extend.colors.primary,
+                    todayTextColor: theme.extend.colors.primary,
+                    dayTextColor: '#2d4150',
+                    textDisabledColor: '#d9e1e8',
+                    selectedDotColor: theme.extend.colors.neutral,
+                    arrowColor: theme.extend.colors.white,
+                    disabledArrowColor: '#d9e1e8',
+                    monthTextColor: theme.extend.colors.white,
+                    indicatorColor: theme.extend.colors.neutral,
+                    textDayFontFamily: 'sans',
+                    textMonthFontFamily: 'sans',
+                    textDayHeaderFontFamily: 'sans',
+                    textDayFontWeight: '300',
+                    textMonthFontWeight: 'bold',
+                    textDayHeaderFontWeight: '300',
+                    textDayFontSize: 16,
+                    textMonthFontSize: 16,
+                    textDayHeaderFontSize: 16
+                }}
+                initialDate={format(selectedDate, 'yyyy-MM-dd')}
+                onDayPress={day => {
+                    setSelectedDate(new Date(day.dateString))
+
+                }}
+                monthFormat={'MMMM yyyy'}
+                hideExtraDays={true}
+                disableMonthChange={true}
+                firstDay={1}
+                onPressArrowLeft={subtractMonth => subtractMonth()}
+                onPressArrowRight={addMonth => addMonth()}
+                enableSwipeMonths={true}
+            />
+
+        </View>
+    </>
 
 }
 export default CalendarScreen

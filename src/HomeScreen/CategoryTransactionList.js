@@ -7,7 +7,7 @@ const CategoryTransactionList = ({transactions = [], categories, sum = 0, type})
     const transactionsByCategory = groupBy(transactions, categories)
 
     return transactionsByCategory ? (
-        <View className={""}>
+        <View>
             <View className={"flex-row justify-center"}>
                 <TransactionAmount type={type} amount={sum}/>
             </View>

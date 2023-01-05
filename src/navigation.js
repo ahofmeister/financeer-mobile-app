@@ -3,20 +3,21 @@ import {routes} from "routes";
 import {createStackNavigator} from "@react-navigation/stack";
 import {theme} from "../tailwind.config";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import TransactionsScreen from "transactions/TransactionsScreen";
 import HomeScreen from "HomeScreen/HomeScreen";
-import AddTransactionScreen from "transactions/AddTransactionScreen";
-import CalendarScreen from "transactions/CalendarScreen";
-import CategoryScreen from "transactions/CategoryScreen";
-import CategoriesScreen from "categories/CategoriesScreen";
 import FlashMessage from "react-native-flash-message";
 import React from "react";
 import LoginScreen from "auth/LoginScreen";
-import EditCategoryScreen from "categories/EditCategoryScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import ProfileScreen from "profile/ProfileScreen";
 import {useUser} from "auth/AuthContext";
+import AddTransactionScreen from "transactions/AddTransactionScreen";
 import {capitalize} from "StringUtils";
+import CalendarScreen from "transactions/CalendarScreen";
+import ProfileScreen from "profile/ProfileScreen";
+import CategoryScreen from "transactions/CategoryScreen";
+import TransactionsScreen from "transactions/TransactionsScreen";
+import CategoriesScreen from "categories/CategoriesScreen";
+import EditCategoryScreen from "categories/EditCategoryScreen";
+import {View} from "react-native";
 
 
 const FinanceerTheme = {
@@ -40,6 +41,12 @@ const Navigation = ({}) => {
 
     const {user} = useUser()
 
+    const CustomIcon = ({focused, name, color, size}) => {
+        return <View className={`w-full pt-1 items-center border-t-2 ${focused ? 'border-t-primary' : ''}`}>
+            <Ionicons name={name} color={color} size={size}/>
+        </View>
+    }
+
     return (
         <NavigationContainer theme={FinanceerTheme}>
             <FlashMessage position="top"/>
@@ -51,23 +58,23 @@ const Navigation = ({}) => {
                         name="HomeScreen" component={HomeStackScreen} options={{
                         headerShown: false,
                         title: 'Home',
-                        tabBarIcon: ({color, size}) => (
-                            <Ionicons name="home" color={color} size={size}/>
+                        tabBarIcon: ({focused, color, size}) => (
+                            <CustomIcon name="home" focused={focused} color={color} size={size}/>
                         ),
                     }}/>
                     <Tab.Screen name="TransactionsStack" component={TransactionsStackScreen} options={{
                         headerShown: false,
                         title: 'Transactions',
-                        tabBarIcon: ({color, size}) => (
-                            <Ionicons name="stats-chart" color={color} size={size}/>
+                        tabBarIcon: ({focused, color, size}) => (
+                            <CustomIcon name="stats-chart" focused={focused} color={color} size={size}/>
                         ),
 
                     }}/>
                     <Tab.Screen name="CategoriesStack" component={CategoriesStackScreen} options={{
                         headerShown: false,
                         title: 'Categories',
-                        tabBarIcon: ({color, size}) => (
-                            <Ionicons name="ellipsis-horizontal" color={color} size={size}/>
+                        tabBarIcon: ({focused, color, size}) => (
+                            <CustomIcon name="ellipsis-horizontal" focused={focused} color={color} size={size}/>
                         ),
                     }}/>
                 </Tab.Navigator>
@@ -93,7 +100,7 @@ const HomeStackScreen = () => {
 
         />
         <HomeStack.Screen
-            options={({ route }) => ({ title: `Add ${capitalize(route.params.transactionType)}` })}
+            options={({route}) => ({title: `Add ${capitalize(route.params.transactionType)}`})}
             name={routes.addTransaction}
             component={AddTransactionScreen}
         />

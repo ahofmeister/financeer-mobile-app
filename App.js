@@ -1,28 +1,38 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Platform, SafeAreaView, StatusBar, StyleSheet, View} from "react-native";
 import Navigation from "navigation";
 import {theme} from "./tailwind.config";
 import {AuthContextProvider} from "auth/AuthContext";
 
-export default () => (
-    <>
+import * as NavigationBar from 'expo-navigation-bar';
+
+
+export default function () {
+    useEffect(() => {
+        NavigationBar.setBackgroundColorAsync('#101112')
+        NavigationBar.setBorderColorAsync('#101112')
+        NavigationBar.setButtonStyleAsync('light')
+    })
+
+    return <>
         <AuthContextProvider>
-            <MyStatusBar backgroundColor={theme.extend.colors.neutral} barStyle="light-content"/>
+            <MyStatusBar backgroundColor={theme.extend.colors.neutral}/>
             <Navigation/>
         </AuthContextProvider>
-    </>
-)
+    </>;
+}
 
 
-const MyStatusBar = ({backgroundColor, ...props}) => (
-    <>
-        <View style={[styles.statusBar, {backgroundColor}]}>
-            <SafeAreaView>
-                <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-            </SafeAreaView>
-        </View>
-    </>
-);
+const MyStatusBar = ({backgroundColor}) => <>
+    <View style={[styles.statusBar, {backgroundColor}]}>
+        <SafeAreaView>
+            <StatusBar
+                backgroundColor={theme.extend.colors.neutral}
+                barStyle={'light-content'}
+            />
+        </SafeAreaView>
+    </View>
+</>;
 
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;

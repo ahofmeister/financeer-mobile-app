@@ -24,7 +24,7 @@ const ProfileScreen = () => {
         </View>
 
         <View className={"flex-1 my-20 mx-auto justify-center"}>
-            <FinanceerText>{user.user.email}</FinanceerText>
+            <FinanceerText className={"text-sm"}>{user.user.email}</FinanceerText>
             <Pressable onPress={() => supabase.auth.signOut()}><FinanceerText
                 className={"text-primary"}>Logout</FinanceerText></Pressable>
         </View>

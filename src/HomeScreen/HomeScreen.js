@@ -83,16 +83,12 @@ const HomeScreen = () => {
                 <Text className={`font-bold ${route.key === 'expenses' ? 'text-expense' : 'text-income'}`}>
                     {route.title}
                 </Text>}
-            indicatorStyle={
-                {
-                    backgroundColor: state.routes[props.navigationState.index].color
-                }
-            }
-            style={
-                {
-                    backgroundColor: 'transparent'
-                }
-            }
+            indicatorStyle={{
+                backgroundColor: state.routes[props.navigationState.index].color
+            }}
+            style={{
+                backgroundColor: 'transparent'
+            }}
         />
     }
     return <DefaultLayout>

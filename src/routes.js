@@ -5,7 +5,7 @@ export const routes = {
     calendar: 'Calendar',
     categories: 'Categories',
     transactions: 'Transactions',
-    manageCategories: 'Categories',
+    manageCategories: 'Manage Categories',
     editCategory: 'Edit Category',
     profile: 'Profile'
 }

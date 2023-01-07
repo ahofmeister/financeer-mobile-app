@@ -2,15 +2,15 @@ import FinanceerText from "components/FinanceerText";
 import DefaultLayout from "Layout/DefaultLayout";
 import {deleteCategory, fetchCategories, upsertCategory} from "api/backend";
 import {useEffect, useState} from "react";
-import {Button, FlatList, Pressable, View} from "react-native";
+import {FlatList, Pressable, View} from "react-native";
 import {showMessage} from "react-native-flash-message";
 import {isForeignKeyViolation} from "api/error/ErrorUtil";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FinanceerInput from "components/FinanceerInput";
+import {theme} from "../../tailwind.config";
 
 const handleError = error => {
     if (isForeignKeyViolation(error)) {
-        console.log(error)
         return showMessage({
                 message: "Error",
                 description: 'The category cannot be deleted, because it is already used',
@@ -21,7 +21,6 @@ const handleError = error => {
 };
 
 const CategoriesScreen = () => {
-
     const [categories, setCategories] = useState([])
 
     const [editCategory, setEditCategory] = useState();
@@ -31,9 +30,10 @@ const CategoriesScreen = () => {
     }, [editCategory])
 
     const handleSave = (category) => {
-        upsertCategory(category?.id || undefined, category.name).then(x => {
-            if (x.data) {
-                setCategories(...categories, x.data[0])
+        upsertCategory(category?.id || undefined, category.name).then(response => {
+            if (response.data) {
+                showMessage({type: 'success', message: `Category successfully ${category.id ? 'updated' : 'created'}`})
+                setCategories(...categories, response.data[0])
                 setEditCategory(undefined)
             }
         })
@@ -42,48 +42,53 @@ const CategoriesScreen = () => {
 
     if (editCategory) {
         return <DefaultLayout>
-            <FinanceerInput label={"Name"} value={editCategory.name} onChangeText={(text) => {
+            <Pressable className={"items-end mr-3"}
+                       onPress={() => setEditCategory(undefined)}>
+                <Ionicons color={'white'} name="close-outline" size={35}/>
+            </Pressable>
+
+            <FinanceerInput className={"w-11/12 mx-auto"} autoFocus value={editCategory.name} onChangeText={(text) => {
                 setEditCategory({
                     ...editCategory,
                     name: text
                 })
             }
             }/>
-            <Button title={"Save"} onPress={() => handleSave(editCategory, editCategory)}></Button>
 
-            <Pressable className={"bg-primary w-1/2 mx-auto"}
-                       onPress={() => setEditCategory(undefined)}>
-                <FinanceerText className={"font-bold text-secondary text-center"}>Cancel</FinanceerText>
-            </Pressable>
+            <View className={"mt-10"}>
+                <Pressable className={"justify-center w-11/12 mx-auto bg-primary rounded"}
+                           onPress={() => handleSave(editCategory, editCategory)}>
+                    <FinanceerText className={"text-secondary text-center"}>Save</FinanceerText>
+                </Pressable>
+            </View>
         </DefaultLayout>
     }
 
     return <DefaultLayout>
+        <View className={"flex-row justify-between mb-2"}>
+            <FinanceerText className={"ml-3"}>{categories.length} total</FinanceerText>
+            <Pressable className={"mr-3"} onPress={() => setEditCategory({
+                name: ''
+            })}>
+                <Ionicons name={"add-circle"} color={theme.extend.colors.primary} size={30}/>
+            </Pressable>
+        </View>
 
+        <FlatList data={categories} renderItem={({item, index}) => {
+            const isEnd = index === categories.length - 1;
 
-        <Pressable className={"w-1/2 mx-auto"}
-                   onPress={() => setEditCategory({
-                       name: ''
-                   })}>
-            <FinanceerText className={"font-bold text-lila text-center"}>Add Category</FinanceerText>
-        </Pressable>
-
-        <FlatList data={categories} renderItem={({item}) => {
-            return <View className={"flex-row mt-1 w-full justify-between"}>
-                <FinanceerText>{item.name}</FinanceerText>
-                <View className={"flex-row"}>
-                    <Pressable onPress={() => setEditCategory(item)}>
-                        <FinanceerText className={"text-primary mx-5"}>
-                            <Ionicons name={"pencil"} size={15}/>
-                        </FinanceerText>
-                    </Pressable>
-                    <Pressable onPress={() => {
-                        deleteCategory(item.id).then(error => handleError(error))
-                        fetchCategories().then(categories => setCategories(categories))
-                    }}>
-                        <FinanceerText className={"text-primary"}>
-                            <Ionicons name={"trash"} size={15}/>
-                        </FinanceerText>
+            return <View
+                className={`flex-row items-center p-2 mt-1 border-gray border-t-1 ${isEnd ? 'border-b-1' : ''}`}>
+                <Pressable className={"w-10"} onPress={() => {
+                    deleteCategory(item.id).then(error => handleError(error))
+                    fetchCategories().then(categories => setCategories(categories))
+                }}>
+                    <Ionicons name={"trash"} size={20} color={theme.extend.colors.expense}/>
+                </Pressable>
+                <FinanceerText className={"flex-1"}>{item.name}</FinanceerText>
+                <View className={""}>
+                    <Pressable className={"mr-5"} onPress={() => setEditCategory(item)}>
+                        <Ionicons name={"pencil"} size={20} color={theme.extend.colors.income}/>
                     </Pressable>
                 </View>
             </View>

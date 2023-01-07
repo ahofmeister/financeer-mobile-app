@@ -74,7 +74,7 @@ export const upsertCategory = async (id, name) => {
 
     return supabase
         .from('categories')
-        .upsert({id, name, user_id: userId})
+        .upsert({id, name: name.trim(), user_id: userId})
         .select();
 
 }
@@ -91,7 +91,6 @@ export const createTransaction = async (amount, type, datetime, description, cat
         showMessage({
                 message: "Success",
                 type: 'success',
-                position: "center"
             }
         );
     }

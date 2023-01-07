@@ -13,10 +13,9 @@ import AddTransactionScreen from "transactions/AddTransactionScreen";
 import {capitalize} from "StringUtils";
 import CalendarScreen from "transactions/CalendarScreen";
 import ProfileScreen from "profile/ProfileScreen";
-import CategoryScreen from "transactions/CategoryScreen";
+import ChooseCategoryScreen from "transactions/CategoryScreen";
 import TransactionsScreen from "transactions/TransactionsScreen";
 import CategoriesScreen from "categories/CategoriesScreen";
-import EditCategoryScreen from "categories/EditCategoryScreen";
 import {View} from "react-native";
 
 
@@ -49,7 +48,6 @@ const Navigation = ({}) => {
 
     return (
         <NavigationContainer theme={FinanceerTheme}>
-            <FlashMessage position="top"/>
             <Tab.Screen name={"as"} component={LoginScreen}/>
 
             {user ?
@@ -123,8 +121,8 @@ const HomeStackScreen = () => {
 
         <HomeStack.Screen
             name={routes.categories}
-            options={{title: ''}}
-            component={CategoryScreen}
+            options={{title: 'Choose Category'}}
+            component={ChooseCategoryScreen}
         />
 
     </HomeStack.Navigator>;
@@ -151,12 +149,8 @@ const CategoriesStackScreen = () => {
 
         <CategoriesStack.Screen
             name={routes.manageCategories}
+            options={{headerShown: true}}
             component={CategoriesScreen}
-        />
-
-        <CategoriesStack.Screen
-            name={routes.editCategory}
-            component={EditCategoryScreen}
         />
 
     </CategoriesStack.Navigator>

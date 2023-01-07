@@ -6,11 +6,14 @@ module.exports = {
         extend: {
             colors: {
                 income: '#00C9C9',
-                expense: '#C7003F',
+                expense: '#e91e63',
                 primary: '#C74200',
                 neutral: '#101112',
                 white: '#FFFFFF',
                 gray: '#343333',
+            },
+            borderWidth: {
+                1: 1
             }
         }
     },

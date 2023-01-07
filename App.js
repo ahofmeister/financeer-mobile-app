@@ -5,6 +5,7 @@ import {theme} from "./tailwind.config";
 import {AuthContextProvider} from "auth/AuthContext";
 
 import * as NavigationBar from 'expo-navigation-bar';
+import FlashMessage from "react-native-flash-message";
 
 
 export default function () {
@@ -18,8 +19,9 @@ export default function () {
         <AuthContextProvider>
             <MyStatusBar backgroundColor={theme.extend.colors.neutral}/>
             <Navigation/>
+            <FlashMessage position="top"/>
         </AuthContextProvider>
-    </>;
+    </>
 }
 
 

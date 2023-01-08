@@ -74,7 +74,7 @@ const CategoriesScreen = () => {
             </Pressable>
         </View>
 
-        <FlatList data={categories} renderItem={({item, index}) => {
+        <FlatList className={"mb-5"} data={categories} renderItem={({item, index}) => {
             const isEnd = index === categories.length - 1;
 
             return <View

@@ -6,6 +6,7 @@ import {AuthContextProvider} from "auth/AuthContext";
 
 import * as NavigationBar from 'expo-navigation-bar';
 import FlashMessage from "react-native-flash-message";
+import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 
 
 export default function () {
@@ -17,9 +18,11 @@ export default function () {
 
     return <>
         <AuthContextProvider>
-            <MyStatusBar backgroundColor={theme.extend.colors.neutral}/>
-            <Navigation/>
-            <FlashMessage position="top"/>
+            <BottomSheetModalProvider>
+                <MyStatusBar backgroundColor={theme.extend.colors.neutral}/>
+                <Navigation/>
+                <FlashMessage position="top"/>
+            </BottomSheetModalProvider>
         </AuthContextProvider>
     </>
 }

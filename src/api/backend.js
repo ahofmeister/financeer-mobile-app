@@ -1,7 +1,6 @@
 import 'react-native-url-polyfill/auto'
 import {lastDayOfMonth, startOfMonth} from "date-fns";
 import supabase from "supabase";
-import {showMessage} from "react-native-flash-message";
 
 
 export const fetchExpenses = async (date) => {
@@ -80,18 +79,12 @@ export const upsertCategory = async (id, name) => {
 }
 
 
-export const createTransaction = async (amount, type, datetime, description, category) => {
+export const createTransaction = async (id, amount, type, datetime, description, category) => {
     const {data} = await supabase.auth.getUser()
-    const {error} = await supabase
+    return supabase
         .from('transactions')
-        .insert({amount, type, datetime, description, category, user_id: data.user.id})
+        .upsert({id, amount, type, datetime, description, category, user_id: data.user.id})
+        .select()
 
 
-    if (!error) {
-        showMessage({
-                message: "Success",
-                type: 'success',
-            }
-        );
-    }
 }

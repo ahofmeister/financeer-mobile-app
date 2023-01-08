@@ -1,10 +1,12 @@
 import DefaultLayout from "Layout/DefaultLayout";
-import {SectionList, View} from "react-native";
+import {Pressable, SectionList, View} from "react-native";
 import {fetchTransactions} from "api/backend";
 import {useEffect, useState} from "react";
 import MonthPicker from "transactions/MonthPicker";
 import FinanceerText from "components/FinanceerText";
 import TransactionAmount from "transactions/TransactionAmount";
+import {useNavigation} from "@react-navigation/native";
+import {routes} from "routes";
 
 const TransactionsScreen = () => {
 
@@ -12,14 +14,15 @@ const TransactionsScreen = () => {
 
     const [transactions, setTransactions] = useState([]);
 
+    const navigation = useNavigation();
+
     useEffect(() => {
-        fetchTransactions(currentDate).then((response) =>
-            setTransactions(groupTransactionsByDate(response)))
+        fetchTransactions(currentDate).then((response) => setTransactions(groupTransactionsByDate(response)))
     }, [currentDate])
 
 
     let renderSectionHeader = ({section: {datetime}}) => {
-        return <FinanceerText className={"text-sm text-primary text-center mb-3"}>{datetime}</FinanceerText>;
+        return <FinanceerText className={"text-sm text-primary text-left mb-3"}>{datetime}</FinanceerText>;
     }
 
     return <DefaultLayout>
@@ -28,14 +31,17 @@ const TransactionsScreen = () => {
         <SectionList
             keyExtractor={(item, index) => item + index}
             renderSectionHeader={renderSectionHeader}
-            className={"mt-5"} sections={transactions} renderItem={({item}) => {
-            return <View className={"flex-row h-10 w-full justify-between"}>
-                <FinanceerText className={"text-sm w-30"}>{item.category.name}</FinanceerText>
-                <FinanceerText className={"text-sm w-20"}>{item.description}</FinanceerText>
-                <TransactionAmount className={"text-sm"} type={item.type} amount={item.amount}/>
-            </View>
-        }
-        }/>
+            className={"m-3"} sections={transactions} renderItem={({item}) => {
+            return <Pressable onPress={() => navigation.navigate(routes.transaction, {
+                transaction: item
+            })}>
+                <View className={"flex-row h-10 w-full justify-between"}>
+                    <FinanceerText className={"text-sm w-30"}>{item.category.name}</FinanceerText>
+                    <FinanceerText className={"text-sm w-20"}>{item.description}</FinanceerText>
+                    <TransactionAmount className={"text-sm"} type={item.type} amount={item.amount}/>
+                </View>
+            </Pressable>
+        }}/>
 
     </DefaultLayout>
 }

@@ -17,7 +17,7 @@ const MonthPicker = function ({callBack, currentDate}) {
         setPreviousDate(subMonths(currentDate, 1))
     }, [currentDate])
 
-    return <View className={"flex-row items-center justify-around mt-5"}>
+    return <View className={"flex-row items-center justify-around"}>
         <Pressable onPress={() => callBack(previousDate)}>
             <FinanceerText className={"text-gray"}>{format(subMonths(currentDate, 1), 'MMMM')}</FinanceerText>
             <FinanceerText className={"text-gray text-center"}> {currentDate.getFullYear()}</FinanceerText>

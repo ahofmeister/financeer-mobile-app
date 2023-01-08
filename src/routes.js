@@ -1,7 +1,7 @@
 export const routes = {
     home: 'Home',
     login: 'Login',
-    addTransaction: 'Add Transaction',
+    transaction: 'Transaction',
     calendar: 'Calendar',
     categories: 'Categories',
     transactions: 'Transactions',

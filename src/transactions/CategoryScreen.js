@@ -21,13 +21,13 @@ const CategoryScreen = ({route}) => {
     }, [])
 
     return <>
-        <View className={"flex-row flex-wrap align-text-bottom"}>
+        <View className={"flex-row flex-wrap"}>
             {categories.map((item) => {
 
                 return <View className={"w-1/3 border-gray border-1 h-20 justify-center"}>
                     <Pressable onPress={() => {
                         callback(item)
-                        return navigation.navigate(routes.addTransaction, {
+                        return navigation.navigate(routes.transaction, {
                             transactionType
                         });
                     }}>

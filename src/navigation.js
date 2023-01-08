@@ -1,22 +1,20 @@
-import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
+import {DefaultTheme, NavigationContainer, useNavigation} from "@react-navigation/native";
 import {routes} from "routes";
 import {createStackNavigator} from "@react-navigation/stack";
 import {theme} from "../tailwind.config";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import HomeScreen from "HomeScreen/HomeScreen";
-import FlashMessage from "react-native-flash-message";
 import React from "react";
 import LoginScreen from "auth/LoginScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {useUser} from "auth/AuthContext";
-import AddTransactionScreen from "transactions/AddTransactionScreen";
 import {capitalize} from "StringUtils";
 import CalendarScreen from "transactions/CalendarScreen";
-import ProfileScreen from "profile/ProfileScreen";
 import ChooseCategoryScreen from "transactions/CategoryScreen";
 import TransactionsScreen from "transactions/TransactionsScreen";
+import {Pressable, View} from "react-native";
+import TransactionView from "transactions/TransactionView";
 import CategoriesScreen from "categories/CategoriesScreen";
-import {View} from "react-native";
+import FinanceerText from "components/FinanceerText";
 
 
 const FinanceerTheme = {
@@ -35,37 +33,21 @@ const FinanceerTheme = {
 const Navigation = ({}) => {
 
     const Tab = createBottomTabNavigator();
-
     const Stack = createStackNavigator();
-
     const {user} = useUser()
-
-    const CustomIcon = ({focused, name, color, size}) => {
-        return <View className={`w-full pt-1 items-center border-t-2 ${focused ? 'border-t-primary' : ''}`}>
-            <Ionicons name={name} color={color} size={size}/>
-        </View>
-    }
 
     return (
         <NavigationContainer theme={FinanceerTheme}>
-            <Tab.Screen name={"as"} component={LoginScreen}/>
-
             {user ?
-                <Tab.Navigator>
-                    <Tab.Screen
-                        name="HomeScreen" component={HomeStackScreen} options={{
-                        headerShown: false,
-                        title: 'Home',
-                        tabBarIcon: ({focused, color, size}) => (
-                            <CustomIcon name="home" focused={focused} color={color} size={size}/>
-                        ),
-                    }}/>
+                <Tab.Navigator screenOptions={{
+                    tabBarHideOnKeyboard: true
+                }}>
                     <Tab.Screen name="TransactionsStack" component={TransactionsStackScreen} options={{
                         headerShown: false,
                         title: 'Transactions',
                         tabBarIcon: ({focused, color, size}) => (
                             <CustomIcon name="stats-chart" focused={focused} color={color} size={size}/>
-                        ),
+                        )
 
                     }}/>
                     <Tab.Screen name="CategoriesStack" component={CategoriesStackScreen} options={{
@@ -85,67 +67,63 @@ const Navigation = ({}) => {
     )
 }
 
-const HomeStackScreen = () => {
+const TransactionsStackScreen = () => {
+    const TransactionsStack = createStackNavigator();
+    const navigation = useNavigation();
 
-    const HomeStack = createStackNavigator();
+    return <TransactionsStack.Navigator screenOptions={{
+        headerStyle: {
+            borderBottomColor: theme.extend.colors.primary,
+            borderBottomWidth: 1
+        }
+    }}>
 
-    return <HomeStack.Navigator>
-
-        <HomeStack.Screen
-            name={routes.home}
-            options={{headerShown: false}}
-            component={HomeScreen}
-
+        <TransactionsStack.Screen
+            name={routes.transactions}
+            component={TransactionsScreen} options={{
+            headerRight: () => {
+                return <Pressable
+                    className={"self-right"}
+                    onPress={() => navigation.navigate(routes.transaction)}>
+                    <FinanceerText className={""}>
+                        <Ionicons name={"add"} color={theme.extend.colors.primary} size={30}/>
+                    </FinanceerText>
+                </Pressable>
+            }
+        }}
         />
-        <HomeStack.Screen
-            options={({route}) => ({title: `Add ${capitalize(route.params.transactionType)}`})}
-            name={routes.addTransaction}
-            component={AddTransactionScreen}
+
+        <TransactionsStack.Screen
+            options={({route}) => ({ title: `${capitalize('Expense')}`, tabBarStyle: { display: "" }})}
+            name={routes.transaction}
+            component={TransactionView}
         />
 
-        <HomeStack.Screen
+        <TransactionsStack.Screen
             name={routes.calendar}
             options={{title: ''}}
             component={CalendarScreen}
         />
 
-        <HomeStack.Screen
-            name={routes.profile}
-            options={{
-                headerShown: false,
-                presentation: 'modal',
-                animationTypeForReplace: 'push'
-            }}
-            component={ProfileScreen}
-        />
-
-        <HomeStack.Screen
+        <TransactionsStack.Screen
             name={routes.categories}
             options={{title: 'Choose Category'}}
             component={ChooseCategoryScreen}
         />
 
-    </HomeStack.Navigator>;
-
-};
-
-const TransactionsStackScreen = () => {
-    const TransactionsStack = createStackNavigator();
-
-    return <TransactionsStack.Navigator>
-
-        <TransactionsStack.Screen
-            name={routes.transactions}
-            component={TransactionsScreen}
-        />
-
     </TransactionsStack.Navigator>
 }
+
 
 const CategoriesStackScreen = () => {
     const CategoriesStack = createStackNavigator();
 
-    return <CategoriesStack.Navigator>
+    return <CategoriesStack.Navigator screenOptions={{
+        headerStyle: {
+            borderBottomColor: theme.extend.colors.primary,
+            borderBottomWidth: 1
+        }
+    }}>
 
         <CategoriesStack.Screen
             name={routes.manageCategories}
@@ -157,3 +135,10 @@ const CategoriesStackScreen = () => {
 }
 
 export default Navigation
+
+const CustomIcon = ({focused, name, color, size}) => {
+    return <View className={`w-full pt-1 items-center border-t-1 ${focused ? 'border-t-primary' : ''}`}>
+        <Ionicons name={name} color={color} size={size}/>
+    </View>
+}
+

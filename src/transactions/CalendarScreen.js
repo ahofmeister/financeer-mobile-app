@@ -41,7 +41,7 @@ const CalendarScreen = ({route}) => {
     return <>
         <Pressable onPress={() => {
             callback(selectedDate)
-            return navigation.navigate(routes.addTransaction, {transactionType});
+            return navigation.navigate(routes.transaction, {transactionType});
         }}>
             <FinanceerText
                 className={"w-20 mx-auto font-bold text-primary"}>Done</FinanceerText>
@@ -50,11 +50,10 @@ const CalendarScreen = ({route}) => {
 
         <View className={"w-full"}>
             <View className={"h-20"}>
-                <Pressable onPress={() => navigation.navigate(routes.addTransaction, {transactionType})}>
+                <Pressable onPress={() => navigation.navigate(routes.transaction, {transactionType})}>
                     <FinanceerText className={"m-5 text-right"}>X</FinanceerText>
                 </Pressable>
             </View>
-
 
             <Calendar
                 theme={{

@@ -36,9 +36,11 @@ const TransactionsScreen = () => {
                 transaction: item
             })}>
                 <View className={"flex-row h-10 w-full justify-between"}>
-                    <FinanceerText className={"text-sm w-30"}>{item.category.name}</FinanceerText>
-                    <FinanceerText className={"text-sm w-20"}>{item.description}</FinanceerText>
-                    <TransactionAmount className={"text-sm"} type={item.type} amount={item.amount}/>
+                    <FinanceerText numberOfLines={1} ellipsizeMode={'tail'}
+                                   className={"w-24"}>{item.category.name}</FinanceerText>
+                    <FinanceerText numberOfLines={1} ellipsizeMode={'tail'}
+                                   className={"ml-3 flex-1"}>{item.description}</FinanceerText>
+                    <TransactionAmount className={"w-20 text-right"} type={item.type} amount={item.amount}/>
                 </View>
             </Pressable>
         }}/>

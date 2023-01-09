@@ -15,6 +15,7 @@ import {Pressable, View} from "react-native";
 import TransactionView from "transactions/TransactionView";
 import CategoriesScreen from "categories/CategoriesScreen";
 import FinanceerText from "components/FinanceerText";
+import ProfileScreen from "profile/ProfileScreen";
 
 
 const FinanceerTheme = {
@@ -57,6 +58,13 @@ const Navigation = ({}) => {
                             <CustomIcon name="ellipsis-horizontal" focused={focused} color={color} size={size}/>
                         ),
                     }}/>
+                    <Tab.Screen name="Profile" component={ProfileStack} options={{
+                        title: 'Profile',
+                        headerShown: false,
+                        tabBarIcon: ({focused, color, size}) => (
+                            <CustomIcon name="person" focused={focused} color={color} size={size}/>
+                        ),
+                    }}/>
                 </Tab.Navigator>
                 :
                 <Stack.Navigator>
@@ -94,7 +102,7 @@ const TransactionsStackScreen = () => {
         />
 
         <TransactionsStack.Screen
-            options={({route}) => ({ title: `${capitalize('Expense')}`, tabBarStyle: { display: "" }})}
+            options={({route}) => ({title: `${capitalize('Expense')}`, tabBarStyle: {display: ""}})}
             name={routes.transaction}
             component={TransactionView}
         />
@@ -114,6 +122,24 @@ const TransactionsStackScreen = () => {
     </TransactionsStack.Navigator>
 }
 
+
+const ProfileStack = () => {
+    const ProfileStack = createStackNavigator();
+
+    return <ProfileStack.Navigator screenOptions={{
+        headerStyle: {
+            borderBottomColor: theme.extend.colors.primary,
+            borderBottomWidth: 1
+        }
+    }}>
+
+        <ProfileStack.Screen
+            name={routes.profile}
+            component={ProfileScreen}
+        />
+
+    </ProfileStack.Navigator>
+}
 
 const CategoriesStackScreen = () => {
     const CategoriesStack = createStackNavigator();

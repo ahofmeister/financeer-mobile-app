@@ -71,7 +71,7 @@ const HomeScreen = () => {
         {key: 'expenses', title: 'Expenses', color: theme.extend.colors.expense},
         {key: 'incomes', title: 'Incomes', color: theme.extend.colors.income},
     ]);
-    const renderTabBar = function (props) {
+    const renderTabBar = props => {
 
         let state = props.navigationState;
         return <TabBar
@@ -83,12 +83,12 @@ const HomeScreen = () => {
                 <Text className={`font-bold ${route.key === 'expenses' ? 'text-expense' : 'text-income'}`}>
                     {route.title}
                 </Text>}
-            indicatorStyle={{
+            indicator   style={{
+            backgroundColor: 'transparent'
+        }}Style={{
                 backgroundColor: state.routes[props.navigationState.index].color
             }}
-            style={{
-                backgroundColor: 'transparent'
-            }}
+
         />
     }
     return <DefaultLayout>

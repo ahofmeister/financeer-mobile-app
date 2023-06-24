@@ -1,19 +1,22 @@
 import React, {useState} from "react";
-import * as Linking from "expo-linking";
 import {Pressable, View} from "react-native";
 import supabase from "supabase";
-import FinanceerInput from "components/FinanceerInput";
 import {showMessage} from "react-native-flash-message";
 import FinanceerText from "components/FinanceerText";
+import {routes} from "routes";
+import * as Linking from "expo-linking";
+import {useNavigation} from "@react-navigation/native";
+import FinanceerInput from "components/FinanceerInput";
 
-
-const LoginScreen = () => {
+const LoginMagicLinkScreen = () => {
 
     const [email, setEmail] = useState()
+    const navigation = useNavigation()
+
     const [isSending, setSending] = useState(false);
     const [sentEmail, setSentEmail] = useState('')
 
-    async function sendMagicLink(email) {
+    const sendMagicLink = async email => {
         let redirectURL = Linking.createURL("/SignIn");
 
         if (!email) {
@@ -37,7 +40,6 @@ const LoginScreen = () => {
 
         if (result.error) {
             showMessage({description: result.error.message, message: "Could not sent email", type: "danger"})
-            console.log(JSON.stringify(result))
         } else {
             setSentEmail(email)
         }
@@ -46,12 +48,10 @@ const LoginScreen = () => {
     return (
         <>
             <View className={"items-center w-5/6 mx-auto"}>
-                <FinanceerText>Logo place holder</FinanceerText>
-                <FinanceerText className={"font-bold"}>Heya!</FinanceerText>
-                <FinanceerText>Welcome to Financeer</FinanceerText>
-
                 <FinanceerText className={"text-sm"}>We are using Magic Links in order to sign you up and
                     in.</FinanceerText>
+
+
                 <FinanceerInput className={"w-3/4 mx-auto"}
                                 value={email}
                                 autoCapitalize="none"
@@ -59,7 +59,6 @@ const LoginScreen = () => {
                                 placeholder="Enter your email address"
                                 onChangeText={setEmail}
                 />
-
 
                 <Pressable className={"mx-auto"} disabled={isSending}
                            onPress={() => sendMagicLink(email)}>
@@ -73,10 +72,18 @@ const LoginScreen = () => {
                         We have sent an email with the Magic Link to {sentEmail}.
                     </FinanceerText>}
 
+                <Pressable className={"mx-auto"}
+                           onPress={() => navigation.navigate(routes.login.loginPassword)}>
+                    <FinanceerText className={"text-primary mt-5"}>
+                        Wanna have a pw?
+                    </FinanceerText>
+                </Pressable>
+
+
             </View>
         </>
     )
 
 }
 
-export default LoginScreen
+export default LoginMagicLinkScreen

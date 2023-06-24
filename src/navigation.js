@@ -4,7 +4,7 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {theme} from "../tailwind.config";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import React from "react";
-import LoginScreen from "auth/LoginScreen";
+import LoginMagicLinkScreen from "auth/LoginMagicLinkScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {useUser} from "auth/AuthContext";
 import {capitalize} from "StringUtils";
@@ -16,6 +16,9 @@ import TransactionView from "transactions/TransactionView";
 import CategoriesScreen from "categories/CategoriesScreen";
 import FinanceerText from "components/FinanceerText";
 import ProfileScreen from "profile/ProfileScreen";
+import LoginPasswordScreen from "auth/LoginPasswordScreen";
+import {WelcomeScreen} from "auth/WelcomeScreen";
+import {RegisterScreen} from "auth/RegisterScreen";
 
 
 const FinanceerTheme = {
@@ -58,6 +61,20 @@ const Navigation = ({}) => {
                             <CustomIcon name="ellipsis-horizontal" focused={focused} color={color} size={size}/>
                         ),
                     }}/>
+
+                    {/*<Tab.Screen name="Pay" component={TransactionsScreen} options={{*/}
+                    {/*    tabBarButton: () => (<CreateTransactionButton/>),*/}
+                    {/*}}/>*/}
+
+                    <Tab.Screen name="Placeholder" component={ProfileStack} options={{
+                        title: 'Placeholder',
+                        headerShown: false,
+                        tabBarIcon: ({focused, color, size}) => (
+                            <CustomIcon name="person" focused={focused} color={color} size={size}/>
+                        ),
+                    }}/>
+
+
                     <Tab.Screen name="Profile" component={ProfileStack} options={{
                         title: 'Profile',
                         headerShown: false,
@@ -65,14 +82,34 @@ const Navigation = ({}) => {
                             <CustomIcon name="person" focused={focused} color={color} size={size}/>
                         ),
                     }}/>
+
+
                 </Tab.Navigator>
                 :
                 <Stack.Navigator>
-                    <Stack.Screen name="Login" component={LoginScreen} options={{title: ''}}/>
+                    <Stack.Screen name={routes.welcome} component={WelcomeScreen} options={{title: ''}}/>
+                    <Stack.Screen name={routes.register} component={RegisterScreen} options={{title: ''}}/>
+                    <Stack.Screen name="LoginMagicLink" component={LoginMagicLinkScreen}
+                                  options={{title: ''}}/>
+                    <Stack.Screen name="LoginPassword" component={LoginPasswordScreen}
+                                  options={{title: ''}}/>
                 </Stack.Navigator>
             }
         </NavigationContainer>
     )
+}
+
+const CreateTransactionButton = () => {
+    const navigation = useNavigation();
+    return <Pressable onPress={() => navigation.navigate(routes.transaction, {})}>
+        <View
+            className={'w-11 h-11 mt-2 justify-center  self-center aspect-square rounded-full border-primary border-1'}>
+
+            <Ionicons name={"add"} size={44} color={theme.extend.colors.primary}
+                      className={""}></Ionicons>
+
+        </View>
+    </Pressable>
 }
 
 const TransactionsStackScreen = () => {
@@ -85,7 +122,6 @@ const TransactionsStackScreen = () => {
             borderBottomWidth: 1
         }
     }}>
-
         <TransactionsStack.Screen
             name={routes.transactions}
             component={TransactionsScreen} options={{
@@ -93,7 +129,7 @@ const TransactionsStackScreen = () => {
                 return <Pressable
                     className={"self-right"}
                     onPress={() => navigation.navigate(routes.transaction)}>
-                    <FinanceerText className={""}>
+                    <FinanceerText>
                         <Ionicons name={"add"} color={theme.extend.colors.primary} size={30}/>
                     </FinanceerText>
                 </Pressable>

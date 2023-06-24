@@ -21,18 +21,14 @@ const TransactionsScreen = () => {
     }, [currentDate])
 
 
-    let renderSectionHeader = ({section: {datetime}}) => {
-        return <FinanceerText className={"text-sm text-primary text-left mb-3"}>{datetime}</FinanceerText>;
-    }
-
     return <DefaultLayout>
         <MonthPicker callBack={setCurrentDate} currentDate={currentDate}/>
 
         <SectionList
             keyExtractor={(item, index) => item + index}
-            renderSectionHeader={renderSectionHeader}
-            className={"m-3"} sections={transactions} renderItem={({item}) => {
-            return <Pressable onPress={() => navigation.navigate(routes.transaction, {
+            renderSectionHeader={SectionHeader}
+            className={"m-3"} sections={transactions} renderItem={({item}) =>
+            <Pressable onPress={() => navigation.navigate(routes.transaction, {
                 transaction: item
             })}>
                 <View className={"flex-row h-10 w-full justify-between"}>
@@ -42,11 +38,13 @@ const TransactionsScreen = () => {
                                    className={"ml-3 flex-1"}>{item.description}</FinanceerText>
                     <TransactionAmount className={"w-20 text-right"} type={item.type} amount={item.amount}/>
                 </View>
-            </Pressable>
-        }}/>
+            </Pressable>}/>
 
     </DefaultLayout>
 }
+
+const SectionHeader = ({section: {datetime}}) => <FinanceerText
+    className={"text-sm text-primary text-left mb-3"}>{datetime}</FinanceerText>
 
 const groupTransactionsByDate = (transactions = []) => {
     transactions = sortByDatetime(transactions)

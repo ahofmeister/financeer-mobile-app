@@ -5,11 +5,11 @@ import supabase from "supabase";
 
 export const fetchExpenses = async (date) => {
     return fetchTransactionsByType(date, 'EXPENSE')
-};
+}
 
 export const fetchIncomes = async (date) => {
     return fetchTransactionsByType(date, 'INCOME')
-};
+}
 
 export const fetchTransactionsByType = async (date, type) => {
     let monthYear = `${date.getFullYear()}-${date.getMonth() + 1}`;
@@ -29,7 +29,7 @@ export const fetchTransactionsByType = async (date, type) => {
     }
 
     return data
-};
+}
 
 export const fetchTransactions = async (date) => {
     let monthYear = `${date.getFullYear()}-${date.getMonth() + 1}`;
@@ -48,7 +48,7 @@ export const fetchTransactions = async (date) => {
     }
 
     return data
-};
+}
 
 export const fetchCategories = async () => {
     const {data, error} = await supabase.from('categories').select('*')
@@ -58,7 +58,7 @@ export const fetchCategories = async () => {
     }
 
     return data
-};
+}
 
 export const deleteCategory = async (id) => {
     const {error} = await supabase.from('categories').delete(id).eq('id', id)
@@ -74,10 +74,7 @@ export const upsertCategory = async (id, name) => {
     return supabase
         .from('categories')
         .upsert({id, name: name.trim(), user_id: userId})
-        .select();
-
 }
-
 
 export const createTransaction = async (id, amount, type, datetime, description, category) => {
     const {data} = await supabase.auth.getUser()
@@ -85,6 +82,4 @@ export const createTransaction = async (id, amount, type, datetime, description,
         .from('transactions')
         .upsert({id, amount, type, datetime, description, category, user_id: data.user.id})
         .select()
-
-
 }

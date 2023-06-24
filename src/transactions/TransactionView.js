@@ -32,7 +32,6 @@ const TransactionView = ({route}) => {
 
         useEffect(() => {
             fetchCategories().then(response => {
-                console.log(response)
                 setCategories(response.map((item) => ({id: item.id, name: item.name})))
             })
 

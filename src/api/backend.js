@@ -83,3 +83,7 @@ export const createTransaction = async (id, amount, type, datetime, description,
         .upsert({id, amount, type, datetime, description, category, user_id: data.user.id})
         .select()
 }
+
+export const deleteTransaction = async (id) => {
+    return supabase.from('transactions').delete(id).eq('id', id);
+}

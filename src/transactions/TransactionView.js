@@ -1,6 +1,6 @@
 import {Pressable, ScrollView, StyleSheet, View} from "react-native";
 import {useEffect, useMemo, useRef, useState} from "react";
-import {createTransaction, fetchCategories} from "api/backend";
+import {createTransaction, deleteTransaction, fetchCategories} from "api/backend";
 import {useNavigation} from "@react-navigation/native";
 import {capitalize} from "StringUtils";
 import {BottomSheetBackdrop, BottomSheetModal} from "@gorhom/bottom-sheet";
@@ -37,6 +37,10 @@ const TransactionView = ({route}) => {
             })
 
         }, [])
+
+        if (id) {
+            console.log(id)
+        }
 
         const snapPoints = useMemo(() => ["50"], []);
 
@@ -146,6 +150,30 @@ const TransactionView = ({route}) => {
                         );
                     }
                 }}/>
+
+                {id &&
+                    <View className={"mt-5"}>
+                        <Button classNames={"bg-expense"} label={"Delete"} onPress={async () => {
+                            const {data, error} = await deleteTransaction(id)
+                            if (error) {
+                                showMessage({
+                                        message: error.message,
+                                        type: 'danger',
+                                    }
+                                );
+                            }else {
+                                showMessage({
+                                        message: "Success",
+                                        type: 'success',
+                                    }
+                                );
+                                navigation.navigate(routes.transactions)
+                            }
+
+                        }}/>
+                    </View>
+                }
+
             </View>
         </ScrollView>
 

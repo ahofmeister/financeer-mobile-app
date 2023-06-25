@@ -24,7 +24,7 @@ const TransactionsScreen = () => {
     return <DefaultLayout>
         <MonthPicker callBack={setCurrentDate} currentDate={currentDate}/>
 
-        <SectionList
+        <SectionList bounces={false}
             keyExtractor={(item, index) => item + index}
             renderSectionHeader={SectionHeader}
             className={"m-3"} sections={transactions} renderItem={({item}) =>
@@ -36,7 +36,7 @@ const TransactionsScreen = () => {
                                    className={"w-24"}>{item.category.name}</FinanceerText>
                     <FinanceerText numberOfLines={1} ellipsizeMode={'tail'}
                                    className={"ml-3 flex-1"}>{item.description}</FinanceerText>
-                    <TransactionAmount className={"w-20 text-right"} type={item.type} amount={item.amount}/>
+                    <TransactionAmount className={"w-24 text-right"} type={item.type} amount={item.amount}/>
                 </View>
             </Pressable>}/>
 

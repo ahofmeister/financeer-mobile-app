@@ -8,12 +8,13 @@ import {isForeignKeyViolation} from "api/error/ErrorUtil";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FinanceerInput from "components/FinanceerInput";
 import {theme} from "../../tailwind.config";
+import Button from "components/Button";
 
 const handleError = error => {
     if (isForeignKeyViolation(error)) {
         return showMessage({
                 message: "Error",
-                description: 'The category cannot be deleted, because it is already used',
+                description: 'The category cannot be deleted, because it is still in use',
                 type: 'danger'
             }
         );
@@ -56,10 +57,7 @@ const CategoriesScreen = () => {
             }/>
 
             <View className={"mt-10"}>
-                <Pressable className={"justify-center w-11/12 mx-auto bg-primary rounded"}
-                           onPress={() => handleSave(editCategory, editCategory)}>
-                    <FinanceerText className={"text-secondary text-center"}>Save</FinanceerText>
-                </Pressable>
+                <Button label={"Save"} onPress={() => handleSave(editCategory, editCategory)}/>
             </View>
         </DefaultLayout>
     }

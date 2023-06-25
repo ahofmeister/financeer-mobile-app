@@ -9,8 +9,9 @@ import {showMessage} from "react-native-flash-message";
 import {routes} from "routes";
 import FinanceerInput from "components/FinanceerInput";
 import {theme} from "../../tailwind.config";
+import Button from "components/Button";
+import FakeCurrencyInput from "components/currency/FakeCurrencyInput";
 import {format} from "date-fns";
-
 
 const TransactionView = ({route}) => {
         const sheetRef = useRef(null);
@@ -19,7 +20,7 @@ const TransactionView = ({route}) => {
 
         const [id, setId] = useState(transaction ? transaction.id : undefined)
         const [type, setType] = useState(transaction ? transaction.type : 'EXPENSE')
-        const [amount, setAmount] = useState(transaction ? String(transaction.amount) : '')
+        const [amount, setAmount] = useState(transaction ? transaction.amount : 0)
         const [description, setDescription] = useState(transaction ? transaction.description : '')
         const [date, setDate] = useState(transaction ? new Date(transaction.datetime) : new Date())
         const [category, setCategory] = useState(transaction ? transaction.category : {})
@@ -53,7 +54,7 @@ const TransactionView = ({route}) => {
                 <ScrollView className={"bg-neutral"}>
                     <View className={"flex-row flex-wrap"}>
                         {categories.map((item) =>
-                            <View className={"w-1/3 h-20 border-gray border-1"}>
+                            <View key={item.name} className={"w-1/3 h-20 border-gray border-1"}>
                                 <Pressable className={"h-full justify-center"} onPress={() => {
                                     setCategory(item)
                                     sheetRef.current.close()
@@ -84,14 +85,13 @@ const TransactionView = ({route}) => {
             </View>
 
             <View className={"m-3"}>
-                <FinanceerInput
-                    label={"Amount"}
-                    className={"mt-1 text-white h-10"}
-                    keyboardType={'phone-pad'}
-                    placeholderTextColor="white"
-                    value={amount}
-                    onChangeText={setAmount}
-                />
+                <View className={"flex items-center"}>
+                    <FakeCurrencyInput inputClassName={"text-4xl font-bold"}
+                                       prefix={"€"}
+                                       value={amount}
+                                       onChangeValue={setAmount}
+                    />
+                </View>
                 <View className={"mt-5"}>
                     <FinanceerInput label={"Description"}
                                     className={"mt-1 text-white h-10"}
@@ -124,33 +124,28 @@ const TransactionView = ({route}) => {
                     </Pressable>
                 </View>
 
-                <Pressable
-                    className={"bg-secondary rounded text-center mt-0"}
-                    onPress={async () => {
-                        const {
-                            data,
-                            error
-                        } = await createTransaction(id || undefined, amount, type, date.toISOString(), description, category.id)
-                        if (data) {
-                            showMessage({
-                                    message: "Success",
-                                    type: 'success',
-                                }
-                            );
-                            navigation.navigate(routes.transactions)
-                        }
+                <Button label={"Save"} onPress={async () => {
+                    const {
+                        data,
+                        error
+                    } = await createTransaction(id || undefined, amount, type, date.toISOString(), description, category.id)
+                    if (data) {
+                        showMessage({
+                                message: "Success",
+                                type: 'success',
+                            }
+                        );
+                        navigation.navigate(routes.transactions)
+                    }
 
-                        if (error) {
-                            showMessage({
-                                    message: error.message,
-                                    type: 'danger',
-                                }
-                            );
-                        }
-                    }}>
-                    <FinanceerText
-                        className={"w-11/12 h-15 rounded mx-auto mt-2 text-center bg-primary"}>Save</FinanceerText>
-                </Pressable>
+                    if (error) {
+                        showMessage({
+                                message: error.message,
+                                type: 'danger',
+                            }
+                        );
+                    }
+                }}/>
             </View>
         </ScrollView>
 

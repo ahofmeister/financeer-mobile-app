@@ -38,10 +38,6 @@ const TransactionView = ({route}) => {
 
         }, [])
 
-        if (id) {
-            console.log(id)
-        }
-
         const snapPoints = useMemo(() => ["50"], []);
 
         return <ScrollView>
@@ -154,14 +150,14 @@ const TransactionView = ({route}) => {
                 {id &&
                     <View className={"mt-5"}>
                         <Button classNames={"bg-expense"} label={"Delete"} onPress={async () => {
-                            const {data, error} = await deleteTransaction(id)
+                            const {error} = await deleteTransaction(id)
                             if (error) {
                                 showMessage({
                                         message: error.message,
                                         type: 'danger',
                                     }
                                 );
-                            }else {
+                            } else {
                                 showMessage({
                                         message: "Success",
                                         type: 'success',

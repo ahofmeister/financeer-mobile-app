@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import MonthPicker from "transactions/MonthPicker";
 import FinanceerText from "components/FinanceerText";
 import TransactionAmount from "transactions/TransactionAmount";
-import {useNavigation} from "@react-navigation/native";
+import {useIsFocused, useNavigation} from "@react-navigation/native";
 import {routes} from "routes";
 
 const TransactionsScreen = () => {
@@ -15,6 +15,14 @@ const TransactionsScreen = () => {
     const [transactions, setTransactions] = useState([]);
 
     const navigation = useNavigation();
+
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        if (isFocused) {
+            fetchTransactions(currentDate).then((response) => setTransactions(groupTransactionsByDate(response)))
+        }
+    }, [isFocused]);
 
     useEffect(() => {
         fetchTransactions(currentDate).then((response) => setTransactions(groupTransactionsByDate(response)))

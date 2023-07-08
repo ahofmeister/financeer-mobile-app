@@ -76,11 +76,11 @@ export const upsertCategory = async (id, name) => {
         .upsert({id, name: name.trim(), user_id: userId})
 }
 
-export const createTransaction = async (id, amount, type, datetime, description, category) => {
+export const createTransaction = async (id, amount, datetime, description, category) => {
     const {data} = await supabase.auth.getUser()
     return supabase
         .from('transactions')
-        .upsert({id, amount, type, datetime, description, category, user_id: data.user.id})
+        .upsert({id, amount, datetime, description, category, user_id: data.user.id})
         .select()
 }
 

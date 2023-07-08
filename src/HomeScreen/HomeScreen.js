@@ -11,7 +11,7 @@ import {useIsFocused, useNavigation} from "@react-navigation/native";
 import {routes} from "routes";
 import {theme} from "../../tailwind.config";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import {formatAmount} from "transactions/TransactionUtils";
+import {calculateSum, formatAmount} from "transactions/TransactionUtils";
 import MonthPicker from "transactions/MonthPicker";
 
 const HomeScreen = () => {
@@ -53,11 +53,11 @@ const HomeScreen = () => {
     }, [currentDate, isFocused])
 
     useEffect(() => {
-        setExpensesSum(sum(expenses))
+        setExpensesSum(calculateSum(expenses))
     }, [expenses])
 
     useEffect(() => {
-        setIncomesSum(sum(incomes))
+        setIncomesSum(calculateSum(incomes))
     }, [incomes])
 
     useEffect(() => {
@@ -115,7 +115,6 @@ const HomeScreen = () => {
     </DefaultLayout>
 }
 
-const sum = (transactions) => transactions.reduce((partialSum, transaction) => partialSum +
-    transaction.amount, 0)
+
 
 export default HomeScreen

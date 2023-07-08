@@ -13,7 +13,7 @@ export const addSignPrefixAndSuffix = (
 };
 
 export const formatAmount = (input, options) => {
-    input = input /  100
+    input = input / 100
     const {
         precision = 2,
         separator = ',',
@@ -30,7 +30,7 @@ export const formatAmount = (input, options) => {
 
     let string = Math.abs(input).toFixed(precision);
 
-    if(input === 0){
+    if (input === 0) {
         string = '0'
     }
 
@@ -58,3 +58,6 @@ export const formatAmount = (input, options) => {
     });
 };
 
+export const calculateSum = (transactions) => transactions.reduce(function (partialSum, transaction) {
+    return partialSum + transaction.amount;
+}, 0)

@@ -2,17 +2,17 @@ import DefaultLayout from "Layout/DefaultLayout";
 import {Pressable, SectionList, View} from "react-native";
 import {fetchTransactions} from "api/backend";
 import {useEffect, useState} from "react";
-import MonthPicker from "transactions/MonthPicker";
 import FinanceerText from "components/FinanceerText";
 import TransactionAmount from "transactions/TransactionAmount";
 import {useIsFocused, useNavigation} from "@react-navigation/native";
 import {routes} from "routes";
+import {calculateSum} from "transactions/TransactionUtils";
 
 const TransactionsScreen = () => {
 
-    const [currentDate, setCurrentDate] = useState(new Date())
-
-    const [transactions, setTransactions] = useState([]);
+    const [transactions, setTransactions] = useState([])
+    const [rawTransactions, setRawTransactions] = useState([]);
+    const [sum, setSum] = useState(0)
 
     const navigation = useNavigation();
 
@@ -20,22 +20,24 @@ const TransactionsScreen = () => {
 
     useEffect(() => {
         if (isFocused) {
-            fetchTransactions(currentDate).then((response) => setTransactions(groupTransactionsByDate(response)))
+            fetchTransactions(new Date()).then(function (response) {
+                setRawTransactions(response)
+                setTransactions(groupTransactionsByDate(response));
+            })
         }
     }, [isFocused]);
 
     useEffect(() => {
-        fetchTransactions(currentDate).then((response) => setTransactions(groupTransactionsByDate(response)))
-    }, [currentDate])
-
+        setSum(calculateSum(rawTransactions))
+    }, [rawTransactions])
 
     return <DefaultLayout>
-        <MonthPicker callBack={setCurrentDate} currentDate={currentDate}/>
+        <TransactionAmount amount={sum} className={"text-2xl text-center mb-5"}/>
 
         <SectionList bounces={false}
-            keyExtractor={(item, index) => item + index}
-            renderSectionHeader={SectionHeader}
-            className={"m-3"} sections={transactions} renderItem={({item}) =>
+                     keyExtractor={(item, index) => item + index}
+                     renderSectionHeader={SectionHeader}
+                     className={"m-3"} sections={transactions} renderItem={({item}) =>
             <Pressable onPress={() => navigation.navigate(routes.transaction, {
                 transaction: item
             })}>
@@ -52,7 +54,7 @@ const TransactionsScreen = () => {
 }
 
 const SectionHeader = ({section: {datetime}}) => <FinanceerText
-    className={"text-sm text-primary text-left mb-3"}>{datetime}</FinanceerText>
+    className={"text-base text-primary text-left mb-3 font-bold"}>{datetime}</FinanceerText>
 
 const groupTransactionsByDate = (transactions = []) => {
     transactions = sortByDatetime(transactions)

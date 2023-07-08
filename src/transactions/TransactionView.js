@@ -169,10 +169,11 @@ const TransactionView = ({route}) => {
                 </View>
 
                 <Button label={"Save"} onPress={async () => {
+                    console.log(amount)
                     const {
                         data,
                         error
-                    } = await createTransaction(id || undefined, amount, type, date.toISOString(), description, category.id)
+                    } = await createTransaction(id || undefined, (type === 'EXPENSE' ? -amount : amount), date.toISOString(), description, category.id)
                     if (data) {
                         showMessage({
                                 message: "Success",

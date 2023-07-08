@@ -8,7 +8,6 @@ import LoginMagicLinkScreen from "auth/LoginMagicLinkScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {useUser} from "auth/AuthContext";
 import {capitalize} from "StringUtils";
-import CalendarScreen from "transactions/CalendarScreen";
 import ChooseCategoryScreen from "transactions/CategoryScreen";
 import TransactionsScreen from "transactions/TransactionsScreen";
 import {Pressable, View} from "react-native";
@@ -141,12 +140,6 @@ const TransactionsStackScreen = () => {
             options={({route}) => ({title: `${capitalize('Expense')}`, tabBarStyle: {display: ""}})}
             name={routes.transaction}
             component={TransactionView}
-        />
-
-        <TransactionsStack.Screen
-            name={routes.calendar}
-            options={{title: ''}}
-            component={CalendarScreen}
         />
 
         <TransactionsStack.Screen

@@ -11,10 +11,12 @@ import FinanceerInput from "components/FinanceerInput";
 import {theme} from "../../tailwind.config";
 import Button from "components/Button";
 import FakeCurrencyInput from "components/currency/FakeCurrencyInput";
+import {Calendar} from "react-native-calendars/src/index";
 import {format} from "date-fns";
 
 const TransactionView = ({route}) => {
-        const sheetRef = useRef(null);
+        const categorySheetRef = useRef(null);
+        const dateSheetRef = useRef(null);
         const navigation = useNavigation();
         const transaction = route.params?.transaction
 
@@ -43,7 +45,7 @@ const TransactionView = ({route}) => {
         return <ScrollView>
 
             <BottomSheetModal handleStyle={styles.handleStyle} handleIndicatorStyle={styles.indicatorStyle}
-                              ref={sheetRef}
+                              ref={categorySheetRef}
                               snapPoints={snapPoints}
                               backgroundStyle={styles.backgroundStyle}
                               backdropComponent={(props) => (
@@ -57,7 +59,7 @@ const TransactionView = ({route}) => {
                             <View key={item.name} className={"w-1/3 h-20 border-gray border-1"}>
                                 <Pressable className={"h-full justify-center"} onPress={() => {
                                     setCategory(item)
-                                    sheetRef.current.close()
+                                    categorySheetRef.current.close()
                                 }}>
                                     <View>
                                         <FinanceerText
@@ -67,6 +69,54 @@ const TransactionView = ({route}) => {
                             </View>)}
                     </View>
                 </ScrollView>
+            </BottomSheetModal>
+            <BottomSheetModal handleStyle={styles.handleStyle} handleIndicatorStyle={styles.indicatorStyle}
+                              ref={dateSheetRef}
+                              snapPoints={snapPoints}
+                              backgroundStyle={styles.backgroundStyle}
+                              backdropComponent={(props) => (
+                                  <BottomSheetBackdrop disappearsOnIndex={-1} appearsOnIndex={0}
+                                                       opacity={0} {...props} />)}
+            >
+
+                <Calendar
+                    theme={{
+                        calendarBackground: theme.extend.colors.neutral,
+                        selectedDayBackgroundColor: theme.extend.colors.primary,
+                        todayTextColor: theme.extend.colors.primary,
+                        dayTextColor: '#2d4150',
+                        textDisabledColor: '#d9e1e8',
+                        selectedDotColor: theme.extend.colors.neutral,
+                        arrowColor: theme.extend.colors.white,
+                        disabledArrowColor: '#d9e1e8',
+                        monthTextColor: theme.extend.colors.white,
+                        indicatorColor: theme.extend.colors.neutral,
+                        // textDayFontFamily: 'sans',
+                        // textMonthFontFamily: 'sans',
+                        // textDayHeaderFontFamily: 'sans',
+                        textDayFontWeight: '300',
+                        textMonthFontWeight: 'bold',
+                        textDayHeaderFontWeight: '300',
+                        textDayFontSize: 16,
+                        textMonthFontSize: 16,
+                        textDayHeaderFontSize: 16
+                    }}
+                    initialDate={format(date, 'yyyy-MM-dd')}
+                    onDayPress={day => {
+                        setDate(new Date(day.dateString))
+                        dateSheetRef.current.close()
+
+                    }}
+                    monthFormat={'MMMM yyyy'}
+                    hideExtraDays={true}
+                    disableMonthChange={true}
+                    firstDay={1}
+                    onPressArrowLeft={subtractMonth => subtractMonth()}
+                    onPressArrowRight={addMonth => addMonth()}
+                    enableSwipeMonths={true}
+                />
+
+
             </BottomSheetModal>
             <View className={"flex-row my-5"}>
                 <Pressable
@@ -101,22 +151,19 @@ const TransactionView = ({route}) => {
                     />
                 </View>
                 <View className={"mt-5"}>
-                    <Pressable onPress={() => navigation.navigate(routes.calendar, {
-                        callback: setDate,
-                        date,
-                        transactionType: type
-                    })}>
-                        <FinanceerInput onTouchStart={() => navigation.navigate(routes.calendar, {
-                            callback: setDate,
-                            date,
-                            transactionType: type
-                        })} label={"Date"}>{format(date, 'dd.MM.yyyy')}</FinanceerInput>
+                    <FinanceerText>Date</FinanceerText>
+                    <Pressable onPress={() => dateSheetRef.current.present()}>
+                        <View
+                            className={"mt-1 h-10"}>
+                            <FinanceerText>  {format(date, 'dd.MM.yyyy')}</FinanceerText>
+                        </View>
                     </Pressable>
+
                 </View>
 
                 <View className={"mt-5"}>
                     <FinanceerText>Category</FinanceerText>
-                    <Pressable onPress={() => sheetRef.current.present()}>
+                    <Pressable onPress={() => categorySheetRef.current.present()}>
                         <View
                             className={"mt-1 h-10"}>
                             <FinanceerText>{category?.name}</FinanceerText>

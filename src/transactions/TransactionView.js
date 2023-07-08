@@ -91,9 +91,6 @@ const TransactionView = ({route}) => {
                         disabledArrowColor: '#d9e1e8',
                         monthTextColor: theme.extend.colors.white,
                         indicatorColor: theme.extend.colors.neutral,
-                        // textDayFontFamily: 'sans',
-                        // textMonthFontFamily: 'sans',
-                        // textDayHeaderFontFamily: 'sans',
                         textDayFontWeight: '300',
                         textMonthFontWeight: 'bold',
                         textDayHeaderFontWeight: '300',
@@ -181,7 +178,10 @@ const TransactionView = ({route}) => {
                                 message: "Success",
                                 type: 'success',
                             }
-                        );
+                        )
+                        setAmount(null)
+                        setDate(new Date())
+                        setDescription(null)
                         navigation.navigate(routes.transactions)
                     }
 

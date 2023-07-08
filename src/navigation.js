@@ -10,10 +10,9 @@ import {useUser} from "auth/AuthContext";
 import {capitalize} from "StringUtils";
 import ChooseCategoryScreen from "transactions/CategoryScreen";
 import TransactionsScreen from "transactions/TransactionsScreen";
-import {Pressable, View} from "react-native";
+import {View} from "react-native";
 import TransactionView from "transactions/TransactionView";
 import CategoriesScreen from "categories/CategoriesScreen";
-import FinanceerText from "components/FinanceerText";
 import ProfileScreen from "profile/ProfileScreen";
 import LoginPasswordScreen from "auth/LoginPasswordScreen";
 import {WelcomeScreen} from "auth/WelcomeScreen";
@@ -51,8 +50,16 @@ const Navigation = ({}) => {
                         tabBarIcon: ({focused, color, size}) => (
                             <CustomIcon name="stats-chart" focused={focused} color={color} size={size}/>
                         )
-
                     }}/>
+
+                    <Tab.Screen name="NewStack" component={NewStackScreen} options={{
+                        headerShown: false,
+                        title: 'Add',
+                        tabBarIcon: ({focused, color, size}) => (
+                            <CustomIcon name="add-circle-outline" focused={focused} color={color} size={size}/>
+                        )
+                    }}/>
+
                     <Tab.Screen name="CategoriesStack" component={CategoriesStackScreen} options={{
                         headerShown: false,
                         title: 'Categories',
@@ -60,10 +67,6 @@ const Navigation = ({}) => {
                             <CustomIcon name="ellipsis-horizontal" focused={focused} color={color} size={size}/>
                         ),
                     }}/>
-
-                    {/*<Tab.Screen name="Pay" component={TransactionsScreen} options={{*/}
-                    {/*    tabBarButton: () => (<CreateTransactionButton/>),*/}
-                    {/*}}/>*/}
 
                     <Tab.Screen name="Placeholder" component={ProfileStack} options={{
                         title: 'Placeholder',
@@ -98,19 +101,6 @@ const Navigation = ({}) => {
     )
 }
 
-const CreateTransactionButton = () => {
-    const navigation = useNavigation();
-    return <Pressable onPress={() => navigation.navigate(routes.transaction, {})}>
-        <View
-            className={'w-11 h-11 mt-2 justify-center  self-center aspect-square rounded-full border-primary border-1'}>
-
-            <Ionicons name={"add"} size={44} color={theme.extend.colors.primary}
-                      className={""}></Ionicons>
-
-        </View>
-    </Pressable>
-}
-
 const TransactionsStackScreen = () => {
     const TransactionsStack = createStackNavigator();
     const navigation = useNavigation();
@@ -123,17 +113,7 @@ const TransactionsStackScreen = () => {
     }}>
         <TransactionsStack.Screen
             name={routes.transactions}
-            component={TransactionsScreen} options={{
-            headerRight: () => {
-                return <Pressable
-                    className={"self-right"}
-                    onPress={() => navigation.navigate(routes.transaction)}>
-                    <FinanceerText>
-                        <Ionicons name={"add"} color={theme.extend.colors.primary} size={30}/>
-                    </FinanceerText>
-                </Pressable>
-            }
-        }}
+            component={TransactionsScreen}
         />
 
         <TransactionsStack.Screen
@@ -188,6 +168,27 @@ const CategoriesStackScreen = () => {
 
     </CategoriesStack.Navigator>
 }
+
+
+const NewStackScreen = () => {
+    const NewStack = createStackNavigator();
+
+    return <NewStack.Navigator screenOptions={{
+        headerStyle: {
+            borderBottomColor: theme.extend.colors.primary,
+            borderBottomWidth: 1
+        }
+    }}>
+
+        <NewStack.Screen
+            name={routes.transaction}
+            options={{headerShown: true}}
+            component={TransactionView}
+        />
+
+    </NewStack.Navigator>
+}
+
 
 export default Navigation
 

@@ -37,8 +37,8 @@ const LoginPasswordScreen = () => {
 
     return (
         <>
-            <View className={"items-center w-5/6 mx-auto"}>
-                <FinanceerInput className={"w-3/4 mx-auto"}
+            <View className={"items-center w-full mx-auto"}>
+                <FinanceerInput className={"w-4/4 mx-auto"}
                                 value={email}
                                 autoCapitalize="none"
                                 keyboardType="email-address"
@@ -46,7 +46,7 @@ const LoginPasswordScreen = () => {
                                 onChangeText={setEmail}/>
 
 
-                <FinanceerInput className={"w-3/4 mx-auto"}
+                <FinanceerInput className={"w-full mx-auto"}
                                 value={password}
                                 autoCapitalize="none"
                                 keyboardType="password"

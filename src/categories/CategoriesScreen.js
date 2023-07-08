@@ -63,7 +63,7 @@ const CategoriesScreen = () => {
     }
 
     return <DefaultLayout>
-        <View className={"flex-row justify-between mb-2"}>
+        <View className={"flex-row justify-between my-2"}>
             <FinanceerText className={"ml-3"}>{categories.length} total</FinanceerText>
             <Pressable className={"mr-3"} onPress={() => setEditCategory({
                 name: ''

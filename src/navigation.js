@@ -1,4 +1,4 @@
-import {DefaultTheme, NavigationContainer, useNavigation} from "@react-navigation/native";
+import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
 import {routes} from "routes";
 import {createStackNavigator} from "@react-navigation/stack";
 import {theme} from "../tailwind.config";
@@ -15,7 +15,6 @@ import TransactionView from "transactions/TransactionView";
 import CategoriesScreen from "categories/CategoriesScreen";
 import ProfileScreen from "profile/ProfileScreen";
 import LoginPasswordScreen from "auth/LoginPasswordScreen";
-import {WelcomeScreen} from "auth/WelcomeScreen";
 import {RegisterScreen} from "auth/RegisterScreen";
 
 
@@ -46,15 +45,15 @@ const Navigation = ({}) => {
                 }}>
                     <Tab.Screen name="TransactionsStack" component={TransactionsStackScreen} options={{
                         headerShown: false,
-                        title: 'Transactions',
+                        title: 'Transaction',
                         tabBarIcon: ({focused, color, size}) => (
                             <CustomIcon name="stats-chart" focused={focused} color={color} size={size}/>
                         )
                     }}/>
 
-                    <Tab.Screen name="NewStack" component={NewStackScreen} options={{
+                    <Tab.Screen name="NewStack" component={CreateTransactionStackScreen} options={{
                         headerShown: false,
-                        title: 'Add',
+                        title: 'Create',
                         tabBarIcon: ({focused, color, size}) => (
                             <CustomIcon name="add-circle-outline" focused={focused} color={color} size={size}/>
                         )
@@ -69,7 +68,6 @@ const Navigation = ({}) => {
                     }}/>
 
                     <Tab.Screen name="Placeholder" component={ProfileStack} options={{
-                        title: 'Placeholder',
                         headerShown: false,
                         tabBarIcon: ({focused, color, size}) => (
                             <CustomIcon name="person" focused={focused} color={color} size={size}/>
@@ -78,7 +76,6 @@ const Navigation = ({}) => {
 
 
                     <Tab.Screen name="Profile" component={ProfileStack} options={{
-                        title: 'Profile',
                         headerShown: false,
                         tabBarIcon: ({focused, color, size}) => (
                             <CustomIcon name="person" focused={focused} color={color} size={size}/>
@@ -89,7 +86,6 @@ const Navigation = ({}) => {
                 </Tab.Navigator>
                 :
                 <Stack.Navigator>
-                    <Stack.Screen name={routes.welcome} component={WelcomeScreen} options={{title: ''}}/>
                     <Stack.Screen name={routes.register} component={RegisterScreen} options={{title: ''}}/>
                     <Stack.Screen name="LoginMagicLink" component={LoginMagicLinkScreen}
                                   options={{title: ''}}/>
@@ -103,15 +99,10 @@ const Navigation = ({}) => {
 
 const TransactionsStackScreen = () => {
     const TransactionsStack = createStackNavigator();
-    const navigation = useNavigation();
 
-    return <TransactionsStack.Navigator screenOptions={{
-        headerStyle: {
-            borderBottomColor: theme.extend.colors.primary,
-            borderBottomWidth: 1
-        }
-    }}>
+    return <TransactionsStack.Navigator>
         <TransactionsStack.Screen
+            options={{headerShown: false}}
             name={routes.transactions}
             component={TransactionsScreen}
         />
@@ -135,15 +126,11 @@ const TransactionsStackScreen = () => {
 const ProfileStack = () => {
     const ProfileStack = createStackNavigator();
 
-    return <ProfileStack.Navigator screenOptions={{
-        headerStyle: {
-            borderBottomColor: theme.extend.colors.primary,
-            borderBottomWidth: 1
-        }
-    }}>
+    return <ProfileStack.Navigator>
 
         <ProfileStack.Screen
             name={routes.profile}
+            options={{headerShown: false}}
             component={ProfileScreen}
         />
 
@@ -153,16 +140,11 @@ const ProfileStack = () => {
 const CategoriesStackScreen = () => {
     const CategoriesStack = createStackNavigator();
 
-    return <CategoriesStack.Navigator screenOptions={{
-        headerStyle: {
-            borderBottomColor: theme.extend.colors.primary,
-            borderBottomWidth: 1
-        }
-    }}>
+    return <CategoriesStack.Navigator>
 
         <CategoriesStack.Screen
             name={routes.manageCategories}
-            options={{headerShown: true}}
+            options={{headerShown: false}}
             component={CategoriesScreen}
         />
 
@@ -170,30 +152,25 @@ const CategoriesStackScreen = () => {
 }
 
 
-const NewStackScreen = () => {
-    const NewStack = createStackNavigator();
+const CreateTransactionStackScreen = () => {
+    const CreateTransaction = createStackNavigator();
 
-    return <NewStack.Navigator screenOptions={{
-        headerStyle: {
-            borderBottomColor: theme.extend.colors.primary,
-            borderBottomWidth: 1
-        }
-    }}>
+    return <CreateTransaction.Navigator>
 
-        <NewStack.Screen
+        <CreateTransaction.Screen
             name={routes.transaction}
-            options={{headerShown: true}}
+            options={{headerShown: false}}
             component={TransactionView}
         />
 
-    </NewStack.Navigator>
+    </CreateTransaction.Navigator>
 }
 
 
 export default Navigation
 
 const CustomIcon = ({focused, name, color, size}) => {
-    return <View className={`w-full pt-1 items-center border-t-1 ${focused ? 'border-t-primary' : ''}`}>
+    return <View className={`w-full pt-1 items-center justify-center border-t-1 ${focused ? 'border-t-primary' : ''}`}>
         <Ionicons name={name} color={color} size={size}/>
     </View>
 }

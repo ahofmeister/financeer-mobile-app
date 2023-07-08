@@ -16,6 +16,7 @@ import CategoriesScreen from "categories/CategoriesScreen";
 import ProfileScreen from "profile/ProfileScreen";
 import LoginPasswordScreen from "auth/LoginPasswordScreen";
 import {RegisterScreen} from "auth/RegisterScreen";
+import {WelcomeScreen} from "auth/WelcomeScreen";
 
 
 const FinanceerTheme = {
@@ -86,6 +87,7 @@ const Navigation = ({}) => {
                 </Tab.Navigator>
                 :
                 <Stack.Navigator>
+                    <Stack.Screen name={routes.welcome} component={WelcomeScreen} options={{title: ''}}/>
                     <Stack.Screen name={routes.register} component={RegisterScreen} options={{title: ''}}/>
                     <Stack.Screen name="LoginMagicLink" component={LoginMagicLinkScreen}
                                   options={{title: ''}}/>

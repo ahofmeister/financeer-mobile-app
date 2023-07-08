@@ -1,18 +1,17 @@
 import DefaultLayout from "Layout/DefaultLayout";
-import FinanceerText from "components/FinanceerText";
 import {View} from "react-native";
 import {routes} from "routes";
 import Button from "components/Button";
+import Logo from '../../assets/logo.svg';
+
 
 export const WelcomeScreen = ({navigation}) => {
 
     return <DefaultLayout>
         <View className={"mx-auto"}>
-            <FinanceerText>Logo place holder</FinanceerText>
-            <FinanceerText className={"font-bold text-2xl"}>Financeer</FinanceerText>
-
-
-            <Button classNames={"mt-10"} onPress={() => navigation.navigate(routes.login.loginPassword)} label={"Login"}/>
+            <Logo />
+            <Button classNames={"mt-10 w-24"} onPress={() => navigation.navigate(routes.login.loginPassword)}
+                    label={"Login"}/>
 
             <Button classNames={"mt-10"} onPress={() => navigation.navigate(routes.register)} label={"Register"}/>
         </View>

@@ -21,7 +21,7 @@ const TransactionView = ({route}) => {
         const transaction = route.params?.transaction
 
         const [id, setId] = useState(transaction ? transaction.id : undefined)
-        const [type, setType] = useState(transaction &&  transaction.amount < 0 ?   'EXPENSE': 'INCOME')
+        const [type, setType] = useState(transaction && transaction.amount < 0 ? 'EXPENSE' : 'INCOME')
         const [amount, setAmount] = useState(transaction ? transaction.amount : 0)
         const [description, setDescription] = useState(transaction ? transaction.description : '')
         const [date, setDate] = useState(transaction ? new Date(transaction.datetime) : new Date())
@@ -133,10 +133,11 @@ const TransactionView = ({route}) => {
 
             <View className={"m-3"}>
                 <View className={"flex items-center"}>
-                    <FakeCurrencyInput inputClassName={"text-4xl font-bold " + (type === 'EXPENSE' ? 'text-expense' : 'text-income')}
-                                       prefix={"€"}
-                                       value={amount}
-                                       onChangeValue={setAmount}
+                    <FakeCurrencyInput
+                        inputClassName={"text-4xl font-bold " + (type === 'EXPENSE' ? 'text-expense' : 'text-income')}
+                        prefix={"€"}
+                        value={amount}
+                        onChangeValue={setAmount}
                     />
                 </View>
                 <View className={"mt-5"}>
@@ -169,7 +170,6 @@ const TransactionView = ({route}) => {
                 </View>
 
                 <Button label={"Save"} onPress={async () => {
-                    console.log(amount)
                     const {
                         data,
                         error

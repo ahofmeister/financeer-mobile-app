@@ -1,8 +1,7 @@
-import {Pressable, ScrollView, StyleSheet, View} from "react-native";
-import {useEffect, useMemo, useRef, useState} from "react";
-import {saveTransaction, deleteTransaction, fetchCategories} from "api/backend";
+import {Pressable, ScrollView, View} from "react-native";
+import {useEffect, useRef, useState} from "react";
+import {deleteTransaction, fetchCategories, saveTransaction} from "api/backend";
 import {useNavigation} from "@react-navigation/native";
-import {BottomSheetBackdrop, BottomSheetModal} from "@gorhom/bottom-sheet";
 import FinanceerText from "components/FinanceerText";
 import {showMessage} from "react-native-flash-message";
 import {routes} from "routes";
@@ -12,6 +11,7 @@ import Button from "components/Button";
 import FakeCurrencyInput from "components/currency/FakeCurrencyInput";
 import {Calendar} from "react-native-calendars/src/index";
 import {format} from "date-fns";
+import FinanceerBottomSheet from "components/FinanceerBottomSheet";
 
 const TransactionView = ({route}) => {
         const categorySheetRef = useRef(null);
@@ -38,19 +38,8 @@ const TransactionView = ({route}) => {
 
         }, [])
 
-        const snapPoints = useMemo(() => ["50"], []);
-
         return <ScrollView>
-
-            <BottomSheetModal handleStyle={styles.handleStyle} handleIndicatorStyle={styles.indicatorStyle}
-                              ref={categorySheetRef}
-                              snapPoints={snapPoints}
-                              backgroundStyle={styles.backgroundStyle}
-                              backdropComponent={(props) => (
-                                  <BottomSheetBackdrop disappearsOnIndex={-1} appearsOnIndex={0}
-                                                       opacity={0} {...props} />)}
-            >
-
+            <FinanceerBottomSheet intRef={categorySheetRef}>
                 <ScrollView className={"bg-neutral"}>
                     <View className={"flex-row flex-wrap"}>
                         {categories.map((item) =>
@@ -67,16 +56,8 @@ const TransactionView = ({route}) => {
                             </View>)}
                     </View>
                 </ScrollView>
-            </BottomSheetModal>
-            <BottomSheetModal handleStyle={styles.handleStyle} handleIndicatorStyle={styles.indicatorStyle}
-                              ref={dateSheetRef}
-                              snapPoints={snapPoints}
-                              backgroundStyle={styles.backgroundStyle}
-                              backdropComponent={(props) => (
-                                  <BottomSheetBackdrop disappearsOnIndex={-1} appearsOnIndex={0}
-                                                       opacity={0} {...props} />)}
-            >
-
+            </FinanceerBottomSheet>
+            <FinanceerBottomSheet intRef={dateSheetRef}>
                 <Calendar
                     theme={{
                         calendarBackground: theme.extend.colors.neutral,
@@ -100,7 +81,6 @@ const TransactionView = ({route}) => {
                     onDayPress={day => {
                         setDate(new Date(day.dateString))
                         dateSheetRef.current.close()
-
                     }}
                     monthFormat={'MMMM yyyy'}
                     hideExtraDays={true}
@@ -111,8 +91,8 @@ const TransactionView = ({route}) => {
                     enableSwipeMonths={true}
                 />
 
+            </FinanceerBottomSheet>
 
-            </BottomSheetModal>
             <View className={"flex-row my-5"}>
                 <Pressable
                     className={`w-1/2 h-10 border-1 justify-center ${type === 'INCOME' ? 'border-income' : 'border-gray'}`}
@@ -148,7 +128,7 @@ const TransactionView = ({route}) => {
                 </View>
                 <View className={"mt-5"}>
                     <FinanceerText>Date</FinanceerText>
-                    <Pressable onPress={() => dateSheetRef.current.present()}>
+                    <Pressable onPress={() => dateSheetRef?.current?.present()}>
                         <View
                             className={"mt-1 h-10"}>
                             <FinanceerText>  {format(date, 'dd.MM.yyyy')}</FinanceerText>
@@ -171,7 +151,7 @@ const TransactionView = ({route}) => {
                     const {
                         data,
                         error
-                    } = await saveTransaction(id || undefined, type === 'EXPENSE' ?  -Math.abs(amount) :  Math.abs(amount), date.toISOString(), description, category.id)
+                    } = await saveTransaction(id || undefined, type === 'EXPENSE' ? -Math.abs(amount) : Math.abs(amount), date.toISOString(), description, category.id)
                     if (data) {
                         showMessage({
                                 message: "Success",
@@ -223,18 +203,5 @@ const TransactionView = ({route}) => {
     }
 ;
 
-const styles = StyleSheet.create({
-    handleStyle: {
-        borderTopColor: theme.extend.colors.primary,
-        borderTopWidth: 1,
-        backgroundColor: theme.extend.colors.neutral,
-    }, indicatorStyle: {
-        backgroundColor: theme.extend.colors.primary
-    },
-    backgroundStyle: {
-        backgroundColor: theme.extend.colors.neutral
-    }
-
-});
 
 export default TransactionView

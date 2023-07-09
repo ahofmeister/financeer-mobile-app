@@ -7,7 +7,6 @@ import React from "react";
 import LoginMagicLinkScreen from "auth/LoginMagicLinkScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {useUser} from "auth/AuthContext";
-import {capitalize} from "StringUtils";
 import ChooseCategoryScreen from "transactions/CategoryScreen";
 import TransactionsScreen from "transactions/TransactionsScreen";
 import {View} from "react-native";
@@ -37,7 +36,6 @@ const Navigation = ({}) => {
     const Tab = createBottomTabNavigator();
     const Stack = createStackNavigator();
     const {user} = useUser()
-
     return (
         <NavigationContainer theme={FinanceerTheme}>
             {user ?
@@ -46,6 +44,7 @@ const Navigation = ({}) => {
                 }}>
                     <Tab.Screen name="TransactionsStack" component={TransactionsStackScreen} options={{
                         headerShown: false,
+                        unmountOnBlur: true,
                         title: 'Transaction',
                         tabBarIcon: ({focused, color, size}) => (
                             <CustomIcon name="stats-chart" focused={focused} color={color} size={size}/>
@@ -110,14 +109,13 @@ const TransactionsStackScreen = () => {
         />
 
         <TransactionsStack.Screen
-            options={({route}) => ({title: `${capitalize('Expense')}`, tabBarStyle: {display: ""}})}
             name={routes.transaction}
+            options={{headerShown: false}}
             component={TransactionView}
         />
 
         <TransactionsStack.Screen
             name={routes.categories}
-            options={{title: 'Choose Category'}}
             component={ChooseCategoryScreen}
         />
 

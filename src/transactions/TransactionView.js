@@ -1,8 +1,7 @@
 import {Pressable, ScrollView, StyleSheet, View} from "react-native";
 import {useEffect, useMemo, useRef, useState} from "react";
-import {createTransaction, deleteTransaction, fetchCategories} from "api/backend";
+import {saveTransaction, deleteTransaction, fetchCategories} from "api/backend";
 import {useNavigation} from "@react-navigation/native";
-import {capitalize} from "StringUtils";
 import {BottomSheetBackdrop, BottomSheetModal} from "@gorhom/bottom-sheet";
 import FinanceerText from "components/FinanceerText";
 import {showMessage} from "react-native-flash-message";
@@ -30,7 +29,6 @@ const TransactionView = ({route}) => {
 
         const handleTypeChange = (type) => {
             setType(type)
-            navigation.setOptions({title: capitalize(type)})
         };
 
         useEffect(() => {
@@ -140,6 +138,7 @@ const TransactionView = ({route}) => {
                         onChangeValue={setAmount}
                     />
                 </View>
+                <FinanceerText>{type}</FinanceerText>
                 <View className={"mt-5"}>
                     <FinanceerInput label={"Description"}
                                     className={"mt-1 text-white h-10"}
@@ -173,7 +172,7 @@ const TransactionView = ({route}) => {
                     const {
                         data,
                         error
-                    } = await createTransaction(id || undefined, (type === 'EXPENSE' ? -amount : amount), date.toISOString(), description, category.id)
+                    } = await saveTransaction(id || undefined, type === 'EXPENSE' ?  -Math.abs(amount) :  Math.abs(amount), date.toISOString(), description, category.id)
                     if (data) {
                         showMessage({
                                 message: "Success",

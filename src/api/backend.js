@@ -32,7 +32,7 @@ export const fetchTransactionsByType = async (date, type) => {
 }
 
 export const fetchTransactions = async (date) => {
-    let monthYear = `${date.getFullYear()}-${date.getMonth() + 1}`;
+    const monthYear = `${date.getFullYear()}-${date.getMonth() + 1}`;
     const {
         data,
         error
@@ -41,7 +41,7 @@ export const fetchTransactions = async (date) => {
         .select('*,  category(name)')
         .gte('datetime', `${monthYear}-${startOfMonth(date).getDate()}`)
         .lte('datetime', `${monthYear}-${lastDayOfMonth(date).getDate()}`)
-        .order('amount')
+        .order('datetime', {ascending: false})
 
     if (error) {
         return

@@ -57,7 +57,6 @@ const SectionHeader = ({section: {datetime}}) => <FinanceerText
     className={"text-base text-primary text-left mb-3 font-bold"}>{datetime}</FinanceerText>
 
 const groupTransactionsByDate = (transactions = []) => {
-    transactions = sortByDatetime(transactions)
     return Object.values(transactions.reduce((result, transaction) => {
         if (result[transaction.datetime] === undefined) {
             result[transaction.datetime] = {datetime: transaction.datetime, data: []}
@@ -66,8 +65,5 @@ const groupTransactionsByDate = (transactions = []) => {
         return result;
     }, {}));
 }
-
-const sortByDatetime = transactions => transactions.sort((a, b) => a.datetime > b.datetime)
-
 
 export default TransactionsScreen

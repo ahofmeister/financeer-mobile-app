@@ -1,32 +1,61 @@
 import FinanceerText from "components/FinanceerText";
-import {ScrollView, View} from "react-native";
+import {Pressable, ScrollView, View} from "react-native";
 import {getTransactionsByCategorySummary} from "api/backend";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import TransactionAmount from "transactions/TransactionAmount";
-import {addDays, subDays} from "date-fns";
 import {useIsFocused} from "@react-navigation/native";
+import {endOfMonth, format, startOfMonth} from "date-fns";
+import CalendarBottomSheet from "components/CalendarBottomSheet";
 
 const StatsScreen = () => {
 
     const [data, setTransactions] = useState()
     const isFocused = useIsFocused()
 
+    const [dateFrom, setDateFrom] = useState(startOfMonth(new Date()))
+    const [dateTo, setDateTo] = useState(endOfMonth(new Date()))
+
+    const dateFromRef = useRef(null)
+    const dateToRef = useRef(null)
+
+
     useEffect(() => {
         if (isFocused) {
-            getTransactionsByCategorySummary(subDays(new Date(), 30), addDays(new Date, 30)).then(r => setTransactions(r.data))
+            getTransactionsByCategorySummary(dateFrom, dateTo).then(r => setTransactions(r.data))
         }
-    }, [isFocused]);
+    }, [isFocused, dateFrom, dateTo]);
 
-    return <View className={"h-full mx-4 mt-10"}><ScrollView className={""}>
-        <FinanceerText>Shows last and next 30 days</FinanceerText>
-        <FinanceerText className={"mb-10"}>Adding date picker comes next</FinanceerText>
+    return <View className={"mx-4 mt-5"}>
 
-        {data?.map((item) =>
-            <View key={item.category} className={"flex-row h-12 justify-between"}>
-                <FinanceerText className={"w-24"}>{item.category}</FinanceerText>
-                <TransactionAmount className={"w-24 text-right"} amount={item.amount}/>
-            </View>)}
-    </ScrollView>
+        <View className={"flex-row justify-between"}>
+            <View className={"w-1/3 h-10 mb-5 border-gray border-1 justify-center"}>
+                <Pressable onPress={() => dateFromRef.current.present()}>
+                    <FinanceerText className={"text-center"}>{format(dateFrom, 'dd.MM.yyyy')}</FinanceerText>
+                </Pressable>
+                <CalendarBottomSheet initialDate={dateFrom} inputRef={dateFromRef}
+                                     handleDayPress={(day) => setDateFrom(day)}/>
+            </View>
+
+            <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
+                <Pressable onPress={() => dateToRef.current.present()}>
+                    <FinanceerText className={"text-center"}>{format(dateTo, 'dd.MM.yyyy')}</FinanceerText>
+                </Pressable>
+                <CalendarBottomSheet initialDate={dateTo} inputRef={dateToRef}
+                                     handleDayPress={(day) => setDateTo(day)}/>
+            </View>
+        </View>
+
+        <View className={"h-1 border-b-primary border-b-1 mb-5"}/>
+
+        {data?.length <= 0 && <FinanceerText className={"text-center"}>No transactions</FinanceerText>}
+
+        <ScrollView className={"h-full"}>
+            {data?.map((item) =>
+                <View key={item.category} className={"flex-row h-12 justify-between"}>
+                    <FinanceerText className={"w-24"}>{item.category}</FinanceerText>
+                    <TransactionAmount className={"w-24 text-right"} amount={item.amount}/>
+                </View>)}
+        </ScrollView>
     </View>
 }
 

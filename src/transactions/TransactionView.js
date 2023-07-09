@@ -138,7 +138,6 @@ const TransactionView = ({route}) => {
                         onChangeValue={setAmount}
                     />
                 </View>
-                <FinanceerText>{type}</FinanceerText>
                 <View className={"mt-5"}>
                     <FinanceerInput label={"Description"}
                                     className={"mt-1 text-white h-10"}

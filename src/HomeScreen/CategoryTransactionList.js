@@ -13,15 +13,13 @@ const CategoryTransactionList = ({transactions = [], categories, sum = 0, type})
             </View>
             <FlatList
                 data={transactionsByCategory}
-                renderItem={function ({item}) {
-                    return <View className={"flex-row mx-1 h-10 justify-between"}>
-                        <FinanceerText className={"flex-1 text-left ml-5"}>{item.category}</FinanceerText>
-                        <FinanceerText
-                            className={"w-20 text-right"}>
-                            <TransactionAmount type={type} amount={item.amount}/>
-                        </FinanceerText>
-                    </View>;
-                }
+                renderItem={({item}) => <View className={"flex-row mx-1 h-10 justify-between"}>
+                    <FinanceerText className={"flex-1 text-left ml-5"}>{item.category}</FinanceerText>
+                    <FinanceerText
+                        className={"w-20 text-right"}>
+                        <TransactionAmount type={type} amount={item.amount}/>
+                    </FinanceerText>
+                </View>
                 }
             />
         </View>) : <View><FinanceerText>Loading</FinanceerText></View>

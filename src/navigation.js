@@ -16,6 +16,7 @@ import ProfileScreen from "profile/ProfileScreen";
 import LoginPasswordScreen from "auth/LoginPasswordScreen";
 import {RegisterScreen} from "auth/RegisterScreen";
 import {WelcomeScreen} from "auth/WelcomeScreen";
+import StatsScreen from "statistics/StatsScreen";
 
 
 const FinanceerTheme = {
@@ -36,6 +37,7 @@ const Navigation = ({}) => {
     const Tab = createBottomTabNavigator();
     const Stack = createStackNavigator();
     const {user} = useUser()
+    ;
     return (
         <NavigationContainer theme={FinanceerTheme}>
             {user ?
@@ -45,9 +47,9 @@ const Navigation = ({}) => {
                     <Tab.Screen name="TransactionsStack" component={TransactionsStackScreen} options={{
                         headerShown: false,
                         unmountOnBlur: true,
-                        title: 'Transaction',
+                        title: 'Home',
                         tabBarIcon: ({focused, color, size}) => (
-                            <CustomIcon name="stats-chart" focused={focused} color={color} size={size}/>
+                            <CustomIcon name="home" focused={focused} color={color} size={size}/>
                         )
                     }}/>
 
@@ -67,10 +69,10 @@ const Navigation = ({}) => {
                         ),
                     }}/>
 
-                    <Tab.Screen name="Placeholder" component={ProfileStack} options={{
+                    <Tab.Screen name="Stats" component={StatsStackScreen} options={{
                         headerShown: false,
                         tabBarIcon: ({focused, color, size}) => (
-                            <CustomIcon name="person" focused={focused} color={color} size={size}/>
+                            <CustomIcon name="stats-chart" focused={focused} color={color} size={size}/>
                         ),
                     }}/>
 
@@ -153,19 +155,32 @@ const CategoriesStackScreen = () => {
 
 
 const CreateTransactionStackScreen = () => {
-    const CreateTransaction = createStackNavigator();
+    const CreateTransactionStack = createStackNavigator();
 
-    return <CreateTransaction.Navigator>
+    return <CreateTransactionStack.Navigator>
 
-        <CreateTransaction.Screen
+        <CreateTransactionStack.Screen
             name={routes.transaction}
             options={{headerShown: false}}
             component={TransactionView}
         />
 
-    </CreateTransaction.Navigator>
+    </CreateTransactionStack.Navigator>
 }
 
+const StatsStackScreen = () => {
+    const StatsStack = createStackNavigator();
+
+    return <StatsStack.Navigator>
+
+        <StatsStack.Screen
+            name={routes.stats}
+            options={{headerShown: false}}
+            component={StatsScreen}
+        />
+
+    </StatsStack.Navigator>
+}
 
 export default Navigation
 

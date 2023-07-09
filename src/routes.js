@@ -11,5 +11,6 @@ export const routes = {
     transactions: 'Transactions',
     manageCategories: 'Manage Categories',
     editCategory: 'Edit Category',
-    profile: 'Profile',
+    profile: 'ProfileScreen',
+    stats: "Statistics"
 }

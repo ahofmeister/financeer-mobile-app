@@ -87,3 +87,7 @@ export const saveTransaction = async (id, amount, datetime, description, categor
 export const deleteTransaction = async (id) => {
     return supabase.from('transactions').delete(id).eq('id', id);
 }
+
+export const getTransactionsByCategorySummary = async (dateFrom, dateTo) => {
+    return supabase.rpc("transactions_by_category",  {datefrom: dateFrom, dateto: dateTo}).order("amount", { ascending: false })
+}

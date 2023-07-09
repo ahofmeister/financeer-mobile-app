@@ -4,7 +4,7 @@ import {getTransactionsByCategorySummary} from "api/backend";
 import {useEffect, useRef, useState} from "react";
 import TransactionAmount from "transactions/TransactionAmount";
 import {useIsFocused} from "@react-navigation/native";
-import {endOfMonth, format, startOfMonth} from "date-fns";
+import {endOfMonth, endOfYear, format, startOfMonth, startOfYear} from "date-fns";
 import CalendarBottomSheet from "components/CalendarBottomSheet";
 
 const StatsScreen = () => {
@@ -27,8 +27,37 @@ const StatsScreen = () => {
 
     return <View className={"mx-4 mt-5"}>
 
-        <View className={"flex-row justify-between"}>
-            <View className={"w-1/3 h-10 mb-5 border-gray border-1 justify-center"}>
+        <View className={"flex-row justify-around"}>
+            <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
+                <Pressable onPress={() => {
+                    setDateFrom(startOfMonth(new Date()))
+                    setDateTo(endOfMonth(new Date()))
+                }}>
+                    <FinanceerText className={"text-center"}>This Month</FinanceerText>
+                </Pressable>
+            </View>
+            <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
+                <Pressable onPress={() => {
+                    const previousMonth = new Date()
+                    previousMonth.setDate(0)
+                    setDateFrom(startOfMonth(previousMonth))
+                    setDateTo(previousMonth)
+                }}>
+                    <FinanceerText className={"text-center"}>Last Month</FinanceerText>
+                </Pressable>
+            </View>
+            <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
+                <Pressable onPress={() => {
+                    setDateFrom(startOfYear(new Date()))
+                    setDateTo(endOfYear(new Date()))
+                }}>
+                    <FinanceerText className={"text-center"}>This Year</FinanceerText>
+                </Pressable>
+            </View>
+        </View>
+
+        <View className={"flex-row justify-between my-4"}>
+            <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
                 <Pressable onPress={() => dateFromRef.current.present()}>
                     <FinanceerText className={"text-center"}>{format(dateFrom, 'dd.MM.yyyy')}</FinanceerText>
                 </Pressable>
@@ -45,7 +74,7 @@ const StatsScreen = () => {
             </View>
         </View>
 
-        <View className={"h-1 border-b-primary border-b-1 mb-5"}/>
+        <View className={"h-1 border-b-primary border-b-1 my-5"}/>
 
         {data?.length <= 0 && <FinanceerText className={"text-center"}>No transactions</FinanceerText>}
 

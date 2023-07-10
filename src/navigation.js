@@ -17,6 +17,7 @@ import LoginPasswordScreen from "auth/LoginPasswordScreen";
 import {RegisterScreen} from "auth/RegisterScreen";
 import {WelcomeScreen} from "auth/WelcomeScreen";
 import StatsScreen from "statistics/StatsScreen";
+import TransactionsByCategoryScreen from "statistics/TransactionsByCategoryScreen";
 
 
 const FinanceerTheme = {
@@ -177,6 +178,12 @@ const StatsStackScreen = () => {
             name={routes.stats}
             options={{headerShown: false}}
             component={StatsScreen}
+        />
+
+        <StatsStack.Screen
+            name={routes.transactionsByCategory}
+            options={{headerShown: false}}
+            component={TransactionsByCategoryScreen}
         />
 
     </StatsStack.Navigator>

@@ -1,16 +1,23 @@
 import FinanceerText from "components/FinanceerText";
-import {Pressable, ScrollView, View} from "react-native";
+import {LogBox, Pressable, ScrollView, View} from "react-native";
 import {getTransactionsByCategorySummary} from "api/backend";
 import {useEffect, useRef, useState} from "react";
 import TransactionAmount from "transactions/TransactionAmount";
-import {useIsFocused} from "@react-navigation/native";
+import {useIsFocused, useNavigation} from "@react-navigation/native";
 import {endOfMonth, endOfYear, format, startOfMonth, startOfYear} from "date-fns";
 import CalendarBottomSheet from "components/CalendarBottomSheet";
+import {routes} from "routes";
+
+LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+]);
 
 const StatsScreen = () => {
 
     const [data, setTransactions] = useState()
     const isFocused = useIsFocused()
+
+    const navigation = useNavigation()
 
     const [dateFrom, setDateFrom] = useState(startOfMonth(new Date()))
     const [dateTo, setDateTo] = useState(endOfMonth(new Date()))
@@ -23,7 +30,7 @@ const StatsScreen = () => {
         if (isFocused) {
             getTransactionsByCategorySummary(dateFrom, dateTo).then(r => setTransactions(r.data))
         }
-    }, [isFocused, dateFrom, dateTo]);
+    }, [isFocused, dateFrom, dateTo])
 
     return <View className={"mx-4 mt-5"}>
 
@@ -79,11 +86,14 @@ const StatsScreen = () => {
         {data?.length <= 0 && <FinanceerText className={"text-center"}>No transactions</FinanceerText>}
 
         <ScrollView className={"h-full"}>
-            {data?.map((item) =>
-                <View key={item.category} className={"flex-row h-12 justify-between"}>
-                    <FinanceerText className={"w-24"}>{item.category}</FinanceerText>
-                    <TransactionAmount className={"w-24 text-right"} amount={item.amount}/>
-                </View>)}
+            {data?.map((category) =>
+                <Pressable onPress={() => navigation.navigate(routes.transactionsByCategory, {id: category.id, name: category.name, dateFrom, dateTo})}>
+                    <View key={category.category} className={"flex-row h-12 justify-between"}>
+                        <FinanceerText className={"w-24"}>{category.name}</FinanceerText>
+                        <TransactionAmount className={"w-24 text-right"} amount={category.amount}/>
+                    </View>
+                </Pressable>
+            )}
         </ScrollView>
     </View>
 }

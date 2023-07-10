@@ -12,5 +12,6 @@ export const routes = {
     manageCategories: 'Manage Categories',
     editCategory: 'Edit Category',
     profile: 'ProfileScreen',
-    stats: "Statistics"
+    stats: "Statistics",
+    transactionsByCategory: "TransactionsByCategory"
 }

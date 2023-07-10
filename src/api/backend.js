@@ -1,7 +1,6 @@
 import 'react-native-url-polyfill/auto'
-import {lastDayOfMonth, startOfMonth} from "date-fns";
+import {format, lastDayOfMonth, startOfMonth} from "date-fns";
 import supabase from "supabase";
-
 
 export const fetchExpenses = async (date) => {
     return fetchTransactionsByType(date, 'EXPENSE')
@@ -25,6 +24,28 @@ export const fetchTransactionsByType = async (date, type) => {
         .order('amount')
 
     if (error) {
+        return
+    }
+
+    return data
+}
+
+export const fetchTransactionsByCategory = async (dateFrom, dateTo, id) => {
+    const {
+        data,
+        error
+    } = await supabase
+        .from('transactions')
+        .select('*')
+        .eq('category', id)
+        .gte('datetime', format(dateFrom, 'yyyy-MM-dd'))
+        .lte('datetime', format(dateTo, 'yyyy-MM-dd'))
+        .order('amount')
+
+    console.log(dateFrom)
+
+    if (error) {
+        console.log(error)
         return
     }
 

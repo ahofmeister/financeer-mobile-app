@@ -19,7 +19,7 @@ const TransactionView = ({route}) => {
         const transaction = route.params?.transaction
 
         const [id, setId] = useState(transaction ? transaction.id : undefined)
-        const [type, setType] = useState(transaction && transaction.amount < 0 ? 'EXPENSE' : 'INCOME')
+        const [type, setType] = useState(transaction && transaction.amount > 0 ? 'INCOME' : 'EXPENSE')
         const [amount, setAmount] = useState(transaction ? transaction.amount : 0)
         const [description, setDescription] = useState(transaction ? transaction.description : '')
         const [date, setDate] = useState(transaction ? new Date(transaction.datetime) : new Date())

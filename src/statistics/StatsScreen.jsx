@@ -95,7 +95,7 @@ const StatsScreen = () => {
                 })}>
                     <View className={"flex-row h-12 justify-between"}>
                         <FinanceerText className={"w-24"}>{category.name}</FinanceerText>
-                        <TransactionAmount className={"w-24 text-right"} amount={category.amount}/>
+                        <TransactionAmount className={"w-24 text-right"} amount={category.total}/>
                     </View>
                 </Pressable>
             )}

@@ -5,7 +5,6 @@ import CategoryTransactionList from "HomeScreen/CategoryTransactionList";
 import {fetchCategories, fetchExpenses, fetchIncomes} from "api/backend";
 import {startOfMonth} from "date-fns";
 import DefaultLayout from "Layout/DefaultLayout";
-import FinanceerText from "components/FinanceerText";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
 import {useIsFocused, useNavigation} from "@react-navigation/native";
 import {routes} from "routes";
@@ -84,9 +83,10 @@ const HomeScreen = () => {
                 <Text className={`font-bold ${route.key === 'expenses' ? 'text-expense' : 'text-income'}`}>
                     {route.title}
                 </Text>}
-            indicator   style={{
+            indicator style={{
             backgroundColor: 'transparent'
-        }}Style={{
+        }}
+            Style={{
                 backgroundColor: state.routes[props.navigationState.index].color
             }}
 
@@ -100,7 +100,7 @@ const HomeScreen = () => {
 
         <View className={"items-center my-5"}>
             <TransactionAmount amount={formatAmount(total)}
-                className={"text-3xl font-bold text-center mb-5"}>
+                               className={"text-3xl font-bold text-center mb-5"}>
             </TransactionAmount>
         </View>
 
@@ -114,7 +114,6 @@ const HomeScreen = () => {
 
     </DefaultLayout>
 }
-
 
 
 export default HomeScreen

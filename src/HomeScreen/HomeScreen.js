@@ -13,6 +13,7 @@ import {theme} from "../../tailwind.config";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {calculateSum, formatAmount} from "transactions/TransactionUtils";
 import MonthPicker from "transactions/MonthPicker";
+import TransactionAmount from "transactions/TransactionAmount";
 
 const HomeScreen = () => {
     const [currentDate, setCurrentDate] = useState(startOfMonth(new Date()));
@@ -98,10 +99,9 @@ const HomeScreen = () => {
         <MonthPicker callBack={setCurrentDate} currentDate={currentDate}/>
 
         <View className={"items-center my-5"}>
-            <FinanceerText
-                className={(total < 0 ? 'text-expense' : 'text-income') + " text-3xl font-bold text-center mb-5"}>
-                {formatAmount(total)}
-            </FinanceerText>
+            <TransactionAmount amount={formatAmount(total)}
+                className={"text-3xl font-bold text-center mb-5"}>
+            </TransactionAmount>
         </View>
 
         <TabView

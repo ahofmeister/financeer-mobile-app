@@ -42,8 +42,6 @@ export const fetchTransactionsByCategory = async (dateFrom, dateTo, id) => {
         .lte('datetime', format(dateTo, 'yyyy-MM-dd'))
         .order('amount')
 
-    console.log(dateFrom)
-
     if (error) {
         console.log(error)
         return

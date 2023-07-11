@@ -170,6 +170,6 @@ export const CurrencyInput = forwardRef((
         [handleChangeText, props?.selection, ref, rest, suffix, textInputValue]
     );
 
-    return <TextInput className={"text-white"}
+    return <TextInput className={"text-white"} autoFocus={props?.autoFocus}
                       {...nextProps} />;
 });

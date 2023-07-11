@@ -76,7 +76,7 @@ const TransactionView = ({route}) => {
 
             <View className={"m-3"}>
                 <View className={"flex items-center"}>
-                    <FakeCurrencyInput
+                    <FakeCurrencyInput autofocus={!transaction}
                         inputClassName={"text-4xl font-bold " + (type === 'EXPENSE' ? 'text-expense' : 'text-income')}
                         prefix={"€"}
                         value={amount}

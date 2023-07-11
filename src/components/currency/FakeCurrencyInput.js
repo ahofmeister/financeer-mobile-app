@@ -32,7 +32,7 @@ const FakeCurrencyInput = forwardRef(
                 >
                     {formattedValue}
                 </TextWithCursor>
-                <CurrencyInput minValue={0}
+                <CurrencyInput minValue={0} autoFocus={props?.autofocus}
                     value={value}
                     onChangeText={(text) => {
                         setFormattedValue(text);

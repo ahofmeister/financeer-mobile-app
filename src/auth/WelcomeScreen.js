@@ -1,21 +1,23 @@
-import DefaultLayout from "Layout/DefaultLayout";
-import {View} from "react-native";
+import {Image, View} from "react-native";
 import {routes} from "routes";
 import Button from "components/Button";
-import Logo from '../../assets/logo.svg';
 
 
 export const WelcomeScreen = ({navigation}) => {
 
-    return <DefaultLayout>
-        <View className={"mx-auto"}>
-            <Logo />
-            <Button classNames={"mt-10 w-24"} onPress={() => navigation.navigate(routes.login.loginPassword)}
+    return <>
+        <View className={"mt-10 mx-auto flex-1"}>
+            <Image className="mb-auto" source={require('../../assets/logo.png')}/>
+        </View>
+
+        <View className={"mb-20 w-5/6 flex-col mx-auto"}>
+
+            <Button classNames={"mb-10"} onPress={() => navigation.navigate(routes.login.loginPassword)}
                     label={"Login"}/>
 
-            <Button classNames={"mt-10"} onPress={() => navigation.navigate(routes.register)} label={"Register"}/>
+            <Button classNames={""} onPress={() => navigation.navigate(routes.register)} label={"Register"}/>
         </View>
-    </DefaultLayout>
+    </>
 
 
 }

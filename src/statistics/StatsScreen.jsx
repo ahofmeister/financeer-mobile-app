@@ -87,8 +87,13 @@ const StatsScreen = () => {
 
         <ScrollView className={"h-full"}>
             {data?.map((category) =>
-                <Pressable onPress={() => navigation.navigate(routes.transactionsByCategory, {id: category.id, name: category.name, dateFrom, dateTo})}>
-                    <View key={category.category} className={"flex-row h-12 justify-between"}>
+                <Pressable key={category.category} onPress={() => navigation.navigate(routes.transactionsByCategory, {
+                    id: category.id,
+                    name: category.name,
+                    dateFrom,
+                    dateTo
+                })}>
+                    <View className={"flex-row h-12 justify-between"}>
                         <FinanceerText className={"w-24"}>{category.name}</FinanceerText>
                         <TransactionAmount className={"w-24 text-right"} amount={category.amount}/>
                     </View>

@@ -87,7 +87,7 @@ const StatsScreen = () => {
 
         <ScrollView className={"h-full"}>
             {data?.map((category) =>
-                <Pressable key={category.category} onPress={() => navigation.navigate(routes.transactionsByCategory, {
+                <Pressable key={category.name} onPress={() => navigation.navigate(routes.transactionsByCategory, {
                     id: category.id,
                     name: category.name,
                     dateFrom,

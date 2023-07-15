@@ -1,9 +1,10 @@
-import {Pressable, View} from "react-native";
+import {View} from "react-native";
 import {useEffect, useState} from "react";
 import {useNavigation} from "@react-navigation/native";
 import {fetchCategories} from "api/backend";
 import FinanceerText from "components/FinanceerText";
 import {routes} from "routes";
+import {TouchableOpacity} from "react-native-gesture-handler";
 
 
 const CategoryScreen = ({route}) => {
@@ -25,7 +26,7 @@ const CategoryScreen = ({route}) => {
             {categories.map((item) => {
 
                 return <View className={"w-1/3 border-gray border-1 h-20 justify-center"}>
-                    <Pressable onPress={() => {
+                    <TouchableOpacity onPress={() => {
                         callback(item)
                         return navigation.navigate(routes.transaction, {
                             transactionType
@@ -33,7 +34,7 @@ const CategoryScreen = ({route}) => {
                     }}>
                         <FinanceerText
                             className={"w-full text-center"}>{item.name}</FinanceerText>
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
             })}
         </View>

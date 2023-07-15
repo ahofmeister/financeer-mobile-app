@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Pressable, View} from "react-native";
+import {View} from "react-native";
 import supabase from "supabase";
 import FinanceerInput from "components/FinanceerInput";
 import {showMessage} from "react-native-flash-message";
@@ -7,6 +7,7 @@ import FinanceerText from "components/FinanceerText";
 import {routes} from "routes";
 import {useNavigation} from "@react-navigation/native";
 import Button from "components/Button";
+import {TouchableOpacity} from "react-native-gesture-handler";
 
 const LoginPasswordScreen = () => {
 
@@ -57,12 +58,12 @@ const LoginPasswordScreen = () => {
 
                 <Button classNames={"mx-auto w-24"} onPress={() => login(email, password)} label={"Login"}/>
 
-                <Pressable className={"mx-auto"}
-                           onPress={() => navigation.navigate(routes.login.loginMagicLink)}>
+                <TouchableOpacity className={"mx-auto"}
+                                  onPress={() => navigation.navigate(routes.login.loginMagicLink)}>
                     <FinanceerText className={"text-primary mt-5"}>
                         Tired of using password? Use Magic Link
                     </FinanceerText>
-                </Pressable>
+                </TouchableOpacity>
 
             </View>
         </>

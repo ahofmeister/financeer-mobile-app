@@ -1,7 +1,8 @@
-import {Pressable, View} from "react-native";
+import {View} from "react-native";
 import {addMonths, format, subMonths} from "date-fns";
 import FinanceerText from "components/FinanceerText";
 import {useEffect, useState} from "react";
+import {TouchableOpacity} from "react-native-gesture-handler";
 
 const MonthPicker = function ({callBack, currentDate}) {
 
@@ -18,18 +19,18 @@ const MonthPicker = function ({callBack, currentDate}) {
     }, [currentDate])
 
     return <View className={"flex-row items-center justify-around"}>
-        <Pressable onPress={() => callBack(previousDate)}>
+        <TouchableOpacity onPress={() => callBack(previousDate)}>
             <FinanceerText className={"text-gray"}>{format(subMonths(currentDate, 1), 'MMMM')}</FinanceerText>
             <FinanceerText className={"text-gray text-center"}> {currentDate.getFullYear()}</FinanceerText>
-        </Pressable>
+        </TouchableOpacity>
         <View>
             <FinanceerText className={"font-bold "}>{format(currentDate, 'MMMM')}</FinanceerText>
             <FinanceerText className={"font-bold text-center"}> {currentDate.getFullYear()}</FinanceerText>
         </View>
-        <Pressable onPress={() => callBack(nextDate)}>
+        <TouchableOpacity onPress={() => callBack(nextDate)}>
             <FinanceerText className={"text-gray"}>{format(nextDate, 'MMMM')}</FinanceerText>
             <FinanceerText className={"text-gray text-center"}> {nextDate.getFullYear()}</FinanceerText>
-        </Pressable>
+        </TouchableOpacity>
     </View>;
 };
 

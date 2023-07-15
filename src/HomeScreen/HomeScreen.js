@@ -1,6 +1,6 @@
 import 'react-native-url-polyfill/auto'
 import {useEffect, useState} from "react";
-import {Pressable, Text, useWindowDimensions, View} from "react-native";
+import {Text, useWindowDimensions, View} from "react-native";
 import CategoryTransactionList from "HomeScreen/CategoryTransactionList";
 import {fetchCategories, fetchExpenses, fetchIncomes} from "api/backend";
 import {startOfMonth} from "date-fns";
@@ -13,6 +13,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import {calculateSum, formatAmount} from "transactions/TransactionUtils";
 import MonthPicker from "transactions/MonthPicker";
 import TransactionAmount from "transactions/TransactionAmount";
+import {TouchableOpacity} from "react-native-gesture-handler";
 
 const HomeScreen = () => {
     const [currentDate, setCurrentDate] = useState(startOfMonth(new Date()));
@@ -93,9 +94,9 @@ const HomeScreen = () => {
         />
     }
     return <DefaultLayout>
-        <Pressable className={"self-end"} onPress={() => navigation.navigate(routes.profile)}>
+        <TouchableOpacity className={"self-end"} onPress={() => navigation.navigate(routes.profile)}>
             <Ionicons color={'white'} size={35} name={'person-circle'}/>
-        </Pressable>
+        </TouchableOpacity>
         <MonthPicker callBack={setCurrentDate} currentDate={currentDate}/>
 
         <View className={"items-center my-5"}>

@@ -7,6 +7,7 @@ import {AuthContextProvider} from "auth/AuthContext";
 import * as NavigationBar from 'expo-navigation-bar';
 import FlashMessage from "react-native-flash-message";
 import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
 
 
 export default function () {
@@ -17,6 +18,7 @@ export default function () {
     })
 
     return <>
+        <GestureHandlerRootView style={{ flex: 1 }}>
         <AuthContextProvider>
             <BottomSheetModalProvider>
                 <MyStatusBar backgroundColor={theme.extend.colors.neutral}/>
@@ -24,6 +26,7 @@ export default function () {
                 <FlashMessage position="top"/>
             </BottomSheetModalProvider>
         </AuthContextProvider>
+        </GestureHandlerRootView>
     </>
 }
 

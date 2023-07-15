@@ -1,5 +1,5 @@
 import FinanceerText from "components/FinanceerText";
-import {LogBox, Pressable, ScrollView, View} from "react-native";
+import {LogBox, ScrollView, View} from "react-native";
 import {getTransactionsByCategorySummary} from "api/backend";
 import {useEffect, useRef, useState} from "react";
 import TransactionAmount from "transactions/TransactionAmount";
@@ -7,6 +7,7 @@ import {useIsFocused, useNavigation} from "@react-navigation/native";
 import {endOfMonth, endOfYear, format, startOfMonth, startOfYear} from "date-fns";
 import CalendarBottomSheet from "components/CalendarBottomSheet";
 import {routes} from "routes";
+import {TouchableOpacity} from "react-native-gesture-handler";
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
@@ -36,46 +37,46 @@ const StatsScreen = () => {
 
         <View className={"flex-row justify-around"}>
             <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
-                <Pressable onPress={() => {
+                <TouchableOpacity onPress={() => {
                     setDateFrom(startOfMonth(new Date()))
                     setDateTo(endOfMonth(new Date()))
                 }}>
                     <FinanceerText className={"text-center"}>This Month</FinanceerText>
-                </Pressable>
+                </TouchableOpacity>
             </View>
             <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
-                <Pressable onPress={() => {
+                <TouchableOpacity onPress={() => {
                     const previousMonth = new Date()
                     previousMonth.setDate(0)
                     setDateFrom(startOfMonth(previousMonth))
                     setDateTo(previousMonth)
                 }}>
                     <FinanceerText className={"text-center"}>Last Month</FinanceerText>
-                </Pressable>
+                </TouchableOpacity>
             </View>
             <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
-                <Pressable onPress={() => {
+                <TouchableOpacity onPress={() => {
                     setDateFrom(startOfYear(new Date()))
                     setDateTo(endOfYear(new Date()))
                 }}>
                     <FinanceerText className={"text-center"}>This Year</FinanceerText>
-                </Pressable>
+                </TouchableOpacity>
             </View>
         </View>
 
         <View className={"flex-row justify-between my-4"}>
             <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
-                <Pressable onPress={() => dateFromRef.current.present()}>
+                <TouchableOpacity onPress={() => dateFromRef.current.present()}>
                     <FinanceerText className={"text-center"}>{format(dateFrom, 'dd.MM.yyyy')}</FinanceerText>
-                </Pressable>
+                </TouchableOpacity>
                 <CalendarBottomSheet initialDate={dateFrom} inputRef={dateFromRef}
                                      handleDayPress={(day) => setDateFrom(day)}/>
             </View>
 
             <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
-                <Pressable onPress={() => dateToRef.current.present()}>
+                <TouchableOpacity onPress={() => dateToRef.current.present()}>
                     <FinanceerText className={"text-center"}>{format(dateTo, 'dd.MM.yyyy')}</FinanceerText>
-                </Pressable>
+                </TouchableOpacity>
                 <CalendarBottomSheet initialDate={dateTo} inputRef={dateToRef}
                                      handleDayPress={(day) => setDateTo(day)}/>
             </View>
@@ -87,7 +88,7 @@ const StatsScreen = () => {
 
         <ScrollView className={"h-full"}>
             {data?.map((category) =>
-                <Pressable key={category.name} onPress={() => navigation.navigate(routes.transactionsByCategory, {
+                <TouchableOpacity key={category.name} onPress={() => navigation.navigate(routes.transactionsByCategory, {
                     id: category.id,
                     name: category.name,
                     dateFrom,
@@ -97,7 +98,7 @@ const StatsScreen = () => {
                         <FinanceerText className={"w-24"}>{category.name}</FinanceerText>
                         <TransactionAmount className={"w-24 text-right"} amount={category.total}/>
                     </View>
-                </Pressable>
+                </TouchableOpacity>
             )}
         </ScrollView>
     </View>

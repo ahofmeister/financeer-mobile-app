@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Pressable, View} from "react-native";
+import {View} from "react-native";
 import supabase from "supabase";
 import {showMessage} from "react-native-flash-message";
 import FinanceerText from "components/FinanceerText";
@@ -7,6 +7,7 @@ import {routes} from "routes";
 import * as Linking from "expo-linking";
 import {useNavigation} from "@react-navigation/native";
 import FinanceerInput from "components/FinanceerInput";
+import {TouchableOpacity} from "react-native-gesture-handler";
 
 const LoginMagicLinkScreen = () => {
 
@@ -60,24 +61,24 @@ const LoginMagicLinkScreen = () => {
                                 onChangeText={setEmail}
                 />
 
-                <Pressable className={"mx-auto"} disabled={isSending}
+                <TouchableOpacity className={"mx-auto"} disabled={isSending}
                            onPress={() => sendMagicLink(email)}>
                     <FinanceerText className={"text-primary mt-5"}>
                         Send me a Magic Link!
                     </FinanceerText>
-                </Pressable>
+                </TouchableOpacity>
 
                 {sentEmail &&
                     <FinanceerText className={"mt-3"}>
                         We have sent an email with the Magic Link to {sentEmail}.
                     </FinanceerText>}
 
-                <Pressable className={"mx-auto"}
+                <TouchableOpacity className={"mx-auto"}
                            onPress={() => navigation.navigate(routes.login.loginPassword)}>
                     <FinanceerText className={"text-primary mt-5"}>
                         Wanna have a pw?
                     </FinanceerText>
-                </Pressable>
+                </TouchableOpacity>
 
 
             </View>

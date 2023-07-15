@@ -1,5 +1,5 @@
 import DefaultLayout from "Layout/DefaultLayout";
-import {Pressable, SectionList, View} from "react-native";
+import {SectionList, View} from "react-native";
 import {fetchTransactions} from "api/backend";
 import {useEffect, useState} from "react";
 import FinanceerText from "components/FinanceerText";
@@ -7,6 +7,7 @@ import TransactionAmount from "transactions/TransactionAmount";
 import {useIsFocused, useNavigation} from "@react-navigation/native";
 import {routes} from "routes";
 import {calculateSum} from "transactions/TransactionUtils";
+import {TouchableOpacity} from "react-native-gesture-handler";
 
 const TransactionsScreen = () => {
 
@@ -38,7 +39,7 @@ const TransactionsScreen = () => {
                      keyExtractor={(item, index) => item + index}
                      renderSectionHeader={SectionHeader}
                      className={"m-3"} sections={transactions} renderItem={({item}) =>
-            <Pressable onPress={() => navigation.navigate(routes.transaction, {
+            <TouchableOpacity onPress={() => navigation.navigate(routes.transaction, {
                 transaction: item
             })}>
                 <View className={"flex-row h-10 w-full justify-between"}>
@@ -48,7 +49,7 @@ const TransactionsScreen = () => {
                                    className={"ml-3 flex-1"}>{item.description}</FinanceerText>
                     <TransactionAmount className={"w-24 text-right"} type={item.type} amount={item.amount}/>
                 </View>
-            </Pressable>}/>
+            </TouchableOpacity>}/>
 
     </DefaultLayout>
 }

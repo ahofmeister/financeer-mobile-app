@@ -1,32 +1,11 @@
-export const addSignPrefixAndSuffix = (
-    value,
-    options
-) => {
-    const {prefix, sign, suffix, signPosition} = options;
-
-    switch (signPosition) {
-        case 'beforePrefix':
-            return `${sign}${prefix}${value}${suffix}`;
-        case 'afterPrefix':
-            return `${prefix} ${sign}${value}${suffix}`;
-    }
-};
-
 export const formatAmount = (input, options) => {
     input = input / 100
     const {
         precision = 2,
         separator = ',',
         delimiter = '.',
-        prefix = '€',
-        suffix = '',
-        ignoreNegative,
-        showPositiveSign,
-        signPosition = 'afterPrefix',
     } = options || {};
 
-    const negative = ignoreNegative ? false : input < 0;
-    const sign = negative ? '-' : showPositiveSign ? '+' : '';
 
     let string = Math.abs(input).toFixed(precision);
 
@@ -50,14 +29,7 @@ export const formatAmount = (input, options) => {
         formattedNumber += separator + decimals;
     }
 
-    return addSignPrefixAndSuffix(formattedNumber, {
-        prefix,
-        suffix,
-        sign,
-        signPosition,
-    });
-};
+    return formattedNumber
+}
 
-export const calculateSum = (transactions) => transactions.reduce(function (partialSum, transaction) {
-    return partialSum + transaction.amount;
-}, 0)
+export const calculateSum = (transactions) => transactions.reduce((partialSum, transaction) => partialSum + transaction.amount, 0)

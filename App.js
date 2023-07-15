@@ -12,20 +12,23 @@ import {GestureHandlerRootView} from "react-native-gesture-handler";
 
 export default function () {
     useEffect(() => {
-        NavigationBar.setBackgroundColorAsync('#101112')
-        NavigationBar.setBorderColorAsync('#101112')
-        NavigationBar.setButtonStyleAsync('light')
-    })
+        if (Platform.OS === 'Android') {
+            NavigationBar.setBackgroundColorAsync('#101112')
+            NavigationBar.setBorderColorAsync('#101112')
+            NavigationBar.setButtonStyleAsync('light')
+        }
+
+    }, [])
 
     return <>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-        <AuthContextProvider>
-            <BottomSheetModalProvider>
-                <MyStatusBar backgroundColor={theme.extend.colors.neutral}/>
-                <Navigation/>
-                <FlashMessage position="top"/>
-            </BottomSheetModalProvider>
-        </AuthContextProvider>
+        <GestureHandlerRootView style={{flex: 1}}>
+            <AuthContextProvider>
+                <BottomSheetModalProvider>
+                    <MyStatusBar backgroundColor={theme.extend.colors.neutral}/>
+                    <Navigation/>
+                    <FlashMessage position="top"/>
+                </BottomSheetModalProvider>
+            </AuthContextProvider>
         </GestureHandlerRootView>
     </>
 }

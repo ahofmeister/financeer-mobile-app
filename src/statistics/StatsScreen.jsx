@@ -13,9 +13,38 @@ LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
 ]);
 
+export const sumTotal = (transactions) => transactions.reduce((partialSum, transaction) => partialSum + transaction, 0)
+
+const Summary = ({income, expense}) => {
+
+    const [total, setTotal] = useState()
+
+    useEffect(() => {
+        setTotal(income + expense)
+    }, [income, expense])
+
+    return <View className={"mb-4 border-primary border-t pt-3"}>
+        <View className={"flex-row justify-between"}>
+            <FinanceerText className={""}>Income</FinanceerText>
+            <TransactionAmount amount={income} className={""}/>
+        </View>
+        <View className={"flex-row justify-between"}>
+            <FinanceerText className={""}>Expense</FinanceerText>
+            <TransactionAmount amount={expense} className={""}/>
+        </View>
+        <View className={"flex-row justify-between mt-4"}>
+            <FinanceerText className={`font-bold text-left`}>Total</FinanceerText>
+            <TransactionAmount amount={total} className={"font-bold text-right"}/>
+        </View>
+    </View>
+}
+
 const StatsScreen = () => {
 
-    const [data, setTransactions] = useState()
+    const [transactionsPerCategory, setTransactionsPerCategory] = useState()
+    const [income, setIncome] = useState()
+    const [expense, setExpense] = useState()
+
     const isFocused = useIsFocused()
 
     const navigation = useNavigation()
@@ -26,15 +55,21 @@ const StatsScreen = () => {
     const dateFromRef = useRef(null)
     const dateToRef = useRef(null)
 
-
     useEffect(() => {
         if (isFocused) {
-            getTransactionsByCategorySummary(dateFrom, dateTo).then(r => setTransactions(r.data))
+            getTransactionsByCategorySummary(dateFrom, dateTo).then(r => setTransactionsPerCategory(r.data))
         }
     }, [isFocused, dateFrom, dateTo])
 
-    return <View className={"mx-4 mt-5"}>
+    useEffect(() => {
+        if (transactionsPerCategory) {
+            const values = Object.values(transactionsPerCategory).map(t => t.total)
+            setExpense(sumTotal(values.filter(a => a < 0)))
+            setIncome(sumTotal(values.filter(a => a > 0)))
+        }
+    }, [transactionsPerCategory])
 
+    return <View className={"flex-1 mx-4 mt-5"}>
         <View className={"flex-row justify-around"}>
             <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
                 <TouchableOpacity onPress={() => {
@@ -82,18 +117,18 @@ const StatsScreen = () => {
             </View>
         </View>
 
-        <View className={"h-1 border-b-primary border-b-1 my-5"}/>
+        <View className={"h-1 border-b-primary border-b-1"}/>
 
-        {data?.length <= 0 && <FinanceerText className={"text-center"}>No transactions</FinanceerText>}
-
-        <ScrollView className={"h-full"}>
-            {data?.map((category) =>
-                <TouchableOpacity key={category.name} onPress={() => navigation.navigate(routes.transactionsByCategory, {
-                    id: category.id,
-                    name: category.name,
-                    dateFrom,
-                    dateTo
-                })}>
+        <ScrollView className={"h-full mt-4"} showsVerticalScrollIndicator={false}
+                    showsHorizontalScrollIndicator={false}>
+            {transactionsPerCategory?.map((category) =>
+                <TouchableOpacity key={category.name}
+                                  onPress={() => navigation.navigate(routes.transactionsByCategory, {
+                                      id: category.id,
+                                      name: category.name,
+                                      dateFrom,
+                                      dateTo
+                                  })}>
                     <View className={"flex-row h-12 justify-between"}>
                         <FinanceerText className={"w-24"}>{category.name}</FinanceerText>
                         <TransactionAmount className={"w-24 text-right"} amount={category.total}/>
@@ -101,6 +136,7 @@ const StatsScreen = () => {
                 </TouchableOpacity>
             )}
         </ScrollView>
+        <Summary expense={expense} income={income}/>
     </View>
 }
 

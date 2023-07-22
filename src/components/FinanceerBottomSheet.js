@@ -13,7 +13,7 @@ const FinanceerBottomSheet = ({intRef, children}) => {
                              backgroundStyle={styles.backgroundStyle}
                              backdropComponent={(props) => (
                                  <BottomSheetBackdrop disappearsOnIndex={-1} appearsOnIndex={0}
-                                                      opacity={0} {...props} />)}
+                                                      opacity={0.8} {...props} />)}
 
     >
         {children}

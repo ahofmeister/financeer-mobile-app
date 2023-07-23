@@ -1,6 +1,6 @@
 import {ScrollView, View} from "react-native";
-import {useEffect, useRef, useState} from "react";
-import {deleteTransaction, fetchCategories, saveTransaction} from "api/backend";
+import {useRef, useState} from "react";
+import {deleteTransaction, saveTransaction} from "api/backend";
 import {useNavigation} from "@react-navigation/native";
 import FinanceerText from "components/FinanceerText";
 import {showMessage} from "react-native-flash-message";
@@ -9,52 +9,31 @@ import FinanceerInput from "components/FinanceerInput";
 import Button from "components/Button";
 import FakeCurrencyInput from "components/currency/FakeCurrencyInput";
 import {format} from "date-fns";
-import FinanceerBottomSheet from "components/FinanceerBottomSheet";
 import CalendarBottomSheet from "components/CalendarBottomSheet";
 import {TouchableOpacity} from "react-native-gesture-handler";
+import CategoryPicker from "categories/CategoriePicker";
+
 
 const TransactionView = ({route}) => {
-        const categorySheetRef = useRef(null);
-        const dateSheetRef = useRef(null);
+        const dateSheetRef = useRef();
         const navigation = useNavigation();
         const transaction = route.params?.transaction
 
-        const [id, setId] = useState(transaction ? transaction.id : undefined)
+        const id = transaction ? transaction.id : undefined
         const [type, setType] = useState(transaction && transaction.amount > 0 ? 'INCOME' : 'EXPENSE')
         const [amount, setAmount] = useState(transaction ? transaction.amount : 0)
         const [description, setDescription] = useState(transaction ? transaction.description : '')
         const [date, setDate] = useState(transaction ? new Date(transaction.datetime) : new Date())
-        const [category, setCategory] = useState(transaction ? transaction.category : {})
-        const [categories, setCategories] = useState([]);
+
+        const [category, setCategory] = useState(transaction ? transaction.category : undefined)
+
 
         const handleTypeChange = (type) => {
             setType(type)
-        };
-
-        useEffect(() => {
-            fetchCategories().then(response => {
-                setCategories(response.map((item) => ({id: item.id, name: item.name})))
-            })
-
-        }, [])
+        }
 
         return <ScrollView>
-            <FinanceerBottomSheet intRef={categorySheetRef}>
-                <ScrollView className={"bg-neutral"}>
-                    <View className={"flex-row flex-wrap"}>
-                        {categories.map((item) =>
-                            <View key={item.name} className={"w-1/3 h-20 border-gray border-1"}>
-                                <TouchableOpacity className={"h-full justify-center"} onPress={() => {
-                                    setCategory(item)
-                                    categorySheetRef.current.close()
-                                }}>
-                                    <FinanceerText
-                                        className={"w-full text-center"}>{item.name}</FinanceerText>
-                                </TouchableOpacity>
-                            </View>)}
-                    </View>
-                </ScrollView>
-            </FinanceerBottomSheet>
+
             <CalendarBottomSheet initialDate={date} handleDayPress={(date) => setDate(date)} inputRef={dateSheetRef}/>
 
             <View className={"flex-row my-5"}>
@@ -102,15 +81,7 @@ const TransactionView = ({route}) => {
 
                 </View>
 
-                <View className={"mt-5"}>
-                    <FinanceerText>Category</FinanceerText>
-                    <TouchableOpacity onPress={() => categorySheetRef.current.present()}>
-                        <View
-                            className={"mt-1 h-10"}>
-                            <FinanceerText>{category?.name}</FinanceerText>
-                        </View>
-                    </TouchableOpacity>
-                </View>
+                <CategoryPicker onSave={setCategory} initialCategory={transaction?.category}/>
 
                 <Button label={"Save"} onPress={async () => {
                     const {

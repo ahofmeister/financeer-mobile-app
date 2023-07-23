@@ -1,6 +1,6 @@
 import FinanceerText from "components/FinanceerText";
 import DefaultLayout from "Layout/DefaultLayout";
-import {deleteCategory, fetchCategories, upsertCategory} from "api/backend";
+import {deleteCategory, fetchParentCategories, upsertCategory} from "api/backend";
 import {useEffect, useState} from "react";
 import {FlatList, View} from "react-native";
 import {showMessage} from "react-native-flash-message";
@@ -28,7 +28,7 @@ const CategoriesScreen = () => {
     const [editCategory, setEditCategory] = useState();
 
     useEffect(() => {
-        fetchCategories().then(categories => setCategories(categories))
+        fetchParentCategories().then(categories => setCategories(categories))
     }, [editCategory])
 
     const handleSave = (category) => {
@@ -80,7 +80,7 @@ const CategoriesScreen = () => {
                 className={`flex-row items-center p-2 mt-1 border-gray border-t-1 ${isEnd ? 'border-b-1' : ''}`}>
                 <TouchableOpacity className={"w-10"} onPress={() => {
                     deleteCategory(item.id).then(error => handleError(error))
-                    fetchCategories().then(categories => setCategories(categories))
+                    fetchParentCategories().then(categories => setCategories(categories))
                 }}>
                     <Ionicons name={"trash"} size={20} color={theme.extend.colors.expense}/>
                 </TouchableOpacity>

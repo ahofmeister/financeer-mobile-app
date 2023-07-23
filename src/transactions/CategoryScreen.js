@@ -1,7 +1,7 @@
 import {View} from "react-native";
 import {useEffect, useState} from "react";
 import {useNavigation} from "@react-navigation/native";
-import {fetchCategories} from "api/backend";
+import {fetchParentCategories} from "api/backend";
 import FinanceerText from "components/FinanceerText";
 import {routes} from "routes";
 import {TouchableOpacity} from "react-native-gesture-handler";
@@ -15,7 +15,7 @@ const CategoryScreen = ({route}) => {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        fetchCategories().then(response => {
+        fetchParentCategories().then(response => {
             setCategories(response.map((item) => ({id: item.id, name: item.name})))
         })
 

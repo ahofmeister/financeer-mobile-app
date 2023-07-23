@@ -2,7 +2,7 @@ import 'react-native-url-polyfill/auto'
 import {useEffect, useState} from "react";
 import {Text, useWindowDimensions, View} from "react-native";
 import CategoryTransactionList from "HomeScreen/CategoryTransactionList";
-import {fetchCategories, fetchExpenses, fetchIncomes} from "api/backend";
+import {fetchParentCategories, fetchExpenses, fetchIncomes} from "api/backend";
 import {startOfMonth} from "date-fns";
 import DefaultLayout from "Layout/DefaultLayout";
 import {SceneMap, TabBar, TabView} from "react-native-tab-view";
@@ -50,7 +50,7 @@ const HomeScreen = () => {
     useEffect(() => {
         fetchExpenses(currentDate).then(response => setExpenses(response))
         fetchIncomes(currentDate).then(response => setIncomes(response))
-        fetchCategories().then(response => setCategories(response))
+        fetchParentCategories().then(response => setCategories(response))
     }, [currentDate, isFocused])
 
     useEffect(() => {

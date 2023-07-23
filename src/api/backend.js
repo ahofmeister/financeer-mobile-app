@@ -69,8 +69,9 @@ export const fetchTransactions = async (date) => {
     return data
 }
 
-export const fetchCategories = async () => {
+export const fetchParentCategories = async () => {
     const {data, error} = await supabase.from('categories').select('*')
+        .is("parent_id", null)
 
     if (error) {
         return
@@ -78,6 +79,16 @@ export const fetchCategories = async () => {
 
     return data
 }
+
+export const fetchCategories = async () => {
+    const {data, error} = await supabase.from('categories').select('*')
+
+    if (error) {
+        return error
+    }
+    return data
+}
+
 
 export const deleteCategory = async (id) => {
     const {error} = await supabase.from('categories').delete(id).eq('id', id)
@@ -108,5 +119,5 @@ export const deleteTransaction = async (id) => {
 }
 
 export const getTransactionsByCategorySummary = async (dateFrom, dateTo) => {
-    return supabase.rpc("transactions_by_category",  {datefrom: dateFrom, dateto: dateTo})
+    return supabase.rpc("transactions_by_category", {datefrom: dateFrom, dateto: dateTo})
 }

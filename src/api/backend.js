@@ -119,5 +119,5 @@ export const deleteTransaction = async (id) => {
 }
 
 export const getTransactionsByCategorySummary = async (dateFrom, dateTo) => {
-    return supabase.rpc("transactions_by_category", {datefrom: dateFrom, dateto: dateTo})
+    return supabase.rpc("transactions_by_category", {datefrom: format(dateFrom, 'yyyy-MM-dd'), dateto: format(dateTo, 'yyyy-MM-dd')})
 }

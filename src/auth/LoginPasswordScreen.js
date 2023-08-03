@@ -24,7 +24,7 @@ const LoginPasswordScreen = () => {
             return
         }
 
-        let result = await supabase.auth.signInWithPassword(
+        const result = await supabase.auth.signInWithPassword(
             {
                 email,
                 password
@@ -38,23 +38,24 @@ const LoginPasswordScreen = () => {
 
     return (
         <>
-            <View className={"items-center w-full mx-auto"}>
-                <FinanceerInput className={"w-4/4 mx-auto"}
-                                value={email}
-                                autoCapitalize="none"
-                                keyboardType="email-address"
-                                placeholder="Email"
-                                onChangeText={setEmail}/>
+            <View className={"w-full"}>
+                <View className={"ml-10"}>
+                    <FinanceerInput className={"w-72"}
+                                    value={email}
+                                    autoCapitalize="none"
+                                    keyboardType="email-address"
+                                    placeholder="Email"
+                                    onChangeText={setEmail}/>
 
+                    <FinanceerInput className={"w-72"}
+                        value={password}
+                        autoCapitalize="none"
+                        secretTextEntry={true}
+                        placeholder="Password"
+                        onChangeText={setPassword}
+                    />
 
-                <FinanceerInput className={"w-full mx-auto"}
-                                value={password}
-                                autoCapitalize="none"
-                                keyboardType="password"
-                                placeholder="Password"
-                                onChangeText={setPassword}
-                />
-
+                </View>
 
                 <Button classNames={"mx-auto w-24"} onPress={() => login(email, password)} label={"Login"}/>
 

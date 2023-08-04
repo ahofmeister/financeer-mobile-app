@@ -35,7 +35,7 @@ const TransactionsScreen = () => {
     return <DefaultLayout>
         <TransactionAmount amount={sum} className={"text-2xl text-center mb-5"}/>
 
-        <SectionList bounces={false}
+        <SectionList bounces={false} showsVerticalScrollIndicator={false}
                      keyExtractor={(item, index) => item + index}
                      renderSectionHeader={SectionHeader}
                      className={"m-3"} sections={transactions} renderItem={({item}) =>

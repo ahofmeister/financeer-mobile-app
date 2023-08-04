@@ -32,7 +32,7 @@ const TransactionView = ({route}) => {
             setType(type)
         }
 
-        return <ScrollView>
+        return <ScrollView showsVerticalScrollIndicator={false}>
 
             <CalendarBottomSheet initialDate={date} handleDayPress={(date) => setDate(date)} inputRef={dateSheetRef}/>
 

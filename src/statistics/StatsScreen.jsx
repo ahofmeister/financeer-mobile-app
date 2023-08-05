@@ -71,7 +71,7 @@ const StatsScreen = () => {
 
     return <View className={"flex-1 mx-4 mt-5"}>
         <View className={"flex-row justify-around"}>
-            <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
+            <View className={"w-1/3 h-10 border-gray border justify-center"}>
                 <TouchableOpacity onPress={() => {
                     setDateFrom(startOfMonth(new Date()))
                     setDateTo(endOfMonth(new Date()))
@@ -79,7 +79,7 @@ const StatsScreen = () => {
                     <FinanceerText className={"text-center"}>This Month</FinanceerText>
                 </TouchableOpacity>
             </View>
-            <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
+            <View className={"w-1/3 h-10 border-gray border justify-center"}>
                 <TouchableOpacity onPress={() => {
                     const previousMonth = new Date()
                     previousMonth.setDate(0)
@@ -89,7 +89,7 @@ const StatsScreen = () => {
                     <FinanceerText className={"text-center"}>Last Month</FinanceerText>
                 </TouchableOpacity>
             </View>
-            <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
+            <View className={"w-1/3 h-10 border-gray border justify-center"}>
                 <TouchableOpacity onPress={() => {
                     setDateFrom(startOfYear(new Date()))
                     setDateTo(endOfYear(new Date()))
@@ -100,7 +100,7 @@ const StatsScreen = () => {
         </View>
 
         <View className={"flex-row justify-between my-4"}>
-            <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
+            <View className={"w-1/3 h-10 border-gray border justify-center"}>
                 <TouchableOpacity onPress={() => dateFromRef.current.present()}>
                     <FinanceerText className={"text-center"}>{format(dateFrom, 'dd.MM.yyyy')}</FinanceerText>
                 </TouchableOpacity>
@@ -108,7 +108,7 @@ const StatsScreen = () => {
                                      handleDayPress={(day) => setDateFrom(day)}/>
             </View>
 
-            <View className={"w-1/3 h-10 border-gray border-1 justify-center"}>
+            <View className={"w-1/3 h-10 border-gray border justify-center"}>
                 <TouchableOpacity onPress={() => dateToRef.current.present()}>
                     <FinanceerText className={"text-center"}>{format(dateTo, 'dd.MM.yyyy')}</FinanceerText>
                 </TouchableOpacity>

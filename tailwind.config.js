@@ -5,12 +5,12 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                income: '#00C9C9',
-                expense: '#e91e63',
+                income: '#84F5F5',
+                expense: '#F58484',
                 primary: '#C74200',
                 neutral: '#101112',
                 white: '#FFFFFF',
-                gray: '#46464B',
+                gray: '#18181B',
             },
         }
     },

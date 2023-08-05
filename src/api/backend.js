@@ -71,7 +71,7 @@ export const fetchTransactions = async (date) => {
 
 export const fetchParentCategories = async () => {
     const {data, error} = await supabase.from('categories').select('*')
-        .is("parent_id", null)
+        .is("parent_id", null).order("name")
 
     if (error) {
         return

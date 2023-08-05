@@ -24,7 +24,7 @@ const CategoryPicker = ({onSave, initialCategory}) => {
     useEffect(() => {
         fetchCategories().then(data => {
             setAlLCategories(transformToParentChildren(data));
-        }).catch(x => console.log("error: " + x))
+        })
     }, [])
 
     const reset = () => {

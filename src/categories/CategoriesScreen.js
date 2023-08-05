@@ -33,9 +33,9 @@ const CategoriesScreen = () => {
 
     const handleSave = (category) => {
         upsertCategory(category?.id || undefined, category.name).then(response => {
-            if (response.data) {
+            if (response.status === 201) {
                 showMessage({type: 'success', message: `Category successfully ${category.id ? 'updated' : 'created'}`})
-                setCategories(...categories, response.data[0])
+                setCategories(...categories, category)
                 setEditCategory(undefined)
             }
         })
@@ -45,7 +45,7 @@ const CategoriesScreen = () => {
     if (editCategory) {
         return <DefaultLayout>
             <TouchableOpacity className={"items-end mr-3"}
-                       onPress={() => setEditCategory(undefined)}>
+                              onPress={() => setEditCategory(undefined)}>
                 <Ionicons color={'white'} name="close-outline" size={35}/>
             </TouchableOpacity>
 
@@ -58,7 +58,7 @@ const CategoriesScreen = () => {
             }/>
 
             <View className={"mt-10"}>
-                <Button label={"Save"} onPress={() => handleSave(editCategory, editCategory)}/>
+                <Button label={"Save"} onPress={() => handleSave(editCategory)}/>
             </View>
         </DefaultLayout>
     }

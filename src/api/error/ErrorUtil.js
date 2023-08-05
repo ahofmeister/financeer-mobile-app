@@ -1,1 +1,1 @@
-export const isForeignKeyViolation = (error) => error.code === "23503";
+export const isForeignKeyViolation = (error) => error?.code === "23503";

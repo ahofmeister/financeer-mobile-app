@@ -38,7 +38,7 @@ const TransactionView = ({route}) => {
 
             <View className={"flex-row my-5"}>
                 <View
-                    className={`w-1/2 h-10 border-1 justify-center ${type === 'INCOME' ? 'border-income' : 'border-gray'}`}>
+                    className={`w-1/2 h-10 border justify-center ${type === 'INCOME' ? 'border-income' : 'border-gray'}`}>
                     <TouchableOpacity onPress={() => handleTypeChange('INCOME')}>
                         <FinanceerText
                             className={`w-full font-bold text-center ${type === 'INCOME' ? 'text-income' : 'text-white'}`}>Income</FinanceerText>
@@ -46,7 +46,7 @@ const TransactionView = ({route}) => {
                 </View>
 
                 <View
-                    className={`w-1/2 h-10 border-1 justify-center  ${type === 'EXPENSE' ? 'border-expense' : 'border-gray'}`}>
+                    className={`w-1/2 h-10 border justify-center  ${type === 'EXPENSE' ? 'border-expense' : 'border-gray'}`}>
                     <TouchableOpacity onPress={() => handleTypeChange('EXPENSE')}>
                         <FinanceerText
                             className={`w-full font-bold text-center  ${type === 'EXPENSE' ? 'text-expense' : 'text-white'}`}>Expense</FinanceerText>

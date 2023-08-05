@@ -33,7 +33,7 @@ const CategoryPicker = ({onSave, initialCategory}) => {
     }
 
     const CategoryBox = ({category}) =>
-        <View className={"w-1/3 h-20 border-gray border-1"}>
+        <View className={"w-1/3 h-20 border-gray border"}>
             <TouchableOpacity className={"h-full justify-center"} onPress={() => {
                 if (category.children.length !== 0) {
                     setCurrentCategories(category.children)

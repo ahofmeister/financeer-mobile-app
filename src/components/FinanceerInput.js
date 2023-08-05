@@ -8,7 +8,7 @@ const FinanceerInput = (props) => {
             <FinanceerText>{props.label}</FinanceerText>
             <TextInput placeholderTextColor={"#999"} selectionColor={theme.extend.colors.primary} secureTextEntry={props.secretTextEntry}
                        {...props}
-                       className={'pl-2 text-white h-10 border-b-1 border-b-gray rounded focus:border-primary' + (props.className || '')}>
+                       className={'pl-2 text-white h-10 border-b border-b-gray rounded focus:border-primary' + (props.className || '')}>
             </TextInput>
         </View>
     </>

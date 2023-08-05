@@ -15,7 +15,7 @@ const TransactionCard = ({transaction}) => {
     const navigation = useNavigation()
     return <TouchableHighlight onPress={() => navigation.navigate(routes.transaction, {transaction})}>
         <View className={"flex-row h-14 w-full my-2 bg-gray"}>
-            <View className={`w-2/12 justify-center mx-3 pr-3 border-r-1`}>
+            <View className={`w-2/12 justify-center mx-3 pr-3 border-r`}>
                 <FinanceerText
                     className={"uppercase text-center"}>{format(new Date(transaction.datetime), 'MMM')}</FinanceerText>
                 <FinanceerText

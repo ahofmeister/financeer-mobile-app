@@ -192,7 +192,7 @@ const StatsStackScreen = () => {
 export default Navigation
 
 const CustomIcon = ({focused, name, color, size}) => {
-    return <View className={`w-full pt-1 items-center justify-center border-t-1 ${focused ? 'border-t-primary' : ''}`}>
+    return <View className={`w-full pt-1 items-center justify-center border-t ${focused ? 'border-t-primary' : ''}`}>
         <Ionicons name={name} color={color} size={size}/>
     </View>
 }

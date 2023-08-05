@@ -25,7 +25,7 @@ const CategoryScreen = ({route}) => {
         <View className={"flex-row flex-wrap"}>
             {categories.map((item) => {
 
-                return <View className={"w-1/3 border-gray border-1 h-20 justify-center"}>
+                return <View className={"w-1/3 border-gray h-20 justify-center"}>
                     <TouchableOpacity onPress={() => {
                         callback(item)
                         return navigation.navigate(routes.transaction, {

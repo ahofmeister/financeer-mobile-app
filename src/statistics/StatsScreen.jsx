@@ -117,7 +117,7 @@ const StatsScreen = () => {
             </View>
         </View>
 
-        <View className={"h-1 border-b-primary border-b-1"}/>
+        <View className={"h-1 border-b-primary border-b"}/>
 
         <ScrollView className={"h-full mt-4"} showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}>

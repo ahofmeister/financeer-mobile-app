@@ -77,7 +77,7 @@ const CategoriesScreen = () => {
             const isEnd = index === categories.length - 1;
 
             return <View
-                className={`flex-row items-center p-2 mt-1 border-gray border-t-1 ${isEnd ? 'border-b-1' : ''}`}>
+                className={`flex-row items-center p-2 mt-1 border-gray border-t ${isEnd ? 'border-b' : ''}`}>
                 <TouchableOpacity className={"w-10"} onPress={() => {
                     deleteCategory(item.id).then(error => handleError(error))
                     fetchParentCategories().then(categories => setCategories(categories))

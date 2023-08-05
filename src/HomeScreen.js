@@ -61,7 +61,7 @@ const HomeScreen = () => {
 
     return <DefaultLayout>
 
-        <MonthPicker callBack={function (date) {
+        <MonthPicker onDateChange={date => {
             setCurrentDate(date)
             setIsLoading(true)
         }} currentDate={currentDate}/>

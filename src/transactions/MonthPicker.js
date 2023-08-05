@@ -4,14 +4,13 @@ import FinanceerText from "components/FinanceerText";
 import {useEffect, useState} from "react";
 import {TouchableOpacity} from "react-native-gesture-handler";
 
-const MonthPicker = function ({callBack, currentDate}) {
+const MonthPicker = ({onDateChange, currentDate}) => {
 
     const [nextDate, setNextDate] = useState(addMonths(currentDate, 1))
     const [previousDate, setPreviousDate] = useState(subMonths(currentDate, 1))
 
-
     useEffect(() => {
-     setNextDate(addMonths(currentDate, 1))
+        setNextDate(addMonths(currentDate, 1))
     }, [currentDate])
 
     useEffect(() => {
@@ -19,7 +18,7 @@ const MonthPicker = function ({callBack, currentDate}) {
     }, [currentDate])
 
     return <View className={"flex-row items-center justify-around"}>
-        <TouchableOpacity onPress={() => callBack(previousDate)}>
+        <TouchableOpacity onPress={() => onDateChange(previousDate)}>
             <FinanceerText className={"text-gray"}>{format(subMonths(currentDate, 1), 'MMMM')}</FinanceerText>
             <FinanceerText className={"text-gray text-center"}> {currentDate.getFullYear()}</FinanceerText>
         </TouchableOpacity>
@@ -27,7 +26,7 @@ const MonthPicker = function ({callBack, currentDate}) {
             <FinanceerText className={"font-bold "}>{format(currentDate, 'MMMM')}</FinanceerText>
             <FinanceerText className={"font-bold text-center"}> {currentDate.getFullYear()}</FinanceerText>
         </View>
-        <TouchableOpacity onPress={() => callBack(nextDate)}>
+        <TouchableOpacity onPress={() => onDateChange(nextDate)}>
             <FinanceerText className={"text-gray"}>{format(nextDate, 'MMMM')}</FinanceerText>
             <FinanceerText className={"text-gray text-center"}> {nextDate.getFullYear()}</FinanceerText>
         </TouchableOpacity>

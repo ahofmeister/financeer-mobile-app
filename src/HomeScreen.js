@@ -72,7 +72,7 @@ const HomeScreen = () => {
             </View> :
             <>
                 <View className={"border-b-primary border-2 my-3"}></View>
-                <TransactionAmount amount={sum} className={"text-2xl text-center"}/>
+                <TransactionAmount amount={sum} className={"text-2xl ml-3"}/>
                 <ScrollView showsVerticalScrollIndicator={false} className={"m-3"}>
                     {transactions.map(transaction =>
                         <TransactionCard key={transaction.id} transaction={transaction}/>

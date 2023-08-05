@@ -10,11 +10,8 @@ module.exports = {
                 primary: '#C74200',
                 neutral: '#101112',
                 white: '#FFFFFF',
-                gray: '#676666',
+                gray: '#46464B',
             },
-            borderWidth: {
-                1: 1
-            }
         }
     },
     plugins: []

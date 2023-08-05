@@ -8,7 +8,7 @@ import LoginMagicLinkScreen from "auth/LoginMagicLinkScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {useUser} from "auth/AuthContext";
 import ChooseCategoryScreen from "transactions/CategoryScreen";
-import TransactionsScreen from "transactions/TransactionsScreen";
+import HomeScreen from "HomeScreen";
 import {View} from "react-native";
 import TransactionView from "transactions/TransactionView";
 import CategoriesScreen from "categories/CategoriesScreen";
@@ -108,7 +108,7 @@ const TransactionsStackScreen = () => {
         <TransactionsStack.Screen
             options={{headerShown: false}}
             name={routes.transactions}
-            component={TransactionsScreen}
+            component={HomeScreen}
         />
 
         <TransactionsStack.Screen

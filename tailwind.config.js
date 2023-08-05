@@ -10,7 +10,7 @@ module.exports = {
                 primary: '#C74200',
                 neutral: '#101112',
                 white: '#FFFFFF',
-                gray: '#343333',
+                gray: '#676666',
             },
             borderWidth: {
                 1: 1

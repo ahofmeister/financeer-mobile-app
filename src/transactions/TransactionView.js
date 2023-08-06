@@ -6,7 +6,7 @@ import FinanceerText from "components/FinanceerText";
 import {showMessage} from "react-native-flash-message";
 import {routes} from "routes";
 import FinanceerInput from "components/FinanceerInput";
-import Button from "components/Button";
+import FinanceerButton from "components/FinanceerButton";
 import FakeCurrencyInput from "components/currency/FakeCurrencyInput";
 import {format} from "date-fns";
 import CalendarBottomSheet from "components/CalendarBottomSheet";
@@ -83,7 +83,7 @@ const TransactionView = ({route}) => {
 
                 <CategoryPicker onSave={setCategory} initialCategory={transaction?.category}/>
 
-                <Button label={"Save"} onPress={async () => {
+                <FinanceerButton label={"Save"} onPress={async () => {
                     const {
                         data,
                         error
@@ -111,7 +111,7 @@ const TransactionView = ({route}) => {
 
                 {id &&
                     <View className={"mt-5"}>
-                        <Button classNames={"bg-expense"} label={"Delete"} onPress={async () => {
+                        <FinanceerButton classNames={"bg-expense"} label={"Delete"} onPress={async () => {
                             const {error} = await deleteTransaction(id)
                             if (error) {
                                 showMessage({

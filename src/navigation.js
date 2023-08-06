@@ -54,14 +54,6 @@ const Navigation = ({}) => {
                         )
                     }}/>
 
-                    <Tab.Screen name="NewStack" component={CreateTransactionStackScreen} options={{
-                        headerShown: false,
-                        title: 'Create',
-                        tabBarIcon: ({focused, color, size}) => (
-                            <CustomIcon name="add-circle-outline" focused={focused} color={color} size={size}/>
-                        )
-                    }}/>
-
                     <Tab.Screen name="CategoriesStack" component={CategoriesStackScreen} options={{
                         headerShown: false,
                         title: 'Categories',
@@ -152,21 +144,6 @@ const CategoriesStackScreen = () => {
         />
 
     </CategoriesStack.Navigator>
-}
-
-
-const CreateTransactionStackScreen = () => {
-    const CreateTransactionStack = createStackNavigator();
-
-    return <CreateTransactionStack.Navigator>
-
-        <CreateTransactionStack.Screen
-            name={routes.transaction}
-            options={{headerShown: false}}
-            component={TransactionView}
-        />
-
-    </CreateTransactionStack.Navigator>
 }
 
 const StatsStackScreen = () => {

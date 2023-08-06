@@ -8,7 +8,7 @@ import {isForeignKeyViolation} from "api/error/ErrorUtil";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FinanceerInput from "components/FinanceerInput";
 import {theme} from "../../tailwind.config";
-import Button from "components/Button";
+import FinanceerButton from "components/FinanceerButton";
 import {TouchableOpacity} from "react-native-gesture-handler";
 
 const handleError = error => {
@@ -58,7 +58,7 @@ const CategoriesScreen = () => {
             }/>
 
             <View className={"mt-10"}>
-                <Button label={"Save"} onPress={() => handleSave(editCategory)}/>
+                <FinanceerButton label={"Save"} onPress={() => handleSave(editCategory)}/>
             </View>
         </DefaultLayout>
     }

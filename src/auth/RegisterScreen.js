@@ -3,7 +3,7 @@ import FinanceerInput from "components/FinanceerInput";
 import React, {useState} from "react";
 import {showMessage} from "react-native-flash-message";
 import supabase from "supabase";
-import Button from "components/Button";
+import FinanceerButton from "components/FinanceerButton";
 
 export const RegisterScreen = ({navigation}) => {
 
@@ -56,7 +56,7 @@ export const RegisterScreen = ({navigation}) => {
             onChangeText={setPassword}
         />
 
-        <Button onPress={signUp} label={"Register"}/>
+        <FinanceerButton onPress={signUp} label={"Register"}/>
 
     </View>
 }

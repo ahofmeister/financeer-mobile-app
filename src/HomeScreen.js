@@ -2,11 +2,11 @@ import DefaultLayout from "Layout/DefaultLayout";
 import {ScrollView} from "react-native";
 import {useEffect, useState} from "react";
 import FinanceerText from "components/FinanceerText";
-import {useIsFocused} from "@react-navigation/native";
+import {useIsFocused, useNavigation} from "@react-navigation/native";
 import {calculateSum} from "transactions/TransactionUtils";
 import {endOfMonth, startOfMonth, subMonths} from "date-fns";
 import {routes} from "routes";
-import FinanceerButton from "components/Button";
+import FinanceerButton from "components/FinanceerButton";
 import {fetchTransactions} from "api/backend";
 import TransactionPage from "transactions/TransactionPage";
 
@@ -17,6 +17,7 @@ const HomeScreen = () => {
     const [from, setFrom] = useState(subMonths(new Date(), 1))
     const [to, setTo] = useState(new Date())
     const isFocused = useIsFocused()
+    const navigation = useNavigation()
 
     useEffect(() => {
         if (isFocused) {
@@ -48,8 +49,7 @@ const HomeScreen = () => {
     return <DefaultLayout>
         <FinanceerText className={"text-2xl ml-3 mb-1"}>Hello!</FinanceerText>
 
-        <ScrollView horizontal className={"w-full"} pagingEnabled={true} style={{transform: [{scaleX: -1}]}}
-        >
+        <ScrollView horizontal className={"w-full"} pagingEnabled={true} style={{transform: [{scaleX: -1}]}}>
             {transactionByMonth.map(month => <TransactionPage key={month.datetime} month={month}/>)}
         </ScrollView>
 

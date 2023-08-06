@@ -1,85 +1,57 @@
 import DefaultLayout from "Layout/DefaultLayout";
-import {ActivityIndicator, ScrollView, TouchableHighlight, View} from "react-native";
-import {fetchTransactions} from "api/backend";
+import {ScrollView} from "react-native";
 import {useEffect, useState} from "react";
 import FinanceerText from "components/FinanceerText";
-import TransactionAmount from "transactions/TransactionAmount";
-import {useIsFocused, useNavigation} from "@react-navigation/native";
+import {useIsFocused} from "@react-navigation/native";
 import {calculateSum} from "transactions/TransactionUtils";
-import MonthPicker from "transactions/MonthPicker";
-import {format, startOfMonth} from "date-fns";
-import {theme} from "../tailwind.config";
+import {endOfMonth, startOfMonth, subMonths} from "date-fns";
 import {routes} from "routes";
+import FinanceerButton from "components/Button";
+import {fetchTransactions} from "api/backend";
+import TransactionPage from "transactions/TransactionPage";
 
-const TransactionCard = ({transaction}) => {
-    const navigation = useNavigation()
-    return <TouchableHighlight onPress={() => navigation.navigate(routes.transaction, {transaction})}>
-        <View className={"flex-row h-14 w-full my-2 bg-gray"}>
-            <View className={`w-2/12 justify-center mx-3 pr-3 border-r`}>
-                <FinanceerText
-                    className={"uppercase text-center"}>{format(new Date(transaction.datetime), 'MMM')}</FinanceerText>
-                <FinanceerText
-                    className={"text-center"}>{format(new Date(transaction.datetime), 'dd')}</FinanceerText>
-            </View>
-            <View className={"justify-center w-6/12"}>
-                <FinanceerText numberOfLines={1} ellipsizeMode={'tail'}
-                               className={"text-xs"}>{transaction.description}</FinanceerText>
-                <FinanceerText numberOfLines={1} ellipsizeMode={'tail'}
-                               className={"text-lg"}>{transaction.category.name}</FinanceerText>
-
-            </View>
-            <View className={"justify-center w-4/12"}>
-                <TransactionAmount className={"text-right mr-9"} type={transaction.type}
-                                   amount={transaction.amount}/>
-            </View>
-        </View>
-    </TouchableHighlight>
-}
 
 const HomeScreen = () => {
 
-    const [transactions, setTransactions] = useState([]);
-    const [sum, setSum] = useState(0)
-    const [currentDate, setCurrentDate] = useState(startOfMonth(new Date()));
-    const [isLoading, setIsLoading] = useState(true)
-
-    const isFocused = useIsFocused();
+    const [transactionByMonth, setTransactionByMonth] = useState([])
+    const [from, setFrom] = useState(subMonths(new Date(), 1))
+    const [to, setTo] = useState(new Date())
+    const isFocused = useIsFocused()
 
     useEffect(() => {
         if (isFocused) {
-            fetchTransactions(currentDate).then(response => {
-                setTransactions(response)
-                setIsLoading(false)
+            fetchTransactions(startOfMonth(from), endOfMonth(to)).then(response => {
+                const allMonth = response.reduce((groups, transaction) => {
+                    const month = startOfMonth(new Date(transaction.datetime))
+                    if (!groups[month]) {
+                        groups[month] = [];
+                    }
+                    groups[month].push(transaction);
+                    return groups;
+                }, {});
+
+                const transactionsByMonth = Object.keys(allMonth).map((month) => {
+                    return {
+                        datetime: month,
+                        sum: calculateSum(allMonth[month]),
+                        transactions: allMonth[month]
+                    };
+                });
+
+                setTransactionByMonth(transactionsByMonth.sort((a, b) => new Date(a.datetime).getTime() - new Date(b.datetime).getTime()))
             })
         }
-    }, [isFocused, currentDate]);
-
-    useEffect(() => {
-        setSum(calculateSum(transactions))
-    }, [transactions])
-
+    }, [isFocused]);
 
     return <DefaultLayout>
+        <FinanceerText className={"text-2xl ml-3 mb-1"}>Hello!</FinanceerText>
 
-        <MonthPicker onDateChange={date => {
-            setCurrentDate(date)
-            setIsLoading(true)
-        }} currentDate={currentDate}/>
+        <ScrollView horizontal className={"w-full"} pagingEnabled={true}>
+            {transactionByMonth.map(month => <TransactionPage key={month.datetime} month={month}/>)}
+        </ScrollView>
 
-        {isLoading ?
-            <View className={"text-center mt-10 text-primary"}>
-                <ActivityIndicator size={"large"} color={theme.extend.colors.primary}/>
-            </View> :
-            <>
-                <View className={"border-b-primary border-2 my-3"}></View>
-                <TransactionAmount amount={sum} className={"text-2xl ml-3"}/>
-                <ScrollView showsVerticalScrollIndicator={false} className={"m-3"}>
-                    {transactions.map(transaction =>
-                        <TransactionCard key={transaction.id} transaction={transaction}/>
-                    )}
-                </ScrollView>
-            </>
-        }
+        <FinanceerButton label={"New Transaction"} onPress={() => navigation.navigate(routes.transaction)}
+                         classNames={"mt-2"}/>
     </DefaultLayout>
 }
 

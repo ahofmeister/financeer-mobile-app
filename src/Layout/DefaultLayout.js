@@ -1,7 +1,7 @@
 import {View} from "react-native";
 
 export const DefaultLayout = ({children}) => {
-    return <View className={"mt-5 h-full"}>
+    return <View className={"h-full"}>
         {children}
     </View>
 

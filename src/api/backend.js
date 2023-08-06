@@ -1,34 +1,6 @@
 import 'react-native-url-polyfill/auto'
-import {format, lastDayOfMonth, startOfMonth} from "date-fns";
+import {format} from "date-fns";
 import supabase from "supabase";
-
-export const fetchExpenses = async (date) => {
-    return fetchTransactionsByType(date, 'EXPENSE')
-}
-
-export const fetchIncomes = async (date) => {
-    return fetchTransactionsByType(date, 'INCOME')
-}
-
-export const fetchTransactionsByType = async (date, type) => {
-    let monthYear = `${date.getFullYear()}-${date.getMonth() + 1}`;
-    const {
-        data,
-        error
-    } = await supabase
-        .from('transactions')
-        .select('*,  category(name)')
-        .eq('type', type)
-        .gte('datetime', `${monthYear}-${startOfMonth(date).getDate()}`)
-        .lte('datetime', `${monthYear}-${lastDayOfMonth(date).getDate()}`)
-        .order('amount')
-
-    if (error) {
-        return
-    }
-
-    return data
-}
 
 export const fetchTransactionsByCategory = async (dateFrom, dateTo, id) => {
     const {
@@ -50,20 +22,19 @@ export const fetchTransactionsByCategory = async (dateFrom, dateTo, id) => {
     return data
 }
 
-export const fetchTransactions = async (date) => {
-    const monthYear = `${date.getFullYear()}-${date.getMonth() + 1}`;
+export const fetchTransactions = async (from, to) => {
     const {
         data,
         error
     } = await supabase
         .from('transactions')
         .select('*,  category(name)')
-        .gte('datetime', `${monthYear}-${startOfMonth(date).getDate()}`)
-        .lte('datetime', `${monthYear}-${lastDayOfMonth(date).getDate()}`)
+        .gte('datetime', from.toISOString())
+        .lte('datetime', to.toISOString())
         .order('datetime', {ascending: false})
 
     if (error) {
-        return
+        return error
     }
 
     return data
@@ -119,5 +90,8 @@ export const deleteTransaction = async (id) => {
 }
 
 export const getTransactionsByCategorySummary = async (dateFrom, dateTo) => {
-    return supabase.rpc("transactions_by_category", {datefrom: format(dateFrom, 'yyyy-MM-dd'), dateto: format(dateTo, 'yyyy-MM-dd')})
+    return supabase.rpc("transactions_by_category", {
+        datefrom: format(dateFrom, 'yyyy-MM-dd'),
+        dateto: format(dateTo, 'yyyy-MM-dd')
+    })
 }

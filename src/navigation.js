@@ -7,7 +7,7 @@ import React from "react";
 import LoginMagicLinkScreen from "auth/LoginMagicLinkScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {useUser} from "auth/AuthContext";
-import ChooseCategoryScreen from "transactions/CategoryScreen";
+import ChooseCategoryScreen from "transactions/ChooseCategoryScreen";
 import HomeScreen from "HomeScreen";
 import {View} from "react-native";
 import TransactionView from "transactions/TransactionView";
@@ -18,6 +18,7 @@ import {RegisterScreen} from "auth/RegisterScreen";
 import {WelcomeScreen} from "auth/WelcomeScreen";
 import StatsScreen from "statistics/StatsScreen";
 import TransactionsByCategoryScreen from "statistics/TransactionsByCategoryScreen";
+import CategoryScreen from "categories/CategoryScreen";
 
 
 const FinanceerTheme = {
@@ -141,6 +142,12 @@ const CategoriesStackScreen = () => {
             name={routes.manageCategories}
             options={{headerShown: false}}
             component={CategoriesScreen}
+        />
+
+        <CategoriesStack.Screen
+            name={routes.viewCategory}
+            options={{headerShown: false}}
+            component={CategoryScreen}
         />
 
     </CategoriesStack.Navigator>

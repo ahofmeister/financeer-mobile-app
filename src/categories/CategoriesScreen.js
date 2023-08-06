@@ -10,6 +10,8 @@ import FinanceerInput from "components/FinanceerInput";
 import {theme} from "../../tailwind.config";
 import FinanceerButton from "components/FinanceerButton";
 import {TouchableOpacity} from "react-native-gesture-handler";
+import {useNavigation} from "@react-navigation/native";
+import {routes} from "routes";
 
 const handleError = error => {
     if (isForeignKeyViolation(error)) {
@@ -26,6 +28,7 @@ const CategoriesScreen = () => {
     const [categories, setCategories] = useState([])
 
     const [editCategory, setEditCategory] = useState();
+    const navigation = useNavigation()
 
     useEffect(() => {
         fetchParentCategories().then(categories => setCategories(categories))
@@ -72,21 +75,26 @@ const CategoriesScreen = () => {
             </TouchableOpacity>
         </View>
 
-        <FlatList className={"mb-5"} data={categories} renderItem={({item, index}) => {
-            return <View className={`flex-row h-14 items-center my-2 bg-gray`}>
-                <View className={"flex-row w-2/12 justify-center mx-3 border-r"}>
-                    <TouchableOpacity className={"w-10"} onPress={() => {
-                        deleteCategory(item.id).then(error => handleError(error))
-                        fetchParentCategories().then(categories => setCategories(categories))
-                    }}>
-                        <Ionicons name={"trash"} size={20} color={theme.extend.colors.expense}/>
-                    </TouchableOpacity>
-                    <TouchableOpacity className={"mr-5"} onPress={() => setEditCategory(item)}>
-                        <Ionicons name={"pencil"} size={20} color={theme.extend.colors.income}/>
-                    </TouchableOpacity>
+        <FlatList className={"mb-5"} data={categories} renderItem={({item}) => {
+            return <TouchableOpacity onPress={() => navigation.navigate(routes.viewCategory, {category: item})}>
+
+                <View className={`flex-row h-14 items-center my-2 bg-gray`}>
+                    <View className={"flex-row w-2/12  ml-3"}>
+                        <TouchableOpacity className={"w-10"} onPress={() => {
+                            deleteCategory(item.id).then(error => handleError(error))
+                            fetchParentCategories().then(categories => setCategories(categories))
+                        }}>
+                            <Ionicons name={"trash"} size={20} color={theme.extend.colors.expense}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity className={"mr-5"} onPress={() => setEditCategory(item)}>
+                            <Ionicons name={"pencil"} size={20} color={theme.extend.colors.income}/>
+                        </TouchableOpacity>
+                    </View>
+                    <View className={"h-full border-r mx-3"}/>
+                    <FinanceerText>{item.name}</FinanceerText>
+
                 </View>
-                <FinanceerText>{item.name}</FinanceerText>
-            </View>
+            </TouchableOpacity>
         }
         }/>
 

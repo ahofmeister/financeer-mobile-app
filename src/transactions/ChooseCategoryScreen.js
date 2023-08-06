@@ -7,7 +7,7 @@ import {routes} from "routes";
 import {TouchableOpacity} from "react-native-gesture-handler";
 
 
-const CategoryScreen = ({route}) => {
+const ChooseCategoryScreen = ({route}) => {
     const callback = route.params.callback
     const transactionType = route.params.transactionType
 
@@ -41,4 +41,4 @@ const CategoryScreen = ({route}) => {
     </>
 
 }
-export default CategoryScreen
+export default ChooseCategoryScreen

@@ -95,3 +95,8 @@ export const getTransactionsByCategorySummary = async (dateFrom, dateTo) => {
         dateto: format(dateTo, 'yyyy-MM-dd')
     })
 }
+
+export const getCategoriesTotal = async (categoryId) => {
+    return supabase.rpc("categories_total", {categoryid: categoryId})
+}
+

@@ -65,8 +65,7 @@ const CategoriesScreen = () => {
 
     return <DefaultLayout>
         <View className={"flex-row justify-between my-2"}>
-            <FinanceerText className={"ml-3"}>{categories.length} total</FinanceerText>
-            <TouchableOpacity className={"mr-3"} onPress={() => setEditCategory({
+            <TouchableOpacity className={"mx-3"} onPress={() => setEditCategory({
                 name: ''
             })}>
                 <Ionicons name={"add-circle"} color={theme.extend.colors.primary} size={30}/>
@@ -74,22 +73,19 @@ const CategoriesScreen = () => {
         </View>
 
         <FlatList className={"mb-5"} data={categories} renderItem={({item, index}) => {
-            const isEnd = index === categories.length - 1;
-
-            return <View
-                className={`flex-row items-center p-2 mt-1 border-gray border-t ${isEnd ? 'border-b' : ''}`}>
-                <TouchableOpacity className={"w-10"} onPress={() => {
-                    deleteCategory(item.id).then(error => handleError(error))
-                    fetchParentCategories().then(categories => setCategories(categories))
-                }}>
-                    <Ionicons name={"trash"} size={20} color={theme.extend.colors.expense}/>
-                </TouchableOpacity>
-                <FinanceerText className={"flex-1"}>{item.name}</FinanceerText>
-                <View className={""}>
+            return <View className={`flex-row h-14 items-center my-2 bg-gray`}>
+                <View className={"flex-row w-2/12 justify-center mx-3 border-r"}>
+                    <TouchableOpacity className={"w-10"} onPress={() => {
+                        deleteCategory(item.id).then(error => handleError(error))
+                        fetchParentCategories().then(categories => setCategories(categories))
+                    }}>
+                        <Ionicons name={"trash"} size={20} color={theme.extend.colors.expense}/>
+                    </TouchableOpacity>
                     <TouchableOpacity className={"mr-5"} onPress={() => setEditCategory(item)}>
                         <Ionicons name={"pencil"} size={20} color={theme.extend.colors.income}/>
                     </TouchableOpacity>
                 </View>
+                <FinanceerText>{item.name}</FinanceerText>
             </View>
         }
         }/>

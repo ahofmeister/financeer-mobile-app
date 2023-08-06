@@ -38,7 +38,9 @@ const HomeScreen = () => {
                     };
                 });
 
-                setTransactionByMonth(transactionsByMonth.sort((a, b) => new Date(a.datetime).getTime() - new Date(b.datetime).getTime()))
+
+                setTransactionByMonth(transactionsByMonth.sort((a, b) =>
+                    new Date(a.datetime).getTime() + new Date(b.datetime).getTime()))
             })
         }
     }, [isFocused]);
@@ -46,7 +48,8 @@ const HomeScreen = () => {
     return <DefaultLayout>
         <FinanceerText className={"text-2xl ml-3 mb-1"}>Hello!</FinanceerText>
 
-        <ScrollView horizontal className={"w-full"} pagingEnabled={true}>
+        <ScrollView horizontal className={"w-full"} pagingEnabled={true} style={{transform: [{scaleX: -1}]}}
+        >
             {transactionByMonth.map(month => <TransactionPage key={month.datetime} month={month}/>)}
         </ScrollView>
 

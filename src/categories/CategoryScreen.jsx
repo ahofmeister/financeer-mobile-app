@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {getCategoriesTotal} from "api/backend";
+import {getTotalByCategory} from "api/backend";
 import FinanceerText from "components/FinanceerText";
 import {View} from "react-native";
 import TransactionAmount from "transactions/TransactionAmount";
@@ -12,7 +12,7 @@ const CategoryScreen = ({route}) => {
     const category = route.params.category
 
     useEffect(() => {
-        getCategoriesTotal(category?.id).then(response => setData(response.data))
+        getTotalByCategory(category?.id).then(response => setData(response.data))
 
     }, [category])
 

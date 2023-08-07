@@ -7,7 +7,7 @@ import TransactionCard from "transactions/TransactionCard";
 const TransactionPage = ({month}) => <View className={"h-full"}   style={{ transform: [{ scaleX: -1 }] }}>
     <View className={"flex-row my-1 m-3"}>
         <TransactionAmount amount={month.sum} className={"flex-1 text-2xl"}/>
-        <FinanceerText className={"text-2xl mr-3"}>
+        <FinanceerText className={"text-2xl"}>
             {format(new Date(month.datetime), 'MMM yyyy')}
         </FinanceerText>
     </View>

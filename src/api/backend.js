@@ -60,7 +60,6 @@ export const fetchCategories = async () => {
     return data
 }
 
-
 export const deleteCategory = async (id) => {
     const {error} = await supabase.from('categories').delete(id).eq('id', id)
 
@@ -89,14 +88,13 @@ export const deleteTransaction = async (id) => {
     return supabase.from('transactions').delete(id).eq('id', id);
 }
 
-export const getTransactionsByCategorySummary = async (dateFrom, dateTo) => {
-    return supabase.rpc("transactions_by_category", {
-        datefrom: format(dateFrom, 'yyyy-MM-dd'),
-        dateto: format(dateTo, 'yyyy-MM-dd')
-    })
-}
-
-export const getCategoriesTotal = async (categoryId) => {
+export const getTotalByCategory = async (categoryId) => {
     return supabase.rpc("category_total", {categoryid: categoryId})
 }
+
+export const getCategoriesTotalByDate = async (dateFrom, dateTo) => {
+    return supabase.rpc("categories_total_by_date", {datefrom: dateFrom, dateto: dateTo})
+}
+
+
 

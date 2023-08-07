@@ -97,6 +97,6 @@ export const getTransactionsByCategorySummary = async (dateFrom, dateTo) => {
 }
 
 export const getCategoriesTotal = async (categoryId) => {
-    return supabase.rpc("categories_total", {categoryid: categoryId})
+    return supabase.rpc("category_total", {categoryid: categoryId})
 }
 

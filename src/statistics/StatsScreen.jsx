@@ -119,7 +119,7 @@ const StatsScreen = () => {
 
         <View className={"h-1 border-b-primary border-b"}/>
 
-        <ScrollView className={"h-full mt-4"} showsVerticalScrollIndicator={false}
+        <ScrollView className={"h-full my-2"} showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}>
             {transactionsPerCategory?.map((category) =>
                 <TouchableOpacity key={category.name}
@@ -129,9 +129,15 @@ const StatsScreen = () => {
                                       dateFrom,
                                       dateTo
                                   })}>
-                    <View className={"flex-row h-12 justify-between"}>
-                        <FinanceerText className={"w-24"}>{category.name}</FinanceerText>
-                        <TransactionAmount className={"w-24 text-right"} amount={category.total}/>
+
+                    <View className={"flex-row h-14 items-center my-2 bg-gray"}>
+                        <View className={"w-8/12"}>
+                            <FinanceerText className={"w-24 ml-3"}>{category.name}</FinanceerText>
+
+                        </View>
+                        <View className={"w-4/12"}>
+                            <TransactionAmount className={"w-24 text-right"} amount={category.total}/>
+                        </View>
                     </View>
                 </TouchableOpacity>
             )}

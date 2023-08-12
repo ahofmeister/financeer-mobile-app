@@ -96,5 +96,9 @@ export const getCategoriesTotalByDate = async (dateFrom, dateTo) => {
     return supabase.rpc("categories_total_by_date", {datefrom: dateFrom, dateto: dateTo})
 }
 
+export const getProfile = async ()=> {
+    const { data } = await supabase.from('profiles').select('*').single()
+    return data
+}
 
 

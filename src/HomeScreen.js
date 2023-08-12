@@ -7,9 +7,23 @@ import {calculateSum} from "transactions/TransactionUtils";
 import {endOfMonth, startOfMonth, subMonths} from "date-fns";
 import {routes} from "routes";
 import FinanceerButton from "components/FinanceerButton";
-import {fetchTransactions} from "api/backend";
+import {fetchTransactions, getProfile} from "api/backend";
 import TransactionPage from "transactions/TransactionPage";
 
+
+const Greeting = () => {
+
+    const [firstName, setFirstName] = useState();
+    useEffect(() => {
+        getProfile().then(response => setFirstName(response.firstName))
+    }, [])
+
+    if (!firstName) {
+        return <></>
+    }
+
+    return <FinanceerText className={"text-2xl ml-3 mb-1"}>Hello {firstName}!</FinanceerText>;
+};
 
 const HomeScreen = () => {
 
@@ -47,7 +61,7 @@ const HomeScreen = () => {
     }, [isFocused]);
 
     return <DefaultLayout>
-        <FinanceerText className={"text-2xl ml-3 mb-1"}>Hello!</FinanceerText>
+        <Greeting/>
 
         <ScrollView horizontal className={"w-full"} pagingEnabled={true} style={{transform: [{scaleX: -1}]}}>
             {transactionByMonth.map(month => <TransactionPage key={month.datetime} month={month}/>)}

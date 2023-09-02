@@ -32,6 +32,7 @@ export const fetchTransactions = async (from, to) => {
         .gte('datetime', from.toISOString())
         .lte('datetime', to.toISOString())
         .order('datetime', {ascending: false})
+        .order("created_at", {ascending: false})
 
     if (error) {
         return error

@@ -3,12 +3,12 @@ import {ScrollView} from "react-native";
 import {useEffect, useState} from "react";
 import FinanceerText from "components/FinanceerText";
 import {useIsFocused, useNavigation} from "@react-navigation/native";
-import {calculateSum} from "transactions/TransactionUtils";
-import {endOfMonth, startOfMonth, subMonths} from "date-fns";
+import {endOfMonth, startOfMonth} from "date-fns";
 import {routes} from "routes";
 import FinanceerButton from "components/FinanceerButton";
-import {fetchTransactions, getProfile} from "api/backend";
+import {fetchTransactions, findFirstTransaction, getProfile} from "api/backend";
 import TransactionPage from "transactions/TransactionPage";
+import {calculateSum} from "transactions/TransactionUtils";
 
 
 const Greeting = () => {
@@ -28,14 +28,20 @@ const Greeting = () => {
 const HomeScreen = () => {
 
     const [transactionByMonth, setTransactionByMonth] = useState([])
-    const [from, setFrom] = useState(subMonths(new Date(), 1))
-    const [to, setTo] = useState(new Date())
     const isFocused = useIsFocused()
     const navigation = useNavigation()
 
+    const [firstTransaction, setFirstTransaction] = useState()
+
     useEffect(() => {
         if (isFocused) {
-            fetchTransactions(startOfMonth(from), endOfMonth(to)).then(response => {
+            findFirstTransaction().then(x => setFirstTransaction(x.data))
+        }
+    }, [isFocused]);
+
+    useEffect(() => {
+        if (firstTransaction) {
+            fetchTransactions(startOfMonth(new Date(firstTransaction?.datetime)), endOfMonth(new Date())).then(response => {
                 const allMonth = response.reduce((groups, transaction) => {
                     const month = startOfMonth(new Date(transaction.datetime))
                     if (!groups[month]) {
@@ -58,7 +64,7 @@ const HomeScreen = () => {
                     new Date(a.datetime).getTime() + new Date(b.datetime).getTime()))
             })
         }
-    }, [isFocused]);
+    }, [firstTransaction])
 
     return <DefaultLayout>
         <Greeting/>

@@ -1,82 +1,37 @@
 import FinanceerText from "components/FinanceerText";
-import {Dimensions, ScrollView, View} from "react-native";
-import {getCategoriesTotalByDate} from "api/backend";
-import {useEffect, useState} from "react";
-import TransactionAmount from "transactions/TransactionAmount";
-import {useIsFocused} from "@react-navigation/native";
-import {endOfYear, format, startOfYear} from "date-fns";
-
-export const sumTotal = (transactions) => transactions.reduce((partialSum, transaction) => partialSum + transaction.sum, 0)
+import {View} from "react-native";
+import {useNavigation} from "@react-navigation/native";
+import {TouchableOpacity} from "react-native-gesture-handler";
+import {routes} from "routes";
 
 const StatsScreen = () => {
 
-    const [categories, setCategories] = useState([])
+    const navigation = useNavigation()
 
-    const isFocused = useIsFocused()
-
-    const [dateFrom, setDateFrom] = useState(startOfYear(new Date()))
-    const [dateTo, setDateTo] = useState(endOfYear(new Date()))
-
-    useEffect(() => {
-        if (isFocused) {
-            getCategoriesTotalByDate(dateFrom, dateTo).then(r => {
-                const allMonth = r.data.reduce((groups, item) => {
-                    const month = `${item.year}-${item.month}`
-                    if (!groups[month]) {
-                        groups[month] = [];
-                    }
-                    groups[month].push(item);
-                    return groups;
-                }, {})
-
-                const categoriesPerMonth = Object.keys(allMonth).map((month) => {
-                    return {
-                        year: month.split('-')[0],
-                        month: month.split('-')[1],
-                        categories: allMonth[month]
-                    };
-                });
-                setCategories(categoriesPerMonth)
-            })
-
+    const statistics = [
+        {
+            label: "Months Overview",
+            route: routes.monthsOverview
+        },
+        {
+            label: "Compare months",
+            route: routes.monthsCompare
         }
-    }, [isFocused, dateFrom, dateTo])
+    ]
 
     return <View>
-        <ScrollView horizontal className={"w-full"} pagingEnabled={true} style={{transform: [{scaleX: -1}]}}>
-            {categories.map(month => <CategoryPage month={month}/>)}
-        </ScrollView>
-    </View>
-}
-
-const CategoryPage = ({month}) => <View className={"h-full"} style={{transform: [{scaleX: -1}]}}>
-    <View className={"flex-row m-2"}>
-        <View className={"flex-1"}>
-            <TransactionAmount amount={sumTotal(month.categories.filter(category => category.sum > 0))}
-                               className={"text-2xl"}/>
-            <TransactionAmount amount={sumTotal(month.categories.filter(category => category.sum < 0))}
-                               className={" text-2xl"}/>
-        </View>
-
-        <View>
-            <FinanceerText className={"text-2xl text-right"}>
-                {format(new Date(month.year, month.month, 0), 'MMM yyyy')}
-            </FinanceerText>
-            <TransactionAmount amount={sumTotal(month.categories)} className={"text-2xl text-right"}/>
-        </View>
-    </View>
-    <ScrollView showsVerticalScrollIndicator={false} style={{width: Dimensions.get("screen").width}}>
-        {month.categories.map(category => <View className={"flex-row h-14 items-center my-2 bg-gray"}>
-                <View className={`w-6/12 mx-3 pr-3`}>
-                    <FinanceerText className={"text-left"}>{category.name}</FinanceerText>
+        {statistics.map(statistic =>
+            <TouchableOpacity key={statistic.label} onPress={() => navigation.navigate(statistic.route)}>
+                <View className={"flex-row h-14  items-center my-2 bg-gray"}>
+                    <View className={"ml-5"}>
+                        <FinanceerText>{statistic.label}</FinanceerText>
+                    </View>
                 </View>
-                <View className={`w-3/12`}/>
-                <View className={"w-3/12"}>
-                    <TransactionAmount className={"text-right mr-9"} amount={category.sum}/>
-                </View>
-            </View>
+            </TouchableOpacity>
         )}
-    </ScrollView>
-</View>
+    </View>
+
+
+}
 
 export default StatsScreen

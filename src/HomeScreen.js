@@ -35,7 +35,7 @@ const HomeScreen = () => {
 
     useEffect(() => {
         if (isFocused) {
-            findFirstTransaction().then(x => setFirstTransaction(x.data))
+            findFirstTransaction().then(response => setFirstTransaction(response.data))
         }
     }, [isFocused]);
 

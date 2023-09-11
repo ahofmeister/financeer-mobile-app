@@ -32,7 +32,6 @@ const CalendarBottomSheet = ({handleDayPress, inputRef, initialDate}) => {
             }}
             monthFormat={'MMMM yyyy'}
             hideExtraDays={true}
-            disableMonthChange={true}
             firstDay={1}
             onPressArrowLeft={subtractMonth => subtractMonth()}
             onPressArrowRight={addMonth => addMonth()}

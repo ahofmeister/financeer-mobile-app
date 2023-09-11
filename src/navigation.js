@@ -19,6 +19,8 @@ import {WelcomeScreen} from "auth/WelcomeScreen";
 import StatsScreen from "statistics/StatsScreen";
 import TransactionsByCategoryScreen from "statistics/TransactionsByCategoryScreen";
 import CategoryScreen from "categories/CategoryScreen";
+import MonthsCompareScreen from "statistics/MonthsCompareScreen";
+import MonthsOverviewScreen from "statistics/MonthsOverviewScreen";
 
 
 const FinanceerTheme = {
@@ -168,6 +170,18 @@ const StatsStackScreen = () => {
             name={routes.transactionsByCategory}
             options={{headerShown: false}}
             component={TransactionsByCategoryScreen}
+        />
+
+        <StatsStack.Screen
+            name={routes.monthsCompare}
+            options={{headerShown: false}}
+            component={MonthsCompareScreen}
+        />
+
+        <StatsStack.Screen
+            name={routes.monthsOverview}
+            options={{headerShown: false}}
+            component={MonthsOverviewScreen}
         />
 
     </StatsStack.Navigator>

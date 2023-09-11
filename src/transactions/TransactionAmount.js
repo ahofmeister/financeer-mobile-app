@@ -13,7 +13,7 @@ export const getTransactionStyle = amount => {
 
 const TransactionAmount = ({amount, ...props}) =>
     <FinanceerText      {...props} className={`text-${getTransactionStyle(amount)} ${props.className}`}>
-        {formatAmount(amount)}
+        {formatAmount(amount || 0)}
     </FinanceerText>
 
 export default TransactionAmount

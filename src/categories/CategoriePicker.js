@@ -45,10 +45,7 @@ const CategoryPicker = ({onSave, initialCategory}) => {
                     reset()
                 }
             }}>
-                <View>
-                    <FinanceerText
-                        className={"w-full text-center"}>{category.name}</FinanceerText>
-                </View>
+                <FinanceerText className={"w-full text-center"}>{category.name}</FinanceerText>
             </TouchableOpacity>
         </View>
 

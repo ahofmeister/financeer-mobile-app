@@ -4,7 +4,7 @@ import FinanceerText from "components/FinanceerText";
 import {format} from "date-fns";
 import TransactionCard from "transactions/TransactionCard";
 
-const TransactionPage = ({month}) => <View className={"h-full"}   style={{ transform: [{ scaleX: -1 }] }}>
+const TransactionPage = ({month}) => <View className={"h-full"} style={{transform: [{scaleX: -1}]}}>
     <View className={"flex-row my-1 m-3"}>
         <TransactionAmount amount={month.sum} className={"flex-1 text-2xl"}/>
         <FinanceerText className={"text-2xl"}>

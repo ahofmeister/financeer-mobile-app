@@ -14,5 +14,7 @@ export const routes = {
     profile: 'ProfileScreen',
     stats: "Statistics",
     transactionsByCategory: "TransactionsByCategory",
-    viewCategory: 'Category'
+    viewCategory: 'Category',
+    monthsCompare: "MonthsCompare",
+    monthsOverview: "MonthsOverview"
 }

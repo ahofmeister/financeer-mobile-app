@@ -74,7 +74,7 @@ const HomeScreen = () => {
         </ScrollView>
 
         <FinanceerButton label={"New Transaction"} onPress={() => navigation.navigate(routes.transaction)}
-                         classNames={"mt-2"}/>
+                         classNames={"h-12 mt-2"}/>
     </DefaultLayout>
 }
 

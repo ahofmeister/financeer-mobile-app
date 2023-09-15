@@ -9,15 +9,14 @@ import FlashMessage from "react-native-flash-message";
 import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 
-
 export default function () {
     useEffect(() => {
-        if (Platform.OS === 'Android') {
-            NavigationBar.setBackgroundColorAsync('#101112')
-            NavigationBar.setBorderColorAsync('#101112')
+        console.log(Platform.OS)
+        if (Platform.OS === 'android') {
+            NavigationBar.setBackgroundColorAsync('black')
+            NavigationBar.setBorderColorAsync('black')
             NavigationBar.setButtonStyleAsync('light')
         }
-
     }, [])
 
     return <>
